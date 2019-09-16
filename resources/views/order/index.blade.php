@@ -50,7 +50,6 @@
 							<td>{{$order->total}}</td>
 							<td>{{$order->created_at}}</td>
 							<td>{{$order->status}}</td>
-							<td>Actions</td>
 						</tr>
 					@endforeach
 				</tbody>
