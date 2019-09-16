@@ -30,7 +30,6 @@
 						<th>Province</th>
 						<th>Country code</th>
 						<th>PayPal account</th>
-						<th>Shopping cart ID</th>
 						<th>Total amount</th>
 						<th>Shopping date</th>
 						<th>Status</th>
@@ -48,7 +47,6 @@
 							<td>{{$order->state}}</td>
 							<td>{{$order->country_code}}</td>
 							<td>{{$order->email}}</td>
-							<td>{{$order->shopping_cart_id}}</td>
 							<td>{{$order->total}}</td>
 							<td>{{$order->created_at}}</td>
 							<td>{{$order->status}}</td>
