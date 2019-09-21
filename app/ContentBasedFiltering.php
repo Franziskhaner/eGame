@@ -4,12 +4,12 @@ namespace App;
 
 use Exception;
 
-class ArticleSimilarity
+class ContentBasedFiltering
 {
     protected $articles       = [];
     protected $priceWeight    = 1;
-    protected $platformWeight = 1;
-    protected $genderWeight   = 1;
+    protected $platformWeight = 3;
+    protected $genderWeight   = 2;
     protected $priceHighRange = 100;
 
     public function __construct(array $articles)
@@ -63,12 +63,12 @@ class ArticleSimilarity
         arsort($similarities);  //Ordena el array en orden inverso manteniendo la asociación de índices
 
         foreach ($similarities as $articleIdKey => $similarity) {
-            $id       = intval(str_replace('article_id_', '', $articleIdKey)); /*Reemplazamos el 'article_id' de cada artículo dentro del vector de simulitud ($similarities)  por un string vacío '', y guardamos su valor como entero, osea su ID.*/
+            $id       = intval(str_replace('article_id_', '', $articleIdKey)); /*Reemplazamos el 'article_id' de cada artículo dentro del vector de similitudes ($similarities)  por un string vacío '', y guardamos su valor como entero, osea su ID.*/
             $articles = array_filter($this->articles, function ($article) use ($id) { return $article['id'] === $id; });/* */
             if (! count($articles)) {
                 continue;
             }
-            $article = $articles[array_keys($articles)[0]]; /*Nos quedamos con la clave del elemento 0 del array $articles*/
+            $article  = $articles[array_keys($articles)[0]]; /*Nos quedamos con la clave del elemento 0 del array $articles*/
             $article['similarity'] = $similarity; /*Añadimos la propiedad 'Similarity' a cada artículo y le asignamos su valor correspondiente ya calculado en la función calculateSimilarityScore()*/
             $sortedarticles[] = $article;
         }

@@ -52,7 +52,7 @@
 					</p>
 				</p>
 				@if($article->quantity > 0)
-					@include('in_shopping_cart.form', ['article' => $article])
+					@include('in_shopping_cart.form', compact('article'))
 				@else
 					<span style="color:red">We are so sorry!, this product is actually out of stock =(</span>
 				@endif
@@ -63,5 +63,5 @@
 			<p>{{$article->description}}</p>
 		</div>
 	</div>
-	@include('recommended_article.recommended_article', compact('article', 'articles'))
+	@include('recommended_article.similar_articles', compact('article', 'articles'))
 </div>

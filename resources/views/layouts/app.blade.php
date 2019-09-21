@@ -106,8 +106,8 @@
                                                 Orders
                                             </a>
                                         @else
-                                            <a href="#"
-                                                title="My Orders">
+                                            <a href="{{ route('profile') }}"
+                                                title="My Profile">
                                                 My Profile
                                             </a>
                                             <a href="#"

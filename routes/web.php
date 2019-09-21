@@ -35,8 +35,6 @@ Auth::routes();
 
 Route::resource('users', 'UserController');
 
-Route::get('/articles/{id}', 'RecommendationSystemController@basedContent');
-
 Route::resource('articles', 'ArticleController'); //Esto equivale a las siguientes rutas:
 /*
 GET /articles => index
@@ -49,6 +47,7 @@ DELETE /articles/:id (Destroy)
 */
 
 Route::get('/cart', 'ShoppingCartController@index');
+
 Route::post('/cart', 'ShoppingCartController@checkout')->middleware('auth');	/*Con el middleware nos aseguramos de que antes de pagar (al pinchar en el bótón CHECKOUT del carrito) el usuario invitado deberá iniciar sesión.*/
 Route::post('/delete_cart_item', 'InShoppingCartController@destroy');
 
@@ -80,24 +79,10 @@ Route::get('articles/images/{filename}', function($filename){	/*Con esta ruta ha
 	return $response;
 });
 
-/*Para el sistema de recomendación basado en contenido*/
-/*
-Route::get('/recommended_articles', function () {
-    $articles        = json_decode(file_get_contents(storage_path('data/articles-data.json')));
-    $selectedId      = intval(app('request')->input('id') ?? '8');
-    $selectedArticle = $articles[0];
-    $selectedArticles = array_filter($articles, function ($article) use ($selectedId) { return $article->id === $selectedId; });
-    if (count($selectedArticles)) {
-        $selectedArticle = $selectedArticles[array_keys($selectedArticles)[0]];
-    }
-    $articleSimilarity = new App\ArticleSimilarity($articles);
-    $similarityMatrix  = $articleSimilarity->calculateSimilarityMatrix();
-    $articles          = $articleSimilarity->getArticlesSortedBySimilarity($selectedId, $similarityMatrix);
-    return view('recommended_articles.based_content', compact('selectedId', 'selectedArticle', 'articles'));
-});
-*/
 Route::resource('orders', 'OrderController', ['only' => ['index', 'update']]);
 
 Route::get('/rating', 'ArticleController@rating');
 
-Route::get('{platform}', 'ArticleController@showByPlatform');
+Route::get('platform/{platform}', 'ArticleController@showByPlatform');
+
+Route::get('profile', 'UserController@profile')->name('profile');

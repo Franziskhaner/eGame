@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Article;
+use App\ContentBasedFiltering;
 use Illuminate\Http\Request;
 
 class ArticleController extends Controller{
@@ -53,10 +54,15 @@ class ArticleController extends Controller{
     }
 
     public function show($id){
-        $article=Article::find($id);
-        return view('article.show', compact('article'));
-    
-}
+        $articles = Article::filteredBySimilarArticles($id);
+        $article  = Article::find($id);
+
+        if(sizeof($articles) == 0)
+            return 'There aren´t products to recommend';
+        else
+            return view('article.show', compact('article', 'articles'));
+    }
+
     public function edit($id){
         $article=Article::find($id);
         return view('article.edit', compact('article'));

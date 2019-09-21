@@ -4,6 +4,7 @@
 
 @section('content')
 	<div class="text-center products-container">
+		<h2>Recommendations based on your purchases...</h2>
 		<div class="row">
 			@foreach($articles as $article)
 			<div class="card product text-left fixed">

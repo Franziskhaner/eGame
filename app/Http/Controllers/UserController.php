@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use Auth;
 
 class UserController extends Controller
 {
@@ -70,7 +71,7 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id){
-        $users=User::find($id);
+        $user=User::find($id);
         return  view('user.show',compact('user'));
     }
 
@@ -127,5 +128,10 @@ class UserController extends Controller
     public function destroy($id){
         User::find($id)->delete();
         return redirect()->route('users.index')->with('success','Register deleted succsessfully');
+    }
+
+    public function profile(){
+        $user = Auth::user();
+        return  view('user.profile', compact('user'));
     }
 }
