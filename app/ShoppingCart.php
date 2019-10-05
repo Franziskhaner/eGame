@@ -18,7 +18,7 @@ class ShoppingCart extends Model
 	}
 
 	public function updateCustomIDAndStatus(){
-		$this->customid = $this->generateCustomID();
+		$this->custom_id = $this->generateCustomID();
 		$this->status = 'approved';
 		$this->save();
 	}

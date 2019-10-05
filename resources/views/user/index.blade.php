@@ -1,6 +1,11 @@
 @extends('layouts.app')
 @section('content')
   <div class="container">
+    @if(session('success'))
+      <div class="alert alert-success">
+        {{session('success')}}
+      </div>
+    @endif
     <div class="big-padding text-center blue-grey white-text">
       <h2>Users list</h2>
     </div>

@@ -101,8 +101,4 @@ class ArticleController extends Controller{
         $articles = Article::orderBy('id','desc')->where('platform', $platform)->get();
         return view('article.showByPlatform', compact('articles'));
     }
-
-    public function rating(){
-        return view('article.rating');
-    }
 }

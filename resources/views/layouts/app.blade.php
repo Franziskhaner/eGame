@@ -106,13 +106,13 @@
                                                 Orders
                                             </a>
                                         @else
-                                            <a href="{{ route('profile') }}"
-                                                title="My Profile">
-                                                My Profile
+                                            <a href="{{ route('account') }}"
+                                                title="Your Account">
+                                                Your Account
                                             </a>
                                             <a href="#"
-                                                title="My Orders">
-                                                My Orders
+                                                title="Your Orders">
+                                                Your Orders
                                             </a>
                                         @endif
                                         <a href="{{ route('logout') }}"

@@ -104,20 +104,22 @@
 	    </div>
 	</div>
 	<br></br>
-	<div class="form-group{{ $errors->has('role') ? ' has-error' : '' }}">
-		<div class="col-md-9 col-md-offset-1">
-			{{ Form::select('role', ['Admin' => 'Admin', 'User' => 'User'], $user->role, ['class' => 'form-control', 'placeholder' => 'Role of user...']) }}
+	@if(Auth::user()->role == 'Admin')
+		<div class="form-group{{ $errors->has('role') ? ' has-error' : '' }}">
+			<div class="col-md-9 col-md-offset-1">
+				{{ Form::select('role', ['Admin' => 'Admin', 'User' => 'User'], $user->role, ['class' => 'form-control', 'placeholder' => 'Role of user...']) }}
 
-			@if ($errors->has('role'))
-	            <span class="help-block">
-	                <strong>{{ $errors->first('role') }}</strong>
-	            </span>
-	        @endif
-	    </div>
-	</div>
+				@if ($errors->has('role'))
+		            <span class="help-block">
+		                <strong>{{ $errors->first('role') }}</strong>
+		            </span>
+		        @endif
+		    </div>
+		</div>
+	@endif
 	<br></br>
 	<div class='form-group text-right'>
 		<input type="submit"  value="Save" class="btn btn-success">
-		<a href="{{ route('users.index') }}" class="btn btn-info" >Back</a>
+		<a href="{{ url()->previous() }}" class="btn btn-info" >Back</a>
 	</div>
 {!! Form::close() !!}

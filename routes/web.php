@@ -81,8 +81,12 @@ Route::get('articles/images/{filename}', function($filename){	/*Con esta ruta ha
 
 Route::resource('orders', 'OrderController', ['only' => ['index', 'update']]);
 
-Route::get('/rating', 'ArticleController@rating');
+Route::get('your_ratings', 'UserController@ratings')->name('user_ratings');
+
+Route::get('your_orders', 'UserController@orders')->name('user_orders');
 
 Route::get('platform/{platform}', 'ArticleController@showByPlatform');
 
-Route::get('profile', 'UserController@profile')->name('profile');
+Route::get('account', 'UserController@account')->name('account');
+
+Route::get('profile/{id}/edit', 'UserController@editProfile');

@@ -22,7 +22,7 @@ class Article extends Model
 
 	public function paypalItem(){ //Es llamada desde el modelo PayPal.php para indicar a Paypal toda la info de nuestro carrito.
 		
-		$shopping_cart_id  = InShoppingCart::get()->last()->shopping_cart_id;	//Obtenemos el id del carrito actual
+		$shopping_cart_id  = ShoppingCart::where('user_id', Auth::user()->id)->get()->last()->id; //Obtenemos el id del carrito del usuario con sesión actual.
 		$in_shopping_carts = InShoppingCart::get()->where('shopping_cart_id', $shopping_cart_id);	//Con ese id sacamos todas las istancias del carrito actual
 		
 		$in_shopping_cart_article_quantity = $in_shopping_carts->where('article_id', $this->id)->first()->quantity;	//Finalmente obtenemos la instancia del articulo actual y nos quedamos con las cantidades del mismo para pasarsela al item() de PayPal:

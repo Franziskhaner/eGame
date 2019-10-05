@@ -53,7 +53,7 @@ class ShoppingCartController extends Controller
     }
 
     public function show($id){
-        $shopping_cart = ShoppingCart::where('customid', $id)->first(); /*Utilizamos where() cuando queremos buscar otro elemento diferente a la clave primaria, para la clave primaria usamos find()*/
+        $shopping_cart = ShoppingCart::where('custom_id', $id)->first(); /*Utilizamos where() cuando queremos buscar otro elemento diferente a la clave primaria, para la clave primaria usamos find()*/
 
         $order = $shopping_cart->order();
 

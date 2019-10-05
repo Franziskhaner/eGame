@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\Order;
+use App\Rating;
 use Auth;
 
 class UserController extends Controller
 {
-    public function __construct(){  /*Con el Middelware definimos que ´para acceder al recurso Users, hay que loguearse primero, este middleware es a nivel de controlador, también puede definirse a nivel de rutas.*/
+    public function __construct(){  /*Con el Middelware definimos que para acceder al recurso Users, hay que loguearse primero, este middleware es a nivel de controlador, también puede definirse a nivel de rutas.*/
         $this->middleware('auth');
     }
     /**
@@ -61,7 +63,7 @@ class UserController extends Controller
             'role' => $request['role']
         ]);
 
-        return redirect()->route('users.index')->with('success','Register created succsessfully');
+        return redirect('users')->with('success', 'User created succsessfully!');
     }
 
     /**
@@ -83,7 +85,7 @@ class UserController extends Controller
      */
     public function edit($id){
         $user=User::find($id);
-        return view('user.edit',compact('user'));
+        return view('user.edit', compact('user'));
     }
 
     /**
@@ -94,29 +96,56 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id){
-        $this->validate($request,['first_name' => 'required|string|max:70',
-            'last_name' => 'required|string|max:80',
-            'email' => 'required|string|email|max:50',
-            'password' => 'required|string|min:6|confirmed',
-            'address' => 'required|string|max:150',
-            'city' => 'required|string|max:80',
-            'postal_code' => 'required|integer|max:99999',
-            'telephone' => 'required|integer',
-            'role' => 'required']);
- 
-        User::find($id)->update([
-            'first_name' => $request['first_name'],
-            'last_name' => $request['last_name'],
-            'email' => $request['email'],
-            'password' => bcrypt($request['password']),
-            'address' => $request['address'],
-            'city' => $request['city'],
-            'postal_code' => $request['postal_code'],
-            'telephone' => $request['telephone'],
-            'role' => $request['role']
-        ]);
-        
-        return redirect()->route('users.index')->with('success','Register updated succsessfully');
+        /*Este método lo usaremos tanto para actualizar los datos de un usuario siendo administradores como para actualizar el perfil de usuario siendo usuarios regstrados:*/
+        if(Auth::user()->role == 'Admin'){
+            $this->validate($request,['first_name' => 'required|string|max:70',
+                'last_name' => 'required|string|max:80',
+                'email' => 'required|string|email|max:50',
+                'password' => 'required|string|min:6|confirmed',
+                'address' => 'required|string|max:150',
+                'city' => 'required|string|max:80',
+                'postal_code' => 'required|integer|max:99999',
+                'telephone' => 'required|integer',
+                'role' => 'required']);
+     
+            User::find($id)->update([
+                'first_name' => $request['first_name'],
+                'last_name' => $request['last_name'],
+                'email' => $request['email'],
+                'password' => bcrypt($request['password']),
+                'address' => $request['address'],
+                'city' => $request['city'],
+                'postal_code' => $request['postal_code'],
+                'telephone' => $request['telephone'],
+                'role' => $request['role']
+            ]);
+            
+            return redirect('users')->with('success','User updated succsessfully!');
+        }
+        else{
+            $this->validate($request,['first_name' => 'required|string|max:70',
+                'last_name' => 'required|string|max:80',
+                'email' => 'required|string|email|max:50',
+                'password' => 'required|string|min:6|confirmed',
+                'address' => 'required|string|max:150',
+                'city' => 'required|string|max:80',
+                'postal_code' => 'required|integer|max:99999',
+                'telephone' => 'required|integer'
+            ]);
+     
+            User::find($id)->update([
+                'first_name' => $request['first_name'],
+                'last_name' => $request['last_name'],
+                'email' => $request['email'],
+                'password' => bcrypt($request['password']),
+                'address' => $request['address'],
+                'city' => $request['city'],
+                'postal_code' => $request['postal_code'],
+                'telephone' => $request['telephone']
+            ]);
+            
+            return redirect('account')->with('success', 'Profile updated succsessfully!');
+        }
     }
 
     /**
@@ -127,11 +156,27 @@ class UserController extends Controller
      */
     public function destroy($id){
         User::find($id)->delete();
-        return redirect()->route('users.index')->with('success','Register deleted succsessfully');
+        return redirect('users')->with('success', 'Register deleted successfully!');
     }
 
-    public function profile(){
+    public function account(){  /*Aquí enviamos a la vista los datos del perfil de usuario, así como los pedidos, valoraciones y comentarios del mismo:*/
         $user = Auth::user();
-        return  view('user.profile', compact('user'));
+        $ratings = Rating::userRatings();
+        $comments = Rating::userComments();
+        $orders = Order::userOrders();
+        return  view('user.account', compact('user', 'orders', 'ratings', 'comments'));
+    }
+
+    public function editProfile($id){
+        $user=User::find($id);
+        return view('user.edit_profile', compact('user'));
+    }
+
+    public function ratings(){
+        return view('user.ratings');
+    }
+
+    public function orders(){
+        return view('user.orders');
     }
 }

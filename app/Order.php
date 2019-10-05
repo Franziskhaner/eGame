@@ -68,4 +68,10 @@ class Order extends Model
 
     	return Order::create($orderData);
     } 
+
+    public static function userOrders(){
+        $userOrders = Order::where('user_id', Auth::user()->id);
+
+        return $userOrders;
+    }
 }
