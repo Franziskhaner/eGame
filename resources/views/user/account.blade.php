@@ -3,7 +3,7 @@
 <div class="container">
 	<div class="row">
 		@if(session('success'))
-			<div class="alert alert-info">
+			<div class="alert alert-success">
 				{{session('success')}}
 			</div>
 		@endif
@@ -29,7 +29,6 @@
 					</div>
 				</div>
 				<br>
-				<h3>Data:</h3>
 				<div class="row">
 					<div class="col-sm-6 col-xs-12">
 						<h4><strong>First name:  </strong>{{$user->first_name}}</h4>
@@ -43,13 +42,16 @@
 					</div>
 					<div class="col">
 						<div class='form-group'>
-							<a class="btn btn-info" href="{{ route('orders') }}">Your Orders</a>
-							<a class="btn btn-info" href="{{ route('ratings') }}">Your Ratings</a>
-						</div>
-						<div class='form-group'>
+							<a class="btn btn-info" href="{{ route('user_ratings') }}" style="background-color:Orange">Your Ratings</a>
+							<a class="btn btn-info" href="{{ route('user_orders') }} " >Your Orders</a>
+						
 							<a class="btn btn-primary" href="{{action('UserController@editProfile', $user->id)}}">Edit Profile</a>
-							<a class="btn btn-danger" href="{{action('UserController@editProfile', $user->id)}}">Delete Account</a>
 						</div>
+						<form action="{{action('UserController@destroy', $user->id)}}" method="post">
+		                   {{csrf_field()}}
+		                   <input name="_method" type="hidden" value="DELETE">
+		                   <button class="btn btn-danger" type="submit" onclick="return confirm('DANGER! You will delete your account completely, this action cannot be undone, are you sure about this?')">DELETE ACCOUNT</button>
+		                </form>
 					</div>	
 				</div>
 			</div>

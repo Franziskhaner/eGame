@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 use App\InShoppingCart;
+use App\OrderedArticle;
 use Auth;
 
 class Order extends Model
@@ -69,9 +70,13 @@ class Order extends Model
     	return Order::create($orderData);
     } 
 
-    public static function userOrders(){
-        $userOrders = Order::where('user_id', Auth::user()->id);
+    public static function ordersByUser(){
+        $ordersByUser = Order::where('user_id', Auth::user()->id)->get();
+        return $ordersByUser;
+    }
 
-        return $userOrders;
+    public static function articlesByOrder($id){
+        $articlesByOrder = OrderedArticle::where('order_id', $id)->get();
+        return $articlesByOrder;
     }
 }

@@ -5,6 +5,10 @@
       <div class="alert alert-success">
         {{session('success')}}
       </div>
+    @elseif(session('delete'))
+      <div class="alert alert-success">
+        {{session('delete')}}
+      </div>
     @endif
     <div class="big-padding text-center blue-grey white-text">
       <h2>Users list</h2>

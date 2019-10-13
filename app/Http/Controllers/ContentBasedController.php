@@ -39,7 +39,7 @@ class ContentBasedController extends Controller
 		$articles = array();	/*Array que contendrá los IDs de los artículos pedidos por el usuario actual*/
 
     	foreach($ordersByUser as $orderByUser){	/*Aquí obtenemos los IDs de los artículos que han sido pedidos por el usuario de la sesión actual y serán utilizados para las recomendaciones*/
-    		foreach(OrderedArticle::where('order_id', $orderByUser->id)->get() as $article){
+    		foreach(Order::articlesByOrder($orderByUser->id) as $article){
     			$articles[] = $article->article_id;
     		}
     	}

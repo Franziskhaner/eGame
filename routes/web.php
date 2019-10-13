@@ -17,12 +17,8 @@ Route::get('/', function () {
 });
 */
 
-
-//Rutas del proyecto eGame:
 /*
-Route::group(['middleware' => 'auth'], function(){
-
-});
+Route::group(['middleware' => 'auth'], function(){});
 */
 
 Route::get('/', 'MainController@home')->name('home');
@@ -89,4 +85,4 @@ Route::get('platform/{platform}', 'ArticleController@showByPlatform');
 
 Route::get('account', 'UserController@account')->name('account');
 
-Route::get('profile/{id}/edit', 'UserController@editProfile');
+Route::get('profile/{id}/edit', 'UserController@editProfile'); /*Editar perfil de usuario*/

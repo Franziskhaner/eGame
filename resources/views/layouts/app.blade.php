@@ -110,7 +110,7 @@
                                                 title="Your Account">
                                                 Your Account
                                             </a>
-                                            <a href="#"
+                                            <a href="{{ route('user_orders')}}"
                                                 title="Your Orders">
                                                 Your Orders
                                             </a>

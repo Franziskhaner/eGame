@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Order;
 use App\Rating;
+use App\Article;
+use App\OrderedArticle;
 use Auth;
 
 class UserController extends Controller
@@ -156,14 +158,17 @@ class UserController extends Controller
      */
     public function destroy($id){
         User::find($id)->delete();
-        return redirect('users')->with('success', 'Register deleted successfully!');
+        if(Auth::user()->role == 'Admin')
+            return redirect('users')->with('delete', 'User deleted successfully!');
+        else
+            return redirect('/')->with('delete', 'User account deleted successfully!');
     }
 
     public function account(){  /*Aquí enviamos a la vista los datos del perfil de usuario, así como los pedidos, valoraciones y comentarios del mismo:*/
         $user = Auth::user();
         $ratings = Rating::userRatings();
         $comments = Rating::userComments();
-        $orders = Order::userOrders();
+        $orders = Order::ordersByUser();
         return  view('user.account', compact('user', 'orders', 'ratings', 'comments'));
     }
 
@@ -177,6 +182,26 @@ class UserController extends Controller
     }
 
     public function orders(){
-        return view('user.orders');
+        $ordersByUser = Order::ordersByUser(); /*Pedidos realizados por el usuario de la sesión actual*/
+
+        $articlesIdByOrder = array();   /*Array que almacenará los IDs de los artículos por cada pedido de dicho usuario*/
+        
+        $orderIdByUser = array(); /*ALmacenará los IDs de los pedidos realizados por el usuario*/
+
+        foreach ($ordersByUser as $orderByUser){
+            $articlesByOrder = Order::articlesByOrder($orderByUser->id); /*Artículos comprados por cada pedido (Order) del usuario de la sesión actual*/
+            $orderIdByUser[] = $orderByUser->id;    /*Vamos quedándonos con los IDs de los pedidos*/
+            foreach ($articlesByOrder as $articleByOrder)   /*Por cada pedido realizado se pueden comprar 1 o varios artículos, así que almacenanos los IDs de dichos artículos para posteriormente tener más datos de ellos (nombre, precio, ...)*/
+                $articlesIdByOrder[] = $articleByOrder->article_id;
+        }
+
+        $articlesIdByOrder = array_unique($articlesIdByOrder); /*Eliminamos las instancias duplicadas de dichos IDs, para ello usamos array_unique()*/
+
+        $articles = Article::wherein('id', $articlesIdByOrder)->get(); /*Sacamos las instancias (filas) de los articulos pedidos por el usuario de la tabla articles (filtrando por los Ids obtenidos arriba)*/
+
+        $orderedArticles = OrderedArticle::wherein('order_id', $orderIdByUser)->get(); /*También le pasaremos a la vista 'user.orders' la relación de Artículos-Pedidos hechos por el usuario, para poder conocer el artículo o artículos exactos y la cantidad comprada de dichos artículos (campo 'quantity' de dicha tabla) por cada pedido*/
+        //print_r($articles);
+
+        return view('user.orders', compact(['ordersByUser', 'articles', 'orderedArticles']));
     }
 }
