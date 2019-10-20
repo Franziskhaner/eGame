@@ -13,7 +13,7 @@ class ArticleController extends Controller{
     }
 
     public function index(){
-    	$articles = Article::orderBy('id','asc')->paginate(10);	//Así listamos los artículos traídos desde BD por el modelo ordenados por orden descendiente por su publicación y con un máximo de 3 artículos por página.
+    	$articles = Article::orderBy('id','desc')->paginate(5);	//Así listamos los artículos traídos desde BD por el modelo ordenados por orden descendiente por su publicación y con un máximo de 3 artículos por página.
     	return view('article.index', compact('articles')); //compact('article') equivale a ['article' => $article]
     }
 
@@ -25,19 +25,29 @@ class ArticleController extends Controller{
     public function store(Request $request){
         $hasFile = $request->hasFile('cover') && $request->cover->isValid();  //El método hasFile de Laravel nos permite saber si el artículo contiene una imagen o no. isValid() devuelve true cuando el archivo se pudo subir correctamente.
 
-    	$this->validate($request, ['name' => 'required', 'price' => 'required', 'quantity' => 'required', 'release_date' => 'required', 'players_num' => 'required', 'gender' => 'required', 'platform' => 'required', 'description' => 'required', 'assessment' => 'required|max:5']);
+    	$this->validate($request, [
+            'name'         => 'required',
+            'price'        => 'required',
+            'quantity'     => 'required',
+            'release_date' => 'required',
+            'players_num'  => 'required',
+            'gender'       => 'required',
+            'platform'     => 'required',
+            'description'  => 'required',
+            'assessment'   => 'required|max:5'
+        ]);
 
         $article = new Article;
 
-        $article->name = $request->name;
-        $article->price = $request->price;
-        $article->quantity = $request->quantity;
+        $article->name         = $request->name;
+        $article->price        = $request->price;
+        $article->quantity     = $request->quantity;
         $article->release_date = $request->release_date;
-        $article->players_num = $request->players_num;
-        $article->gender = $request->gender;
-        $article->platform = $request->platform;
-        $article->description = $request->description;
-        $article->assessment = $request->assessment;
+        $article->players_num  = $request->players_num;
+        $article->gender       = $request->gender;
+        $article->platform     = $request->platform;
+        $article->description  = $request->description;
+        $article->assessment   = $request->assessment;
 
         if($hasFile){
             $extension = $request->cover->extension();  //Nos devuelve cual es la extension del archivo que se está intentando subir.
@@ -47,7 +57,7 @@ class ArticleController extends Controller{
             if($hasFile){
                 $request->cover->storeAs('images', "$article->id.$extension"); //Con storeAs() definimos donde y con que nombre almacenamos la imagen.
             }
-            return redirect()->route('articles.index')->with('success','Register created succsessfully');
+            return redirect()->route('articles.index')->with('success','Article created successfully');
         }
         else
             return back();
@@ -64,14 +74,24 @@ class ArticleController extends Controller{
     }
 
     public function edit($id){
-        $article=Article::find($id);
+        $article = Article::find($id);
         return view('article.edit', compact('article'));
     }
 
     public function update(Request $request, $id){
         $hasFile = $request->hasFile('cover') && $request->cover->isValid();  //El método hasFile de Laravel nos permite saber si el artículo contiene una imagen o no. isValid() devuelve true cuando el archivo se pudo subir correctamente.
 
-        $this->validate($request, ['name' => 'required', 'price' => 'required', 'quantity' => 'required', 'release_date' => 're quired', 'players_num' => 'required', 'gender' => 'required', 'platform' => 'required', 'description' => 'required', 'assessment' => 'required|max:5']);
+        $this->validate($request, [
+            'name'         => 'required',
+            'price'        => 'required',
+            'quantity'     => 'required',
+            'release_date' => 'required',
+            'players_num'  => 'required',
+            'gender'       => 'required',
+            'platform'     => 'required',
+            'description'  => 'required',
+            'assessment'   => 'required|max:5'
+        ]);
         
         $article = Article::find($id);
 
@@ -86,7 +106,7 @@ class ArticleController extends Controller{
             if($hasFile){
                 $request->cover->storeAs('images', "$article->id.$extension"); //Con storeAs() definimos donde y con que nombre almacenamos la imagen.
             }
-            return redirect()->route('articles.index')->with('success','Register updated succsessfully');
+            return redirect()->route('articles.index')->with('success','Article updated successfully');
         }
         else
             return view('article.edit', compact('article'));
@@ -94,7 +114,7 @@ class ArticleController extends Controller{
 
     public function destroy($id){
         Article::find($id)->delete();
-        return redirect()->route('articles.index')->with('success','Register deleted succsessfully');
+        return redirect()->route('articles.index')->with('success','Article deleted successfully');
     }
 
     public function showByPlatform($platform){

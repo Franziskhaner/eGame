@@ -3,13 +3,6 @@
 <div class="container">
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2">
-			
-			@if(Session::has('success'))
-			<div class="alert alert-info">
-				{{Session::get('success')}}
-			</div>
-			@endif
- 
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h3 class="panel-title">New article</h3>

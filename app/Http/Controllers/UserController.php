@@ -22,7 +22,6 @@ class UserController extends Controller
      */
     public function index(){
         $users = User::orderBy('id', 'DESC')->paginate(10);
-        //return view('user.index')->with(['users' => $users]);
         return view('user.index', compact('users'));
     }
 
@@ -43,26 +42,27 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request){
-        $this->validate($request,[ 'first_name' => 'required|string|max:70',
-            'last_name' => 'required|string|max:80',
-            'email' => 'required|string|email|max:50|unique:Users',
-            'password' => 'required|string|min:6|confirmed',
-            'address' => 'required|string|max:150',
-            'city' => 'required|string|max:80',
+        $this->validate($request,[
+            'first_name'  => 'required|string|max:70',
+            'last_name'   => 'required|string|max:80',
+            'email'       => 'required|string|email|max:50|unique:Users',
+            'password'    => 'required|string|min:6|confirmed',
+            'address'     => 'required|string|max:150',
+            'city'        => 'required|string|max:80',
             'postal_code' => 'required|integer|max:99999',
-            'telephone' => 'required|integer',
-            'role' => 'required']);
+            'telephone'   => 'required|integer',
+            'role'        => 'required']);
         
         User::create([
-            'first_name' => $request['first_name'],
-            'last_name' => $request['last_name'],
-            'email' => $request['email'],
-            'password' => bcrypt($request['password']),
-            'address' => $request['address'],
-            'city' => $request['city'],
+            'first_name'  => $request['first_name'],
+            'last_name'   => $request['last_name'],
+            'email'       => $request['email'],
+            'password'    => bcrypt($request['password']),
+            'address'     => $request['address'],
+            'city'        => $request['city'],
             'postal_code' => $request['postal_code'],
-            'telephone' => $request['telephone'],
-            'role' => $request['role']
+            'telephone'   => $request['telephone'],
+            'role'        => $request['role']
         ]);
 
         return redirect('users')->with('success', 'User created succsessfully!');
@@ -75,8 +75,8 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id){
-        $user=User::find($id);
-        return  view('user.show',compact('user'));
+        $user = User::find($id);
+        return  view('user.show', compact('user'));
     }
 
     /**
@@ -86,7 +86,7 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id){
-        $user=User::find($id);
+        $user = User::find($id);
         return view('user.edit', compact('user'));
     }
 
@@ -100,53 +100,56 @@ class UserController extends Controller
     public function update(Request $request, $id){
         /*Este método lo usaremos tanto para actualizar los datos de un usuario siendo administradores como para actualizar el perfil de usuario siendo usuarios regstrados:*/
         if(Auth::user()->role == 'Admin'){
-            $this->validate($request,['first_name' => 'required|string|max:70',
-                'last_name' => 'required|string|max:80',
-                'email' => 'required|string|email|max:50',
-                'password' => 'required|string|min:6|confirmed',
-                'address' => 'required|string|max:150',
-                'city' => 'required|string|max:80',
+            $this->validate($request, [
+                'first_name'  => 'required|string|max:70',
+                'last_name'   => 'required|string|max:80',
+                'email'       => 'required|string|email|max:50',
+                'password'    => 'required|string|min:6|confirmed',
+                'address'     => 'required|string|max:150',
+                'city'        => 'required|string|max:80',
                 'postal_code' => 'required|integer|max:99999',
-                'telephone' => 'required|integer',
-                'role' => 'required']);
+                'telephone'   => 'required|integer',
+                'role'        => 'required'
+            ]);
      
             User::find($id)->update([
-                'first_name' => $request['first_name'],
-                'last_name' => $request['last_name'],
-                'email' => $request['email'],
-                'password' => bcrypt($request['password']),
-                'address' => $request['address'],
-                'city' => $request['city'],
+                'first_name'  => $request['first_name'],
+                'last_name'   => $request['last_name'],
+                'email'       => $request['email'],
+                'password'    => bcrypt($request['password']),
+                'address'     => $request['address'],
+                'city'        => $request['city'],
                 'postal_code' => $request['postal_code'],
-                'telephone' => $request['telephone'],
-                'role' => $request['role']
+                'telephone'   => $request['telephone'],
+                'role'        => $request['role']
             ]);
             
-            return redirect('users')->with('success','User updated succsessfully!');
+            return redirect('users')->with('success','User updated successfully!');
         }
         else{
-            $this->validate($request,['first_name' => 'required|string|max:70',
-                'last_name' => 'required|string|max:80',
-                'email' => 'required|string|email|max:50',
-                'password' => 'required|string|min:6|confirmed',
-                'address' => 'required|string|max:150',
-                'city' => 'required|string|max:80',
+            $this->validate($request, [
+                'first_name'  => 'required|string|max:70',
+                'last_name'   => 'required|string|max:80',
+                'email'       => 'required|string|email|max:50',
+                'password'    => 'required|string|min:6|confirmed',
+                'address'     => 'required|string|max:150',
+                'city'        => 'required|string|max:80',
                 'postal_code' => 'required|integer|max:99999',
-                'telephone' => 'required|integer'
+                'telephone'   => 'required|integer'
             ]);
      
             User::find($id)->update([
-                'first_name' => $request['first_name'],
-                'last_name' => $request['last_name'],
-                'email' => $request['email'],
-                'password' => bcrypt($request['password']),
-                'address' => $request['address'],
-                'city' => $request['city'],
+                'first_name'  => $request['first_name'],
+                'last_name'   => $request['last_name'],
+                'email'       => $request['email'],
+                'password'    => bcrypt($request['password']),
+                'address'     => $request['address'],
+                'city'        => $request['city'],
                 'postal_code' => $request['postal_code'],
-                'telephone' => $request['telephone']
+                'telephone'   => $request['telephone']
             ]);
             
-            return redirect('account')->with('success', 'Profile updated succsessfully!');
+            return redirect('account')->with('success', 'Profile updated successfully!');
         }
     }
 
@@ -157,6 +160,7 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id){
+        /*Este método se usará para eliminar usuarios desde el panel de Administrador, así como por el usuario registrado para eliminar su propia cuenta*/
         User::find($id)->delete();
         if(Auth::user()->role == 'Admin')
             return redirect('users')->with('delete', 'User deleted successfully!');
@@ -178,7 +182,8 @@ class UserController extends Controller
     }
 
     public function ratings(){
-        return view('user.ratings');
+        $ratings = Rating::userRatings();
+        return view('user.ratings', compact('ratings'));
     }
 
     public function orders(){

@@ -40,7 +40,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">E-Mail Address</label>
+                            <label for="email" class="col-md-4 control-label">E-Mail</label>
 
                             <div class="col-md-6">
                                 <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}">
@@ -68,7 +68,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="password-confirm" class="col-md-4 control-label">Confirm Password</label>
+                            <label for="password-confirm" class="col-md-4 control-label">Password Confirm</label>
 
                             <div class="col-md-6">
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation">
@@ -107,7 +107,7 @@
                             <label for="postal_code" class="col-md-4 control-label">Postal Code</label>
 
                             <div class="col-md-6">
-                                <input id="postal_code" type="text" class="form-control" name="postal_code" value="{{ old('postal_code') }}">
+                                <input id="postal_code" type="number" class="form-control" name="postal_code" value="{{ old('postal_code') }}">
 
                                 @if ($errors->has('postal_code'))
                                     <span class="help-block">

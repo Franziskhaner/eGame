@@ -14,14 +14,15 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = Order::latest()->get();
-
+        $orders = Order::orderBy('id', 'DESC')->paginate(10);
+        $totalIncomes = Order::totalIncomes();
+        $totalCount = Order::count();
         $totalMonth = Order::totalMonth();
         $totalMonthCount = Order::totalMonthCount();
 
         //$articlesOrder = Order::articlesOrder(); //NO está terminado
 
-        return view('order.index', compact(['orders', 'totalMonth', 'totalMonthCount']));
+        return view('order.index', compact(['orders', 'totalIncomes', 'totalCount', 'totalMonth', 'totalMonthCount']));
     }
 
     /**
@@ -31,7 +32,8 @@ class OrderController extends Controller
      */
     public function create()
     {
-        //
+        $order = new Order;
+        return view('order.create', compact('order'));
     }
 
     /**
@@ -42,7 +44,35 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request,[
+            'recipient_name' => 'required|string',
+            'line1'          => 'required|string',
+            'city'           => 'required|string',
+            'postal_code'    => 'required|integer|max:99999',
+            'country_code'   => 'required|string',
+            'state'          => 'required|string',
+            'email'          => 'required|string|email',
+            'status'         => 'required|string',
+            'total'          => 'required|integer', 
+            'user_id'        => 'required|integer'
+        ]);
+        
+        Order::create([
+            'recipient_name' => $request['recipient_name'],
+            'line1'          => $request['line1'],
+            'line2'          => $request['line2'],
+            'address'        => $request['address'],
+            'city'           => $request['city'],
+            'postal_code'    => $request['postal_code'],
+            'country_code'   => $request['country_code'],
+            'state'          => $request['state'],
+            'email'          => $request['email'],
+            'status'         => $request['status'],
+            'total'          => $request['total'],
+            'user_id'        => $request['user_id']
+        ]);
+
+        return redirect('orders')->with('success', 'Order created successfully!');
     }
 
     /**
@@ -64,7 +94,8 @@ class OrderController extends Controller
      */
     public function edit($id)
     {
-        //
+        $order = Order::find($id);
+        return view('order.edit', compact('order'));
     }
 
     /**
@@ -76,7 +107,27 @@ class OrderController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request,[
+            'recipient_name' => 'required|string',
+            'line1'          => 'required|string',
+            'city'           => 'required|string',
+            'postal_code'    => 'required|integer|max:99999',
+            'country_code'   => 'required|string',
+            'state'          => 'required|string',
+            'email'          => 'required|string|email',
+            'status'         => 'required|string',
+            'total'          => 'required|integer', 
+            'user_id'        => 'required|integer'
+        ]);
+        
+        $order = Order::find($id);
+
+        $order->update($request->all());
+
+        if($order->save())
+            return redirect('orders')->with('success', 'Order updated successfully!');
+        else
+            return view('order.edit', compact('order'));
     }
 
     /**
@@ -87,6 +138,7 @@ class OrderController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Order::find($id)->delete();
+        return redirect()->route('orders.index')->with('success','Order deleted successfully!');
     }
 }

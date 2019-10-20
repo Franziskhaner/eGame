@@ -7,7 +7,7 @@
 		</div>
 		@endif
 		<div class="row">
-        	<div class="col-md-6 col-md-offset-3">
+        	<div class="col-md-8 col-md-offset-2">
             	<div class="panel panel-default">
             		<div class="panel-heading">
             			<h1>Edit article</h1>
@@ -15,7 +15,6 @@
 					<div class="panel-body">
 						{{-- <!-- Formulario -->
 						<!-- Con @include llamamos a la plantilla formulario que tenemos en la vista article.form --> --}}
-						
 						@include('article.form', ['article' => $article, 'url' => '/articles/'.$article->id, 'method' => 'PATCH'])
 					</div>
 				</div>

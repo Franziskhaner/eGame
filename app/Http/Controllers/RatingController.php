@@ -1,0 +1,125 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Rating;
+use App\User;
+use App\Article;
+
+class RatingController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $ratings = Rating::orderBy('id', 'DESC')->paginate(10);
+
+        //$articlesRating = Rating::articlesRating(); //NO está terminado
+
+        return view('rating.index', compact('ratings'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        $rating   = new Rating;
+        $users    = User::all();
+        $articles = Article::all();
+
+        return view('rating.create', compact(['rating', 'users', 'articles']));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $this->validate($request,[
+            'user_id'    => 'required|integer',
+            'score'      => 'required|integer',
+            'article_id' => 'required|integer'            
+        ]);
+        
+        Rating::create([
+            'user_id'    => $request['user_id'],
+            'score'      => $request['score'],
+            'comment'    => $request['comment'],
+            'article_id' => $request['article_id']
+        ]);
+
+        return redirect('ratings')->with('success', 'Rating created successfully!');
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $rating   = Rating::find($id);
+        $users    = User::all();
+        $articles = Article::all();
+        return view('rating.edit', compact(['rating', 'users', 'articles']));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $this->validate($request,[
+            'user_id'    => 'required|integer',
+            'score'      => 'required|integer',
+            'article_id' => 'required|integer'
+        ]);
+        
+        $rating = Rating::find($id);
+
+        $rating->update($request->all());
+
+        if($rating->save())
+            return redirect('ratings')->with('success', 'Rating updated successfully!');
+        else
+            return view('rating.edit', compact('rating'));
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        Rating::find($id)->delete();
+        return redirect()->route('ratings.index')->with('success','Rating deleted successfully!');
+    }
+}

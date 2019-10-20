@@ -10,7 +10,7 @@ use Auth;
 
 class Order extends Model
 {
-    protected $fillable = ['recipient_name', 'line1', 'line2', 'city', 'country_code', 'state', 'postal_code', 'email', 'user_id', 'status', 'total', 'guide_number'];
+    protected $fillable = ['recipient_name', 'line1', 'line2', 'city', 'country_code', 'state', 'postal_code', 'email', 'user_id', 'status', 'total'];
 
     public static function articles(){
         
@@ -40,6 +40,10 @@ class Order extends Model
         return "$this->line1 $this->line2";
     }
 
+    public static function  totalIncomes(){   //Suma total de las ventas de la tienda
+        return Order::sum('total');
+    }
+
     public static function  totalMonth(){   //Suma total de las ventas del mes
         return Order::monthly()->sum('total');
     }
@@ -62,8 +66,8 @@ class Order extends Model
         $orderData = $orderData[key($orderData)];
 
 		/*El resto de datos de la orden lo obtenemos asi:*/
-		$orderData["email"] = $payer->payer_info->email;
-		$orderData["total"] = $shopping_cart->total();
+		$orderData["email"]   = $payer->payer_info->email;
+		$orderData["total"]   = $shopping_cart->total();
         $orderData["user_id"] = Auth::user()->id;   /*Este es el usuario que ha realizado el pedido*/
 		/*$orderData["shopping_cart_id"] = $shopping_cart->id;*/ /*Deja de usarse tras migración 2019_09_07_191914_add_user_id_column_and_drop_shopping_cart_id_column_to_orders*/
 

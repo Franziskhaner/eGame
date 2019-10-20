@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
 	<div class="container">	
-		@if (count($errors) > 0)
+		{{-- @if (count($errors) > 0)
 		<div class="alert alert-danger">
 			<strong>Error!</strong> Review the required fields.<br><br>
 			<ul>
@@ -10,23 +10,15 @@
 				@endforeach
 			</ul>
 		</div>
-		@endif
-		@if(Session::has('success'))
-		<div class="alert alert-info">
-			{{Session::get('success')}}
-		</div>
-		@endif
+		@endif --}}
 		<div class="row">
-        	<div class="col-md-6 col-md-offset-3">
+        	<div class="col-md-8 col-md-offset-2">
             	<div class="panel panel-default">
             		<div class="panel-heading">
             			<h1>New user</h1>
             		</div>
 					<div class="panel-body">
-						{{--
-						<!-- Formulario -->
-						<!-- Con @include llamamos a la plantilla formulario que tenemos en la vista user.form -->
-						 --}}
+						{{-- <!-- Con @include llamamos a la plantilla formulario que tenemos en la vista user.form --> --}}
 						@include('user.form', ['user' => $user, 'url' => '/users', 'method' => 'POST'])
 					</div>
 				</div>

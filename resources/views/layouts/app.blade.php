@@ -50,14 +50,14 @@
                               <i class="fa fa-caret-down"></i>
                             </button>
                             <div class="dropdown-content">
-                              <a href="{{action('ArticleController@showByPlatform', 'PS4')}}">PS4</a>
-                              <a href="{{action('ArticleController@showByPlatform', 'XBOX ONE')}}">XBOX ONE</a>
-                              <a href="{{action('ArticleController@showByPlatform', 'PC')}}">PC</a>
-                              <a href="{{action('ArticleController@showByPlatform', 'NINTENDO SWITCH')}}">NINTENDO SWITCH</a>
-                              <a href="{{action('ArticleController@showByPlatform', 'NINTENDO 3DS')}}">NINTENDO 3DS</a>
-                              <a href="{{action('ArticleController@showByPlatform', 'WII U')}}">WII U</a>
-                              <a href="{{action('ArticleController@showByPlatform', 'PLAYSTATION VITA')}}">PLAYSTATION VITA</a>
-                              <a href="{{action('ArticleController@showByPlatform', 'RETRO')}}">RETRO</a>
+                                <a href="{{action('ArticleController@showByPlatform', 'PS4')}}">PS4</a>
+                                <a href="{{action('ArticleController@showByPlatform', 'XBOX ONE')}}">XBOX ONE</a>
+                                <a href="{{action('ArticleController@showByPlatform', 'PC')}}">PC</a>
+                                <a href="{{action('ArticleController@showByPlatform', 'NINTENDO SWITCH')}}">NINTENDO SWITCH</a>
+                                <a href="{{action('ArticleController@showByPlatform', 'NINTENDO 3DS')}}">NINTENDO 3DS</a>
+                                <a href="{{action('ArticleController@showByPlatform', 'WII U')}}">WII U</a>
+                                <a href="{{action('ArticleController@showByPlatform', 'PS VITA')}}">PLAYSTATION VITA</a>
+                                <a href="{{action('ArticleController@showByPlatform', 'RETRO')}}">RETRO</a>
                             </div>
                         </div>
                     </ul>
@@ -105,6 +105,10 @@
                                                 title="Orders">
                                                 Orders
                                             </a>
+                                            <a href="{{ route('ratings.index') }}"
+                                                title="Ratings">
+                                                Ratings
+                                            </a>
                                         @else
                                             <a href="{{ route('account') }}"
                                                 title="Your Account">
@@ -113,6 +117,10 @@
                                             <a href="{{ route('user_orders')}}"
                                                 title="Your Orders">
                                                 Your Orders
+                                            </a>
+                                            <a href="{{ route('user_ratings')}}"
+                                                title="Your Ratings">
+                                                Your Ratings
                                             </a>
                                         @endif
                                         <a href="{{ route('logout') }}"

@@ -75,7 +75,10 @@ Route::get('articles/images/{filename}', function($filename){	/*Con esta ruta ha
 	return $response;
 });
 
-Route::resource('orders', 'OrderController', ['only' => ['index', 'update']]);
+//Route::resource('orders', 'OrderController', ['only' => ['index', 'update']]);
+Route::resource('orders', 'OrderController');
+
+Route::resource('ratings', 'RatingController');
 
 Route::get('your_ratings', 'UserController@ratings')->name('user_ratings');
 
