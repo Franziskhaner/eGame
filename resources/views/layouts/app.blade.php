@@ -62,15 +62,25 @@
                         </div>
                     </ul>
                     <!-- Center Side Of Navbar -->
-                    <div class="col-md-4">
+                    <div class="col-md-5">
+                        {{--
                         <form action="{{action('MainController@search', 'search')}}" method="get">
                             <div class="input-group" style="display: inline-block;">
                                 <input type="search" name="search" class="form-control">
                                 <span class="input-group-prepend">
                                     <button type="submit" class="btn btn-success">Search</button>
-                                <!--{{--<button type="submit"><i class="fa fa-search"></i></button>--}}-->
                                 </span>
                             </div>
+                        </form>
+                        --}}
+                        <form action="{{action('MainController@search', 'search')}}" method="get">
+                            <input list="articles" name="search">
+                            <datalist id="articles">
+                                @foreach($articlesCollection as $article)
+                                    <option value="{{ $article->name }}">{{$article->name}}</option>
+                                @endforeach
+                            </datalist>
+                            <input type="submit" value="Search" class="btn btn-success">
                         </form>
                     </div>
                     <!-- Right Side Of Navbar -->
@@ -86,54 +96,52 @@
                             <li><a href="{{ route('login') }}"><i class="fa fa-fw fa-user"></i> Login</a></li>
                             <li><a href="{{ route('register') }}">Register</a></li>
                         @else
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-fw fa-user"></i> 
+                            <div class="dropdown">
+                                <button href="#" class="dropbtn" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-fw fa-user"></i> 
                                     {{ Auth::user()->first_name }} <span class="caret"></span>
-                                </a>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li>
-                                        @if (Auth::user()->role == 'Admin')
-                                            <a href="{{ route('users.index') }}"
-                                                title="Users">
-                                                Users
-                                            </a>
-                                            <a href="{{ route('articles.index') }}"
-                                                title="Articles">
-                                                Articles
-                                            </a>
-                                            <a href="{{ route('orders.index') }}"
-                                                title="Orders">
-                                                Orders
-                                            </a>
-                                            <a href="{{ route('ratings.index') }}"
-                                                title="Ratings">
-                                                Ratings
-                                            </a>
-                                        @else
-                                            <a href="{{ route('account') }}"
-                                                title="Your Account">
-                                                Your Account
-                                            </a>
-                                            <a href="{{ route('user_orders')}}"
-                                                title="Your Orders">
-                                                Your Orders
-                                            </a>
-                                            <a href="{{ route('user_ratings')}}"
-                                                title="Your Ratings">
-                                                Your Ratings
-                                            </a>
-                                        @endif
-                                        <a href="{{ route('logout') }}"
-                                            onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                            Logout
+                                </button>
+                                <div class="dropdown-content">
+                                    @if (Auth::user()->role == 'Admin')
+                                        <a href="{{ route('users.index') }}"
+                                            title="Users">
+                                            Users
                                         </a>
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                            {{ csrf_field() }}
-                                        </form>
-                                    </li>
-                                </ul>
-                            </li>
+                                        <a href="{{ route('articles.index') }}"
+                                            title="Articles">
+                                            Articles
+                                        </a>
+                                        <a href="{{ route('orders.index') }}"
+                                            title="Orders">
+                                            Orders
+                                        </a>
+                                        <a href="{{ route('ratings.index') }}"
+                                            title="Ratings">
+                                            Ratings
+                                        </a>
+                                    @else
+                                        <a href="{{ route('account') }}"
+                                            title="Your Account">
+                                            Your Account
+                                        </a>
+                                        <a href="{{ route('user_orders')}}"
+                                            title="Your Orders">
+                                            Your Orders
+                                        </a>
+                                        <a href="{{ route('user_ratings')}}"
+                                            title="Your Ratings">
+                                            Your Ratings
+                                        </a>
+                                    @endif
+                                    <a href="{{ route('logout') }}"
+                                        onclick="event.preventDefault();
+                                                 document.getElementById('logout-form').submit();">
+                                        Logout
+                                    </a>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        {{ csrf_field() }}
+                                    </form>
+                                </div>
+                            </div>
                         @endif
                     </ul> 
                 </div>

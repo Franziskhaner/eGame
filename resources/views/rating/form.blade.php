@@ -5,7 +5,7 @@
         <label for="user_id" class="col-md-4 control-label">User ID</label>
 
         <div class="col-md-6">
-            <input list="users" name="user_id" value="{{old('user_id')}}">
+            <input list="users" name="user_id" value="{{old('user_id')}}" class="form-control">
             <datalist id="users">
                 @foreach($users as $user)
                     <option value="{{ $user->id }}">{{$user->first_name}} {{$user->last_name}}</option>
@@ -48,7 +48,7 @@
     <div class="form-group{{ $errors->has('article_id') ? ' has-error' : '' }}">
         <label for="article_id" class="col-md-4 control-label">Article ID</label>
         <div class="col-md-6">
-            <input list="articles" name="article_id" value="{{old('article_id')}}">
+            <input list="articles" name="article_id" value="{{old('article_id')}}" class="form-control">
             <datalist id="articles">
                 @foreach($articles as $article)
                     <option value="{{ $article->id }}">{{$article->name}}</option>

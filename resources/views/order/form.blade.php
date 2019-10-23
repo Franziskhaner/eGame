@@ -1,8 +1,26 @@
 {!! Form::open(['url' => $url, 'method' => $method, 'class' => 'form-horizontal']) !!}  
     {{ csrf_field() }}
 
+    <div class="form-group{{ $errors->has('user_id') ? ' has-error' : '' }}">
+        <label for="user_id" class="col-md-4 control-label">User ID (Customer)</label>
+
+        <div class="col-md-6">
+            <input list="users" name="user_id" class="form-control">
+            <datalist id="users">
+                @foreach($users as $user)
+                    <option value="{{ $user->id }}">{{$user->first_name}} {{$user->last_name}}</option>
+                @endforeach
+            </datalist>
+            @if ($errors->has('user_id'))
+                <span class="help-block">
+                    <strong>{{ $errors->first('user_id') }}</strong>
+                </span>
+            @endif
+        </div>
+    </div>
+
     <div class="form-group{{ $errors->has('recipient_name') ? ' has-error' : '' }}">
-        <label for="recipient_name" class="col-md-4 control-label">Receiver</label>
+        <label for="recipient_name" class="col-md-4 control-label">Delivery Addressee</label>
 
         <div class="col-md-6">
             {{ Form::text('recipient_name', $order->recipient_name, ['class' => 'form-control']) }}
@@ -15,22 +33,8 @@
         </div>
     </div>
 
-    <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-        <label for="email" class="col-md-4 control-label">PayPal Account</label>
-
-        <div class="col-md-6">
-            {{ Form::email('email', $order->email, ['class' => 'form-control']) }}
-
-            @if ($errors->has('email'))
-                <span class="help-block">
-                    <strong>{{ $errors->first('email') }}</strong>
-                </span>
-            @endif
-        </div>
-    </div>
-
     <div class="form-group{{ $errors->has('line1') ? ' has-error' : '' }}">
-        <label for="line1" class="col-md-4 control-label">Address</label>
+        <label for="line1" class="col-md-4 control-label">Delivery Address</label>
 
         <div class="col-md-6">
             {{ Form::text('line1', $order->line1, ['class' => 'form-control']) }}
@@ -72,7 +76,7 @@
     </div>
 
     <div class="form-group{{ $errors->has('state') ? ' has-error' : '' }}">
-        <label for="state" class="col-md-4 control-label">State</label>
+        <label for="state" class="col-md-4 control-label">Province</label>
 
         <div class="col-md-6">
             {{ Form::text('state', $order->state, ['class' => 'form-control']) }}
@@ -94,6 +98,33 @@
             @if ($errors->has('country_code'))
                 <span class="help-block">
                     <strong>{{ $errors->first('country_code') }}</strong>
+                </span>
+            @endif
+        </div>
+    </div>
+
+    <div class="form-group{{ $errors->has('status') ? ' has-error' : '' }}">
+        <label for="payment_method" class="col-md-4 control-label">Payment Method</label>
+
+        <div class="col-md-6">
+            {{ Form::select('payment_method', ['Credit Card' => 'Credit Card', 'PayPal' => 'PayPal'], $order->payment_method, ['class' => 'form-control']) }}
+            @if ($errors->has('payment_method'))
+                <span class="help-block">
+                    <strong>{{ $errors->first('payment_method') }}</strong>
+                </span>
+            @endif
+        </div>
+    </div>
+
+    <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
+        <label for="email" class="col-md-4 control-label">PayPal Account</label>
+
+        <div class="col-md-6">
+            {{ Form::email('email', $order->email, ['class' => 'form-control']) }}
+
+            @if ($errors->has('email'))
+                <span class="help-block">
+                    <strong>{{ $errors->first('email') }}</strong>
                 </span>
             @endif
         </div>
@@ -126,19 +157,6 @@
         </div>
     </div>
 
-    <div class="form-group{{ $errors->has('user_id') ? ' has-error' : '' }}">
-        <label for="user_id" class="col-md-4 control-label">User ID</label>
-
-        <div class="col-md-6">
-            {{ Form::number('user_id', $order->user_id, ['class' => 'form-control']) }}
-
-            @if ($errors->has('user_id'))
-                <span class="help-block">
-                    <strong>{{ $errors->first('user_id') }}</strong>
-                </span>
-            @endif
-        </div>
-    </div>
     {{--
     <div class="form-group">
         <div class="col-md-6 col-md-offset-4">

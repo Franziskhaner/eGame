@@ -5,7 +5,7 @@
         	<div class="col-md-8 col-md-offset-2">
             	<div class="panel panel-default">
             		<div class="panel-heading">
-            			<h1>Edit user</h1>
+            			<h2>Edit user</h2>
             		</div>
 					<div class="panel-body">
 						@include('user.form', ['user' => $user, 'url' => '/users/'.$user->id, 'method' => 'PATCH'])

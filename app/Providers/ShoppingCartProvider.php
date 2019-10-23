@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use App\ShoppingCart;
+use App\Article;
 
 class ShoppingCartProvider extends ServiceProvider
 {
@@ -25,7 +26,9 @@ class ShoppingCartProvider extends ServiceProvider
 
             //De esta forma, cuando volvamos a reiniciar la página, tendremos nuestro shopping_cart_id de la sesión anterior y no perderemos nuestro carrito de la compra. 
 
-            $view->with('articlesCount', $shopping_cart->articlesSize());   //Este parametro es llamada desde la plantilla 'layouts.app' para obtener el numero de artículos del carrito de la compra.
+            $view->with('articlesCount', $shopping_cart->articlesSize());   //Este parámetro es llamada desde la plantilla 'layouts.app' para obtener el numero de artículos del carrito de la compra.
+
+            $view->with('articlesCollection', Article::All()); //Este parámetro es llamado desde la plantilla 'layouts.app' para mostrar en cualquier desplegable (CRUD, barras de búsquedas, etc) los nombre (o cualquier atributo de ellos) de los artículos disponibles en BD.
         });
     }
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Order;
+use App\User;
 
 class OrderController extends Controller
 {
@@ -33,7 +34,8 @@ class OrderController extends Controller
     public function create()
     {
         $order = new Order;
-        return view('order.create', compact('order'));
+        $users = User::all();
+        return view('order.create', compact(['order', 'users']));
     }
 
     /**
@@ -45,13 +47,12 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         $this->validate($request,[
-            'recipient_name' => 'required|string',
             'line1'          => 'required|string',
             'city'           => 'required|string',
             'postal_code'    => 'required|integer|max:99999',
             'country_code'   => 'required|string',
             'state'          => 'required|string',
-            'email'          => 'required|string|email',
+            'payment_method' => 'required|string',
             'status'         => 'required|string',
             'total'          => 'required|integer', 
             'user_id'        => 'required|integer'
@@ -66,6 +67,7 @@ class OrderController extends Controller
             'postal_code'    => $request['postal_code'],
             'country_code'   => $request['country_code'],
             'state'          => $request['state'],
+            'payment_method' => $request['payment_method'],
             'email'          => $request['email'],
             'status'         => $request['status'],
             'total'          => $request['total'],
@@ -95,7 +97,8 @@ class OrderController extends Controller
     public function edit($id)
     {
         $order = Order::find($id);
-        return view('order.edit', compact('order'));
+        $users = User::All();
+        return view('order.edit', compact(['order', 'users']));
     }
 
     /**
@@ -108,13 +111,12 @@ class OrderController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request,[
-            'recipient_name' => 'required|string',
             'line1'          => 'required|string',
             'city'           => 'required|string',
             'postal_code'    => 'required|integer|max:99999',
             'country_code'   => 'required|string',
             'state'          => 'required|string',
-            'email'          => 'required|string|email',
+            'payment_method' => 'required|string',
             'status'         => 'required|string',
             'total'          => 'required|integer', 
             'user_id'        => 'required|integer'

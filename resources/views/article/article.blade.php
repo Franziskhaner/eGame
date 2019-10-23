@@ -27,7 +27,7 @@
 					<strong>Platform:</strong><p>{{$article->platform}}</p>
 					<strong>Gender:</strong><p>{{$article->gender}}</p>
 					<strong>Release Date:</strong><p>{{$article->release_date}}</p>
-					<strong>Players number:</strong><p>{{$article->players_num}}</p>
+					<strong>Players Number:</strong><p>{{$article->players_num}}</p>
 					<strong>Assessment:</strong>
 					<p>
 						@php $rating = $article->assessment; @endphp  

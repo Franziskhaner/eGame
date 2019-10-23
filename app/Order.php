@@ -10,7 +10,7 @@ use Auth;
 
 class Order extends Model
 {
-    protected $fillable = ['recipient_name', 'line1', 'line2', 'city', 'country_code', 'state', 'postal_code', 'email', 'user_id', 'status', 'total'];
+    protected $fillable = ['recipient_name', 'line1', 'line2', 'city', 'country_code', 'state', 'postal_code', 'payment_method', 'email', 'user_id', 'status', 'total'];
 
     public static function articles(){
         
@@ -66,6 +66,7 @@ class Order extends Model
         $orderData = $orderData[key($orderData)];
 
 		/*El resto de datos de la orden lo obtenemos asi:*/
+        $orderData["payment_method"] = 'PayPal';
 		$orderData["email"]   = $payer->payer_info->email;
 		$orderData["total"]   = $shopping_cart->total();
         $orderData["user_id"] = Auth::user()->id;   /*Este es el usuario que ha realizado el pedido*/
