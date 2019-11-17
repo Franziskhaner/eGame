@@ -70,8 +70,7 @@ class Order extends Model
 		$orderData["email"]   = $payer->payer_info->email;
 		$orderData["total"]   = $shopping_cart->total();
         $orderData["user_id"] = Auth::user()->id;   /*Este es el usuario que ha realizado el pedido*/
-		/*$orderData["shopping_cart_id"] = $shopping_cart->id;*/ /*Deja de usarse tras migración 2019_09_07_191914_add_user_id_column_and_drop_shopping_cart_id_column_to_orders*/
-
+        
     	return Order::create($orderData);
     } 
 

@@ -181,17 +181,17 @@ class UserController extends Controller
         return view('user.edit_profile', compact('user'));
     }
 
-    public function ratings(){
+    public function userRatings(){
         $ratings = Rating::userRatings();
-        return view('user.ratings', compact('ratings'));
+        return view('user.your_ratings', compact('ratings'));
     }
 
-    public function orders(){
+    public function ordersByUser(){
         $ordersByUser = Order::ordersByUser(); /*Pedidos realizados por el usuario de la sesión actual*/
 
         $articlesIdByOrder = array();   /*Array que almacenará los IDs de los artículos por cada pedido de dicho usuario*/
         
-        $orderIdByUser = array(); /*ALmacenará los IDs de los pedidos realizados por el usuario*/
+        $orderIdByUser = array(); /*Almacenará los IDs de los pedidos realizados por el usuario*/
 
         foreach ($ordersByUser as $orderByUser){
             $articlesByOrder = Order::articlesByOrder($orderByUser->id); /*Artículos comprados por cada pedido (Order) del usuario de la sesión actual*/
@@ -207,6 +207,6 @@ class UserController extends Controller
         $orderedArticles = OrderedArticle::wherein('order_id', $orderIdByUser)->get(); /*También le pasaremos a la vista 'user.orders' la relación de Artículos-Pedidos hechos por el usuario, para poder conocer el artículo o artículos exactos y la cantidad comprada de dichos artículos (campo 'quantity' de dicha tabla) por cada pedido*/
         //print_r($articles);
 
-        return view('user.orders', compact(['ordersByUser', 'articles', 'orderedArticles']));
+        return view('user.your_orders', compact(['ordersByUser', 'articles', 'orderedArticles']));
     }
 }

@@ -7,7 +7,7 @@
 		</div>
 		<div class="panel-body">
 			<div class="row top-space">
-				<div class="col-xs-4 col-md-3 col-lg-2 sale-data"> <!-- Definimos el tamaño por pantalla (movil, mediana y larga) -->
+				<div class="col-md-2 sale-data-2"> <!-- Definimos el tamaño por pantalla (movil, mediana y larga) -->
 					<span>{{$ordersByUser->count()}}</span>
 					Total Orders
 				</div>
@@ -16,16 +16,17 @@
 			<table class="table table-bordered table-striped">
 				<thead style="background-color:#3f51b5; color:white">
 					<tr>
-						<th>Shopping date</th>
+						<th>Shopping Date</th>
 						<th>Address</th>
 						<th>City</th>
-						<th>Postal code</th>
+						<th>Postal Code</th>
 						<th>Province</th>
-						<th>Country code</th>
-						<th>PayPal account</th>
-						<th>Total price</th>
+						<th>Country Code</th>
+						<th>PayPal Account</th>
+						<th>Total Price</th>
 						<th>Status</th>
-						<th>Purchased games</th>
+						<th>Purchased Games</th>
+						<th>Rate your games!</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -54,12 +55,27 @@
 									<!--{{ ++$counter }}-->
 								@endforeach
 							</td>
+							<td>
+								<div>
+									<select id="selectedGamesToRate" onclick="myFunction()">
+										<option value="" selected disabled hidden>Choose here</option>
+										@foreach($orderedArticles->where('order_id', $order->id) as $orderedArticle)
+											<option>{{ $articles->where('id', $orderedArticle->article_id)->first()->name }}</option>
+										@endforeach
+									</select>
+									<a id="starButton" class="btn btn-primary btn-xs" href="">
+										<span class="glyphicon glyphicon-star"></span>
+									</a>
+								</div>
+                            </td>
 						</tr>
 					@endforeach
 				</tbody>
 			</table>
+			<div class='form-group text-center'>
+				<a href="{{ route('account') }}" class="btn btn-info" >Back to your Account</a>
+			</div>
 		</div>	
 	</div>
 </div>
-
 @endsection

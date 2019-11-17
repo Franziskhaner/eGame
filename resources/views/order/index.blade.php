@@ -17,19 +17,19 @@
 		<div class="panel-body">
 			<h3>Statistics</h3>
 			<div class="row top-space">
-				<div class="col-xs-4 col-md-3 col-lg-2 sale-data"> <!-- Definimos el tamaño por pantalla (movil, mediana y larga) -->
+				<div class="col-md-3 sale-data"> <!-- Definimos el tamaño por pantalla (movil, mediana y larga) -->
 					<span>{{$totalIncomes}} €</span>
 					Total incomes
 				</div>
-				<div class="col-xs-4 col-md-3 col-lg-2 sale-data">
+				<div class="col-md-3 sale-data">
 					<span>{{$totalMonth}} €</span>
 					Month incomes
 				</div>
-				<div class="col-xs-4 col-md-3 col-lg-2 sale-data">
+				<div class="col-md-3 sale-data">
 					<span>{{$totalCount}}</span>
 					Total sales
 				</div>
-				<div class="col-xs-4 col-md-3 col-lg-2 sale-data">
+				<div class="col-md-3 sale-data-2">
 					<span>{{$totalMonthCount}}</span>
 					Month sales
 				</div>

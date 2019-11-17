@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Auth;
 use App\Rating;
 use App\User;
 use App\Article;
+use App\Order;
+use App\OrderedArticle;
 
 class RatingController extends Controller
 {
@@ -45,20 +48,34 @@ class RatingController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request,[
-            'user_id'    => 'required|integer',
-            'score'      => 'required|integer',
-            'article_id' => 'required|integer'            
-        ]);
-        
-        Rating::create([
-            'user_id'    => $request['user_id'],
-            'score'      => $request['score'],
-            'comment'    => $request['comment'],
-            'article_id' => $request['article_id']
-        ]);
+        if(Auth::user() == 'Admin'){
+            $this->validate($request,[
+                'user_id'    => 'required|integer',
+                'score'      => 'required|integer',
+                'article_id' => 'required|integer'            
+            ]);
+            
+            Rating::create([
+                'user_id'    => $request['user_id'],
+                'score'      => $request['score'],
+                'comment'    => $request['comment'],
+                'article_id' => $request['article_id']
+            ]);
 
-        return redirect('ratings')->with('success', 'Rating created successfully!');
+            return redirect('ratings')->with('success', 'Rating created successfully!');
+        }
+        else{
+            $this->validate($request,['score' => 'required|integer']);
+            
+            Rating::create([
+                'user_id'    => Auth::user()->id,
+                'score'      => $request['score'],
+                'comment'    => $request['comment'],
+                'article_id' => $request['article_id']
+            ]);
+
+            return redirect()->route('user_ratings')->with('success', 'Rating created successfully!');
+        }
     }
 
     /**
@@ -121,5 +138,13 @@ class RatingController extends Controller
     {
         Rating::find($id)->delete();
         return redirect()->route('ratings.index')->with('success','Rating deleted successfully!');
+    }
+
+    public function rateYourOrder($article)
+    {
+        $rating = new Rating;
+        $article = Article::where('name', $article)->first();
+
+        return view('rating.rate_your_order', compact(['rating', 'article']));
     }
 }

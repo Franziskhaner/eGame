@@ -57,7 +57,7 @@ class ArticleController extends Controller{
             if($hasFile){
                 $request->cover->storeAs('images', "$article->id.$extension"); //Con storeAs() definimos donde y con que nombre almacenamos la imagen.
             }
-            return redirect()->route('articles.index')->with('success','Article created successfully');
+            return redirect()->route('articles.index')->with('success','Article created successfully!');
         }
         else
             return back();
@@ -106,7 +106,7 @@ class ArticleController extends Controller{
             if($hasFile){
                 $request->cover->storeAs('images', "$article->id.$extension"); //Con storeAs() definimos donde y con que nombre almacenamos la imagen.
             }
-            return redirect()->route('articles.index')->with('success','Article updated successfully');
+            return redirect()->route('articles.index')->with('success','Article updated successfully!');
         }
         else
             return view('article.edit', compact('article'));

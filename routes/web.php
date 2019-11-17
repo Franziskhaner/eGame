@@ -80,12 +80,14 @@ Route::resource('orders', 'OrderController');
 
 Route::resource('ratings', 'RatingController');
 
-Route::get('your_ratings', 'UserController@ratings')->name('user_ratings');
+Route::get('your_ratings', 'UserController@userRatings')->name('user_ratings');
 
-Route::get('your_orders', 'UserController@orders')->name('user_orders');
+Route::get('your_orders', 'UserController@ordersByUser')->name('user_orders');
 
 Route::get('platform/{platform}', 'ArticleController@showByPlatform');
 
 Route::get('account', 'UserController@account')->name('account');
 
 Route::get('profile/{id}/edit', 'UserController@editProfile'); /*Editar perfil de usuario*/
+
+Route::get('rate_your_order/{id}', 'RatingController@rateYourOrder');
