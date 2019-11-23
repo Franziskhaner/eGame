@@ -48,7 +48,7 @@ class RatingController extends Controller
      */
     public function store(Request $request)
     {
-        if(Auth::user() == 'Admin'){
+        if(Auth::user()->role == 'Admin'){
             $this->validate($request,[
                 'user_id'    => 'required|integer',
                 'score'      => 'required|integer',
@@ -100,6 +100,7 @@ class RatingController extends Controller
         $rating   = Rating::find($id);
         $users    = User::all();
         $articles = Article::all();
+
         return view('rating.edit', compact(['rating', 'users', 'articles']));
     }
 

@@ -23,7 +23,7 @@ class PaymentController extends Controller
 
         $response = $paypal->execute($request->paymentId, $request->PayerID);
 
-        if($response->state == 'approved'){ /*Si PayPayl acepta el pago, mostramos la información del pedido tras el pago devolviendo a la vista completed.blad.php el $order con dicha info*/
+        if($response->state == 'approved'){ /*Si PayPayl acepta el pago, mostramos la información del pedido tras el pago devolviendo a la vista completed.blade.php el $order con dicha info*/
             \Session::remove('shopping_cart_id');
         	$order = Order::createFormPayPalResponse($response, $shopping_cart);
             $shopping_cart->approve();  /*El método aprove() se encargará de generar un customID único para el carrito de forma que no sea secuencial y además pondrá el estado a 'approved'*/

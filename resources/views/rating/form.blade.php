@@ -48,8 +48,8 @@
     <div class="form-group{{ $errors->has('article_id') ? ' has-error' : '' }}">
         <label for="article_id" class="col-md-4 control-label">Article ID</label>
         <div class="col-md-6">
-            <input list="articles" name="article_id" value="{{old('article_id')}}" class="form-control">
-            <datalist id="articles">
+            <input list="articlesList" name="article_id" value="{{old('article_id')}}" class="form-control">
+            <datalist id="articlesList">
                 @foreach($articles as $article)
                     <option value="{{ $article->id }}">{{$article->name}}</option>
                 @endforeach

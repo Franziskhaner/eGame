@@ -49,8 +49,7 @@ Route::post('/delete_cart_item', 'InShoppingCartController@destroy');
 
 Route::get('/payments/store', 'PaymentController@store'); /*Esta ruta es la que nos devuelve Paypal automáticamente tras aceptar el pago*/
 
-Route::resource('in_shopping_carts', 'InShoppingCartController', ['only' => ['store', 'destroy']
-]);
+Route::resource('in_shopping_carts', 'InShoppingCartController', ['only' => ['store', 'destroy']]);
 //Esto equivale a las siguientes rutas:
 /*
 POST /in_shopping_carts => store

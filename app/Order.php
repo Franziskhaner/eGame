@@ -75,7 +75,7 @@ class Order extends Model
     } 
 
     public static function ordersByUser(){
-        $ordersByUser = Order::where('user_id', Auth::user()->id)->get();
+        $ordersByUser = Order::orderBy('created_at', 'DESC')->where('user_id', Auth::user()->id)->get();
         return $ordersByUser;
     }
 

@@ -14,21 +14,21 @@
         <div class="panel-heading">
             <h2>Users list</h2>
         </div>
-        <table class="table table-striped">
-            <thead style="background-color:#3f51b5; color:white">
-                <th>ID</th>
-                <th>Frst name</th>
-                <th>Last name</th>
-                <th>Email</th>
-                <th>Address</th>
-                <th>City</th>
-                <th>Postal Code</th>
-                <th>Telephone</th>
-                <th>Role</th>
-                <th>Actions</th>
-            </thead>
-            <tbody>
-                @if($users->count())  
+        @if($users->count())
+            <table class="table table-striped">
+                <thead style="background-color:#3f51b5; color:white">
+                    <th>ID</th>
+                    <th>Frst name</th>
+                    <th>Last name</th>
+                    <th>Email</th>
+                    <th>Address</th>
+                    <th>City</th>
+                    <th>Postal Code</th>
+                    <th>Telephone</th>
+                    <th>Role</th>
+                    <th>Actions</th>
+                </thead>
+                <tbody>
                     @foreach($users as $user)  
                     <tr>
                         <td>{{$user->id}}</td>
@@ -56,13 +56,13 @@
                         </td>
                     </tr>
                     @endforeach 
-                @else
-                    <tr>
-                        <td colspan="8">There is not register!!</td>
-                    </tr>
-                @endif
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        @else
+            <tr>
+                <td colspan="8">There is not register!!</td>
+            </tr>
+        @endif
         {{ $users->links() }}
         <div class="floating">
             <a href="{{ route('users.create') }}" class="btn btn-primary btn-fab">

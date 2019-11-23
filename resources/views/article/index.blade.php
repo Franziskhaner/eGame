@@ -14,22 +14,22 @@
         <div class="panel-heading">
             <h2>Articles List</h2>
         </div>
-        <table class="table table-striped">
-            <thead style="background-color:#3f51b5; color:white">
-                <th>ID</th>
-                <th>Name</th>
-                <th>Price</th>
-                <th>Quantity</th>
-                <th>Release date</th>
-                <th>Players number</th>
-                <th>Gender</th>
-                <th>Platform</th>
-                <th>Description</th>
-                <th>Assesment</th>
-                <th>Actions</th>
-            </thead>
-            <tbody>
-                @if($articles->count())  
+        @if($articles->count()) 
+            <table class="table table-striped">
+                <thead style="background-color:#3f51b5; color:white">
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Release date</th>
+                    <th>Players number</th>
+                    <th>Gender</th>
+                    <th>Platform</th>
+                    <th>Description</th>
+                    <th>Assesment</th>
+                    <th>Actions</th>
+                </thead>
+                <tbody> 
                     @foreach($articles as $article)  
                         <tr>
                             <td>{{$article->id}}</td>
@@ -59,13 +59,13 @@
                             </td>
                         </tr>
                     @endforeach 
-                @else
-                    <tr>
-                        <td colspan="8">There is not register!!</td>
-                    </tr>
-                @endif
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        @else
+            <tr>
+                <td colspan="8">There is not register!!</td>
+            </tr>
+        @endif
         {{ $articles->links() }} <!--Con este método, mostramos el paginador en la página de Artículos--> 
         <div class="floating">
             <a href="{{ route('articles.create') }}" class="btn btn-primary btn-fab">

@@ -13,65 +13,67 @@
 				</div>
 			</div>
 			<br>
-			<table class="table table-bordered table-striped">
-				<thead style="background-color:#3f51b5; color:white">
-					<tr>
-						<th>Shopping Date</th>
-						<th>Address</th>
-						<th>City</th>
-						<th>Postal Code</th>
-						<th>Province</th>
-						<th>Country Code</th>
-						<th>PayPal Account</th>
-						<th>Total Price</th>
-						<th>Status</th>
-						<th>Purchased Games</th>
-						<th>Rate your games!</th>
-					</tr>
-				</thead>
-				<tbody>
-					@foreach($ordersByUser as $order)
+			@if($ordersByUser->count())
+				<table class="table table-bordered table-striped">
+					<thead style="background-color:#3f51b5; color:white">
 						<tr>
-							<td>{{$order->created_at}}</td>
- 							<td>{{$order->address()}}</td>
-							<td>{{$order->city}}</td>
-							<td>{{$order->postal_code}}</td>
-							<td>{{$order->state}}</td>
-							<td>{{$order->country_code}}</td>
-							<td>{{$order->email}}</td>
-							<td>{{$order->total}} €</td>
-							<td>{{$order->status}}</td>
-							<td> 
-								<!--{{ $counter = 1 }}-->
-								@foreach($orderedArticles->where('order_id', $order->id) as $orderedArticle)
-									{{ $counter }})
-									{{ $articles->where('id', $orderedArticle->article_id)->first()->name }} / 
-									{{ $articles->where('id', $orderedArticle->article_id)->first()->price }} € /
-									@if($orderedArticle->quantity == 1)
-										1 unit<br>
-									@else
-										{{ $orderedArticle->quantity}} units<br>
-									@endif
-									<!--{{ ++$counter }}-->
-								@endforeach
-							</td>
-							<td>
-								<div>
-									<select id="selectedGamesToRate" onclick="myFunction()">
+							<th>Shopping Date</th>
+							<th>Address</th>
+							<th>City</th>
+							<th>Postal Code</th>
+							<th>Province</th>
+							<th>Country Code</th>
+							<th>PayPal Account</th>
+							<th>Total Price</th>
+							<th>Status</th>
+							<th>Purchased Games</th>
+							<th>Rate your games!</th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach($ordersByUser as $order)
+							<tr>
+								<td>{{$order->created_at}}</td>
+	 							<td>{{$order->address()}}</td>
+								<td>{{$order->city}}</td>
+								<td>{{$order->postal_code}}</td>
+								<td>{{$order->state}}</td>
+								<td>{{$order->country_code}}</td>
+								<td>{{$order->email}}</td>
+								<td>{{$order->total}} €</td>
+								<td>{{$order->status}}</td>
+								<td> 
+									<!--{{ $counter = 1 }}-->
+									@foreach($orderedArticles->where('order_id', $order->id) as $orderedArticle)
+										{{ $counter }})
+										{{ $articles->where('id', $orderedArticle->article_id)->first()->name }} / 
+										{{ $articles->where('id', $orderedArticle->article_id)->first()->price }} € /
+										@if($orderedArticle->quantity == 1)
+											1 unit<br>
+										@else
+											{{ $orderedArticle->quantity}} units<br>
+										@endif
+										<!--{{ ++$counter }}-->
+									@endforeach
+								</td>
+								<td>
+									<select class="selectedGamesToRate" onclick="myFunction(this, '{{$order->id}}')">
 										<option value="" selected disabled hidden>Choose here</option>
 										@foreach($orderedArticles->where('order_id', $order->id) as $orderedArticle)
-											<option>{{ $articles->where('id', $orderedArticle->article_id)->first()->name }}</option>
+											<option>
+												{{ $articles->where('id', $orderedArticle->article_id)->first()->name }}
+											</option>
 										@endforeach
 									</select>
-									<a id="starButton" class="btn btn-primary btn-xs" href="">
+									<a id="starButton-{{$order->id}}" class="btn btn-primary btn-xs" href="">
 										<span class="glyphicon glyphicon-star"></span>
 									</a>
-								</div>
-                            </td>
-						</tr>
-					@endforeach
-				</tbody>
-			</table>
+	                            </td>
+							</tr>
+						@endforeach
+					</tbody>
+				</table>
+			@endif
 			<div class='form-group text-center'>
 				<a href="{{ route('account') }}" class="btn btn-info" >Back to your Account</a>
 			</div>

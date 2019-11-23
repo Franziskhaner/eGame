@@ -16,12 +16,8 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.3.0/css/material-fullpalette.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.3.0/css/ripples.min.css">
-{{--
-    <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
---}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"><!--Para la valoración con Rating Stars -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-star-rating/4.0.2/css/star-rating.min.css" />
-
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
@@ -151,32 +147,23 @@
     </div>
     <!-- Scripts -->
     <script src="http://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-{{--    
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-
-    <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
---}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.3.0/js/material.min.js"></script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.3.0/js/ripples.min.js"></script><!-- ripples.min.js es para el efecto de onda al clicar -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.3.0/js/ripples.min.js"></script><!-- ripples.min.js es para el efecto de onda al hacer click -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-star-rating/4.0.2/js/star-rating.min.js"></script>
-
     <script type="text/javascript">
         $("#input-id").rating();
     </script>
-    
     <script name="selectedArticleToRate" type="text/javascript">
-        function myFunction(){
-            var select = $("#selectedGamesToRate")[0];
+        function myFunction(parameter, parameter2){
+            var select = parameter;
             select.addEventListener("change",
               function(){
                 selectedGame = this.options[select.selectedIndex].text;
-                alert(selectedGame);
-                $("#starButton").attr("href", "rate_your_order/"+selectedGame);
+                var button = "#starButton-" + parameter2;
+                $(button).attr("href", "rate_your_order/"+selectedGame);
               });
         }
     </script>
-    
     <script name="slideShowCarousel" type="text/javascript">
         var slideIndex = 1;
         showSlides(slideIndex);

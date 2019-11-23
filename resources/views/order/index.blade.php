@@ -36,27 +36,27 @@
 			</div>
 			<h3>Shoppings</h3>	
 		</div>
-		<table class="table table-striped">
-			<thead style="background-color:#3f51b5; color:white">
-				<tr>
-					<th>ID</th>
-					<th>Shopping Date</th>
-					<th>User ID (Customer)</th>
-					<th>Delivery Addressee (Only PayPal)</th>
-					<th>Delivery Address</th>
-					<th>City</th>
-					<th>Postal code</th>
-					<th>Province</th>
-					<th>Country Code</th>
-					<th>Payment Method</th>
-					<th>PayPal Account</th>
-					<th>Total Amount</th>
-					<th>Status</th>
-					<th>Actions</th>
-				</tr>
-			</thead>
-			<tbody>
-				@if($orders->count())
+		@if($orders->count())
+			<table class="table table-striped">
+				<thead style="background-color:#3f51b5; color:white">
+					<tr>
+						<th>ID</th>
+						<th>Shopping Date</th>
+						<th>User ID (Customer)</th>
+						<th>Delivery Addressee (Only PayPal)</th>
+						<th>Delivery Address</th>
+						<th>City</th>
+						<th>Postal code</th>
+						<th>Province</th>
+						<th>Country Code</th>
+						<th>Payment Method</th>
+						<th>PayPal Account</th>
+						<th>Total Amount</th>
+						<th>Status</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody>
 					@foreach($orders as $order)
 						<tr>
 							<td>{{$order->id}}</td>
@@ -74,9 +74,9 @@
 							<td>{{$order->status}}</td>
 							<td>
 								<div class="form-group" style="display: inline-block;">
-                            		<a class="btn btn-primary btn-xs" href="{{action('OrderController@edit', $order->id)}}" >
-                                		<span class="glyphicon glyphicon-pencil"></span>
-                            		</a>
+	                        		<a class="btn btn-primary btn-xs" href="{{action('OrderController@edit', $order->id)}}" >
+	                            		<span class="glyphicon glyphicon-pencil"></span>
+	                        		</a>
 	                                <form action="{{action('OrderController@destroy', $order->id)}}" method="post">
 	                                    {{csrf_field()}}
 	                                    <input name="_method" type="hidden" value="DELETE">
@@ -84,17 +84,17 @@
 	                                        <span class="glyphicon glyphicon-trash"></span>
 	                                    </button>
 	                                </form>
-                        		</div>
+	                    		</div>
 							</td>
 						</tr>
 					@endforeach
-				@else
-					<tr>
-                    	<td colspan="8">There is not register!!</td>
-                	</tr>
-                @endif
-			</tbody>
-		</table>
+				</tbody>
+			</table>
+		@else
+			<tr>
+            	<td colspan="8">There is not register!!</td>
+        	</tr>
+        @endif
 		{{ $orders->links() }} <!--Con este método, mostramos el paginador en la página de Artículos--> 
         <div class="floating">
             <a href="{{ route('orders.create') }}" class="btn btn-primary btn-fab">
