@@ -46,15 +46,6 @@ class ContentBasedController extends Controller
 
 		$articles = array_unique($articles); /*Ya tenemos el vector con los IDs de los artículos pedidos por el usuario, sólo queda eliminar las instancias duplicadas de dichos IDs, para ello usamos array_unique()*/
 
-	    /*ESTO SERÍA PARA RECOMENDAR EN BASE A LOS RATINGS HECHOS POR EL USUARIO, ¡¡¡¡¡QUEDA PENDIENTE POR HACER!!!!*/
-	    /*
-	    foreach($articles as $article){
-	    	$rating[$article] = Rating::where('user_id', Auth::user()->id)->where('article', $article)->get()->first();
-	    }
-
-	    print_r($ratings);
-		*/
-
 		$articlesTotal = Article::wherein('id', $articles)->get(); /*Sacamos las instancias (filas) de los articulos pedidos por el usuario de la tabla articles (filtrando por los Ids obtenidos arriba)*/
 
 		$articlesDB = Article::all();
@@ -76,11 +67,6 @@ class ContentBasedController extends Controller
 	    $articleSimilarity = new ArticleSimilarity($articlesAsociative);
 	    $similarityMatrix  = $articleSimilarity->calculateSimilarityMatrix();
 	    $articles          = $articleSimilarity->getArticlesSortedBySimilarity($article->id, $similarityMatrix);
-
-	    /*
-		echo 'ARTICULO SELECCIONADO'.$article.'MATRIZ SIMILARES:';
-		print_r($articles);
-		*/
 
 	    if(sizeof($articles) == 0)
     		return 'There aren´t products to recommend';
