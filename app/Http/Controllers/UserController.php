@@ -12,8 +12,8 @@ use Auth;
 
 class UserController extends Controller
 {
-    public function __construct(){  /*Con el Middelware definimos que para acceder al recurso Users, hay que loguearse primero, este middleware es a nivel de controlador, también puede definirse a nivel de rutas.*/
-        $this->middleware('auth');
+    public function __construct(){  /*Con el Middelware definimos que para acceder al recurso Users, hay que autenticarse primero, este middleware es a nivel de controlador, también puede definirse a nivel de rutas.*/
+        $this->middleware('admin'); /*Este middleware se ha definido en el fichero Kernel.php con el nombre 'admin' e implementado en la ruta: C:\wamp64\www\eGame\app\Http\Middleware\IsAdmin.php para que sólo el usuario administrador pueda acceder a ésta vista*/
     }
     /**
      * Display a listing of the resource.

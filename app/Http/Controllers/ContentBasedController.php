@@ -62,7 +62,7 @@ class ContentBasedController extends Controller
 			);
 		}
 
-		$article=Article::find($id);	/*Pasamos el artículo indicado en la URL para hacer las recomendaciones en base a él*/
+		$article = Article::find($id);	/*Pasamos el artículo indicado en la URL para hacer las recomendaciones en base a él*/
 
 	    $articleSimilarity = new ArticleSimilarity($articlesAsociative);
 	    $similarityMatrix  = $articleSimilarity->calculateSimilarityMatrix();
@@ -71,7 +71,6 @@ class ContentBasedController extends Controller
 	    if(sizeof($articles) == 0)
     		return 'There aren´t products to recommend';
     	else
-    		//return print_r($articles);
     		return view('article.show', compact('article', 'articles'));
     }
 }

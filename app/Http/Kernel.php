@@ -56,6 +56,7 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-        'shoppingcart' => \App\Http\Middleware\BuildShoppingCart::class,    //Creada para usar el middleware del carrito de la compra.
+        'admin' => \App\Http\Middleware\IsAdmin::class, //Creado para aplicar el middleware a las vistas que requieren rol de usuario administrador.
+        'shoppingcart' => \App\Http\Middleware\BuildShoppingCart::class,    //Creado para usar el middleware del carrito de la compra.
     ];
 }

@@ -20,6 +20,7 @@ Route::get('/', function () {
 /*
 Route::group(['middleware' => 'auth'], function(){});
 */
+//Route::get('/', 'CollaborativeFilteringController@getRecommendations')->name('home');
 
 Route::get('/', 'MainController@home')->name('home');
 

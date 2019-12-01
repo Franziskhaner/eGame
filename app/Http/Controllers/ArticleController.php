@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use App\Article;
 use App\ContentBasedFiltering;
 use Illuminate\Http\Request;
@@ -9,7 +10,7 @@ use Illuminate\Http\Request;
 class ArticleController extends Controller{
 
     public function __construct(){
-        $this->middleware('auth', ['except' => ['show', 'showByPlatform']]);    /*Para acceder a las vistas de los artículos será necesario que nos logueemos primero, salvo para ver un artículo en concreto (show.blade.php) o el catálogo por plataformas(showByPlatform.blade.php)*/
+        $this->middleware('admin', ['except' => ['show', 'showByPlatform']]);    /*Para acceder a las vistas de los artículos será necesario que nos autentiquemos primero y además deberá ser exclusivamente con rol de administrador, salvo para ver un artículo en concreto (show.blade.php) o el catálogo por plataformas(showByPlatform.blade.php). Éste Middleware se ha definido en el fichero Kernel.php con el nombre 'admin' e implementado en la ruta: C:\wamp64\www\eGame\app\Http\Middleware\IsAdmin.php*/
     }
 
     public function index(){
