@@ -3,10 +3,10 @@
 @section('content')
 	<div class="text-center products-container">
 		{{--@if(content_based == 'true')--}}<!-- Esta variable será seteada por el administrador para decidir que motor de recomendaciones utilizar-->
-			@include('recommended_article.purchases_based_articles', compact('articles'))
+			@include('recommended_article.purchased_based_recommendations', compact('articlesByContentBasedFiltering'))
 		{{--@endif
 		@if(colaborative_filtering == 'true')<!-- Esta variable será seteada por el administrador para decidir que motor de recomendaciones utilizar-->
-			@include('recommended_article.collaborative_filtering_articles', compact('articles'))
 		@endif--}}
+			@include('recommended_article.collaborative_filtering_based_recommendations', compact('articlesByCollaborativeFiltering'))
 	</div>
 @endsection

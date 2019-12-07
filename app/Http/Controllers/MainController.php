@@ -14,9 +14,10 @@ class MainController extends Controller
     public function home(){
     	if(Auth::check()){
             if(Auth::user()->role == 'User'){   /*Usuario registrado*/
-                $articles = Article::filteredByUserPurchases();
-                if(count($articles))    
-                    return view('recommended_article.home_original', compact('articles'));
+                $articlesByContentBasedFiltering = Article::filteredByUserPurchases();
+                $articlesByCollaborativeFiltering = CollaborativeFilteringController::getRecommendations();
+                if(count($articlesByContentBasedFiltering) or count($articlesByCollaborativeFiltering))    
+                    return view('recommended_article.home', compact(['articlesByContentBasedFiltering', 'articlesByCollaborativeFiltering']));
                 else{   /*Si el usuario autenticado no ha comprado nada, no podremos recomendar, por lo que se le muestra la vista home normal*/
                     $articles = Article::orderBy('id','desc')->paginate(8);
                     return view('main.home', compact('articles'));

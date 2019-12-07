@@ -13,7 +13,7 @@ use App\OrderedArticle;
 class RatingController extends Controller
 {
     public function __construct(){  /*Con el Middelware definimos que para acceder al recurso Users, hay que autenticarse primero, este middleware es a nivel de controlador, también puede definirse a nivel de rutas.*/
-        $this->middleware('admin'); /*Este middleware se ha definido en el fichero Kernel.php con el nombre 'admin' e implementado en la ruta: C:\wamp64\www\eGame\app\Http\Middleware\IsAdmin.php para que sólo el usuario administrador pueda acceder a ésta vista*/
+        $this->middleware('admin', ['except' => ['store', 'rateYourOrder']]); /*Este middleware se ha definido en el fichero Kernel.php con el nombre 'admin' e implementado en la ruta: C:\wamp64\www\eGame\app\Http\Middleware\IsAdmin.php para que sólo el usuario administrador pueda acceder a las vistas de este controlador, excepto a las de store y rateYourOrder para que el usuario registrado pueda valorar sus pedidos.*/
     }
     /**
      * Display a listing of the resource.

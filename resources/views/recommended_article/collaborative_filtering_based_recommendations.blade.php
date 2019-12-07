@@ -1,7 +1,7 @@
-<h2>Recommendations based on your purchases...</h2>
+<h2>Recommendations based on other similar users...</h2>
 <div class="container">
 	<!-- {{$counter = 1}} -->
-	@foreach($articles as $article)
+	@foreach($articlesByCollaborativeFiltering as $article)
 		<div class="mySlides">
 			<div class="numbertext">1/14</div>
 			<div class="card product text-left fixed">
@@ -53,16 +53,17 @@
 		</div>
 		<!-- {{$counter++}} -->
 	@endforeach
+	<br></br>
 	<a class="prev" onclick="plusSlides(-1)">&#10094;</a>
 		<a class="next" onclick="plusSlides(1)">&#10095;</a>
 
 		<div class="row">
 			<!-- {{ $counter_2 = 1}} -->
-			@foreach($articles as $article)
-		    <div class="column">
-		      <img class="demo cursor" src='{{url("/articles/images/$article[id].$article[extension]")}}' style="width:50%" onclick="currentSlide('{{ $counter_2 }}')">
-		    </div>
-		    <!-- {{$counter_2++}} -->
-	    @endforeach
+			@foreach($articlesByCollaborativeFiltering as $article)
+			    <div class="column">
+			      <img class="demo cursor" src='{{url("/articles/images/$article[id].$article[extension]")}}' style="width:50%" onclick="currentSlide('{{ $counter_2 }}')">
+			    </div>
+			    <!-- {{$counter_2++}} -->
+		    @endforeach
 	</div>
 </div>

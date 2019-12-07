@@ -12,7 +12,7 @@
     @endif
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h2>Articles List</h2>
+            <h2>Articles</h2>
         </div>
         @if($articles->count()) 
             <table class="table table-striped">
