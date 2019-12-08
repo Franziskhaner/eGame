@@ -6,19 +6,26 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
-use App\Article;
 use Auth;
+use App\Article;
+use App\Rating;
+use App\CollaborativeFiltering;
 
 class MainController extends Controller
 {
     public function home(){
-    	if(Auth::check()){
-            if(Auth::user()->role == 'User'){   /*Usuario registrado*/
+
+    	if(Auth::check()){ /*Si el usuario ha iniciado sesión,*/
+
+            if(Auth::user()->role == 'User'){   /*Y es de rol usuario registrado, le mostraremos recomendaciones en base a sus compras mediante el filtrado basado en contenido y en base a sus gustos similares a otros usuarios mediante el filtrado colaborativo.*/
+
                 $articlesByContentBasedFiltering = Article::filteredByUserPurchases();
-                $articlesByCollaborativeFiltering = CollaborativeFilteringController::getRecommendations();
-                if(count($articlesByContentBasedFiltering) or count($articlesByCollaborativeFiltering))    
+                $articlesByCollaborativeFiltering = CollaborativeFiltering::getRecommendations();
+
+                if(count($articlesByContentBasedFiltering) > 0 || $articlesByCollaborativeFiltering > 0){    /*Las recomendaciones basadas en compras las haremos siempre y cuando el usaurio haya hecho al menos una al igual que las del filtrado colaborativo se harán siempre que el usuario haya valorado algún artículo:*/
                     return view('recommended_article.home', compact(['articlesByContentBasedFiltering', 'articlesByCollaborativeFiltering']));
-                else{   /*Si el usuario autenticado no ha comprado nada, no podremos recomendar, por lo que se le muestra la vista home normal*/
+                }
+                else{   /*Si el usuario acaba de registrase y aún no ha comprado ni valorado ningún artículo, se le mostrará la vista home normal:*/
                     $articles = Article::orderBy('id','desc')->paginate(8);
                     return view('main.home', compact('articles'));
                 }
