@@ -30,7 +30,7 @@
 					<strong>Players Number:</strong><p>{{$article->players_num}}</p>
 					<strong>Assessment:</strong>
 					<p>
-						@php $rating = $article->assessment; @endphp  
+						@php $rating = $article->assessment; @endphp
 				        <div class="placeholder" style="color: lightgray;">
 				            <i class="fa fa-star"></i>
 				            <i class="fa fa-star"></i>
@@ -63,5 +63,50 @@
 			<p>{{$article->description}}</p>
 		</div>
 	</div>
+	<br></br>
+	@if(count($reviews))
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h2>Opinions and comments for other users...</h2>
+			</div>
+			<br>
+			@foreach($reviews as $review)
+				<div class="row">
+					<div class="col-sm-2">
+						<strong>{{$users->where('id', $review->user_id)->first()->first_name}}</strong>
+					</div>
+					<div class="col-sm-3">
+						{{$review->created_at}}
+					</div>	
+					<div class="col-sm-2">
+						@php $rating = $review->score; @endphp 
+						<div class="placeholder" style="position: absolute;color: lightgray;">
+				            <i class="fa fa-star"></i>
+				            <i class="fa fa-star"></i>
+				            <i class="fa fa-star"></i>
+				            <i class="fa fa-star"></i>
+				            <i class="fa fa-star"></i>
+				            <span class="small">({{ $rating }})</span>
+				        </div>
+				        <div class="overlay" style="position: absolute;top: -2px;">
+				            @while($rating>0)
+				                @if($rating >0.5)
+				                    <i class="fa fa-star checked"></i>
+				                @else
+				                    <i class="fa fa-star-half checked"></i>
+				                @endif
+				                @php $rating--; @endphp
+				            @endwhile
+				        </div>
+					</div>
+					<div class="col-sm-4">
+						{{$review->comment}}
+					</div>
+				</div>
+			@endforeach
+			<br></br>
+		</div>
+	@endif
+	<br></br>
 	@include('recommended_article.similar_articles', compact('article', 'articles'))
 </div>

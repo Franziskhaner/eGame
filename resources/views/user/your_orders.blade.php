@@ -8,7 +8,7 @@
 		<div class="panel-body">
 			<div class="row top-space">
 				<div class="col-md-2 sale-data-2"> <!-- Definimos el tamaño por pantalla (movil, mediana y larga) -->
-					<span>{{$ordersByUser->count()}}</span>
+					<span>{{$total}}</span>
 					Total Orders
 				</div>
 			</div>
@@ -74,6 +74,7 @@
 					</tbody>
 				</table>
 			@endif
+			{{ $ordersByUser->links() }}
 			<div class='form-group text-center'>
 				<a href="{{ route('account') }}" class="btn btn-info" >Back to your Account</a>
 			</div>

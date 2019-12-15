@@ -14,6 +14,7 @@ class CollaborativeFiltering
 		
 		if(count(Rating::userRatings())){	//Aplicaremos el algoritmo siempre y cuando el usuario haya comenzado a valorar:
 			$user_id = Auth::user()->id;	//Nos quedamos con el ID del usuario que ha iniciado sesión para generar sus recomendaciones:
+			
 			$process = new Process("C:\Users\Francis\AppData\Local\Programs\Python\Python38-32\python.exe C:/wamp64/www/eGame/app/Python/sql_to_csv.py");
 			$process->run();
 

@@ -157,19 +157,8 @@
         </div>
     </div>
 
-    {{--
-    <div class="form-group">
-        <div class="col-md-6 col-md-offset-4">
-            <button type="submit" class="btn btn-success">
-                Save
-            </button>
-            <a href="{{ url()->previous() }}" class="btn btn-info" >Back</a>
-        </div>
-    </div>
-    --}}
     <div class="form-group text-center">
         <input type="submit"  value="Save" class="btn btn-success">
         <a href="{{ route('orders.index') }}" class="btn btn-info" >Back</a>
-    </div>
-    
+    </div>   
 {!! Form::close() !!}

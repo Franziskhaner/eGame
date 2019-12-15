@@ -13,7 +13,7 @@
 		<div class="panel-body">
 			<div class="row top-space">
 				<div class="col-md-2 sale-data-2"> <!-- Definimos el tamaño por pantalla (movil, mediana y larga) -->
-					<span>{{ $ratings->count() }}</span>
+					<span>{{ $total }}</span>
 					Total Ratings
 				</div>
 			</div>
@@ -33,15 +33,16 @@
 							<tr>
 								<td>
 									<!--{{ $starScore = $rating->score }}-->
-							        <div class="placeholder" style="color: lightgray;">
+							        <div class="placeholder" style="position:relative; color: #ffffff;">
 							            <i class="fa fa-star"></i>
 							            <i class="fa fa-star"></i>
 							            <i class="fa fa-star"></i>
 							            <i class="fa fa-star"></i>
 							            <i class="fa fa-star"></i>
-							            <span class="small">({{ $starScore }})</span>
+							            <i class="fa fa-star"></i>
+							            <span class="small" style="color: lightgray;">({{ $starScore }})</span>
 							        </div>
-							        <div class="overlay" style="position: relative;top: -22px;">
+							        <div class="overlay" style="position:relative; top: -22px;">
 							            @while($starScore>0)
 							                @if($starScore >0.5)
 							                    <i class="fa fa-star checked"></i>
@@ -60,6 +61,7 @@
 					</tbody>
 				</table>
 			@endif
+			{{ $ratings->links() }}
 			<div class='form-group text-center'>
 				<a href="{{ route('account') }}" class="btn btn-info" >Back to your Account</a>
 			</div>

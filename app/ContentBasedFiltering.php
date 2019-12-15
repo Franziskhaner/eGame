@@ -6,10 +6,10 @@ use Exception;
 
 class ContentBasedFiltering
 {
-    protected $articles       = [];
-    protected $priceWeight    = 1;
-    protected $platformWeight = 3;
-    protected $genderWeight   = 2;
+    protected $articles = [];
+    protected $priceWeight;
+    protected $genderWeight;
+    protected $platformWeight;
     protected $priceHighRange = 100;
 
     public function __construct(array $articles)

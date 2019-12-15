@@ -72,10 +72,14 @@ class Order extends Model
         $orderData["user_id"] = Auth::user()->id;   /*Este es el usuario que ha realizado el pedido*/
         
     	return Order::create($orderData);
+    }
+
+    public static function totalUserOrders(){
+        return count(Order::where('user_id', Auth::user()->id)->get());
     } 
 
     public static function ordersByUser(){
-        $ordersByUser = Order::orderBy('created_at', 'DESC')->where('user_id', Auth::user()->id)->get();
+        $ordersByUser = Order::orderBy('created_at', 'DESC')->where('user_id', Auth::user()->id)->paginate(4);
         return $ordersByUser;
     }
 

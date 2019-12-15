@@ -3,8 +3,12 @@
 namespace App\Http\Controllers;
 
 use Auth;
+use App\User;
+use App\Rating;
 use App\Article;
 use App\ContentBasedFiltering;
+use App\RecommendationsSystemWeigth;
+
 use Illuminate\Http\Request;
 
 class ArticleController extends Controller{
@@ -67,11 +71,13 @@ class ArticleController extends Controller{
     public function show($id){
         $articles = Article::filteredBySimilarArticles($id);
         $article  = Article::find($id);
+        $reviews = Rating::getReviews($id);
+        $users = User::all();
 
         if(sizeof($articles) == 0)
             return 'There aren´t products to recommend';
         else
-            return view('article.show', compact('article', 'articles'));
+            return view('article.show', compact('article', 'articles', 'reviews', 'users'));
     }
 
     public function edit($id){

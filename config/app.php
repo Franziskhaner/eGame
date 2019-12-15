@@ -170,6 +170,7 @@ return [
         Collective\Html\HtmlServiceProvider::class, /*Introducido para usar la librería HTML de LaravelCollective (Curso)*/
         App\Providers\ShoppingCartProvider::class, /*Indicamos a Laravel que utilice nuestro Provider de ShoppingCart para usar el carrito de compras en todas las vistas*/
         Anouar\Paypalpayment\PaypalpaymentServiceProvider::class, /*Librería para procesar los pagos en Paypal Development*/
+        Cartalyst\Stripe\Laravel\StripeServiceProvider::class, /*Para la integración del pago con tarjeta a través de Stripe.*/
 
         /*
          * Application Service Providers...
@@ -233,6 +234,7 @@ return [
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\FormFacade::class,
         'PaypalPayment' => Anouar\Paypalpayment\Facades\PaypalPayment::class,
+        'Stripe' => Cartalyst\Stripe\Laravel\Facades\Stripe::class,
 
     ],
 

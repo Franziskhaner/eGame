@@ -4,10 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use Validator;
+use Cartalyst\Stripe\Laravel\Facades\Stripe;
+use Stripe\Error\Card;
 use App\ShoppingCart;
 use App\OrderedArticle;
 use App\PayPal;
 use App\Order;
+use Auth;
+
 
 class PaymentController extends Controller
 {
@@ -15,6 +20,7 @@ class PaymentController extends Controller
         $this->middleware('shoppingcart');
     }
 
+    /*Para procesar el pago vía PayPal y almacenar el pedido generado en BD:*/
     public function store(Request $request){
     	
         $shopping_cart = $request->shopping_cart;
@@ -38,6 +44,100 @@ class PaymentController extends Controller
         }
 
         return view('shopping_cart.completed', ['shopping_cart' => $shopping_cart, 'order' => $order]);
-        //dd($order);
     }
+
+    /**
+     * Para mostrar la vista con el formulario de pago con tarjeta (Vía Stripe).
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function payWithStripe()
+    {
+        $order = Order::where('user_id', Auth::user()->id)->get()->last();
+        return view('shopping_cart/payment_method', compact('order'));
+    }
+
+    /**
+     * Para procesar la respuesta del formulario del pago con tarjeta (Vía Stripe).
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function postPaymentWithStripe(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'card_no' => 'required',
+            'ccExpiryMonth' => 'required',
+            'ccExpiryYear' => 'required',
+            'cvvNumber' => 'required',
+            'amount' => 'required',
+        ]);
+        
+        $input = $request->all();
+        if ($validator->passes()) {           
+            $input = array_except($input,array('_token'));            
+            $stripe = Stripe::make('sk_test_LOygaIM03pIyqBUe4OwSPdul00Y9gq7fdh');
+            try {
+                $token = $stripe->tokens()->create([
+                    'card' => [
+                        'number'    => $request->get('card_no'),
+                        'exp_month' => $request->get('ccExpiryMonth'),
+                        'exp_year'  => $request->get('ccExpiryYear'),
+                        'cvc'       => $request->get('cvvNumber'),
+                    ],
+                ]);
+                if (!isset($token['id'])) {
+                    \Session::put('error','The Stripe Token was not generated correctly');
+                    return redirect()->route('stripform');
+                }
+                $charge = $stripe->charges()->create([
+                    'card' => $token['id'],
+                    'currency' => 'EUR',
+                    'amount'   => $request->get('amount'),
+                    'description' => 'Add in wallet',
+                ]);
+                if($charge['status'] == 'succeeded') {
+                    /**
+                    * Si el pago se procesa correctamente, mostraremos la vista del pedido completado, con todos los datos del mismo. Además eliminaremos la sesión del carrito, pues ha sido completada con éxito.
+                    */
+                    \Session::put('success','Money add successfully in wallet');
+
+                    $shopping_cart = $request->shopping_cart;
+
+                    \Session::remove('shopping_cart_id');
+
+                    $order = Order::where('user_id', Auth::user()->id)->get()->last();
+                    
+                    $shopping_cart->approve();  /*El método aprove() se encargará de generar un customID único para el carrito de forma que no sea secuencial y además pondrá el estado a 'approved'*/
+                    
+                    for($i = 0; $i < $shopping_cart->articles()->get()->count(); $i++){
+                        OrderedArticle::create([  /*Además añadiremos la relación de articulos pedidos en la tabla ordered_articles*/
+                            'quantity' => $shopping_cart->inShoppingCarts()->where('article_id', $shopping_cart->articles()->get()[$i]->id)->first()->quantity, 
+                            'order_id' => $order->id,
+                            'article_id' => $shopping_cart->articles()->get()[$i]->id
+                        ]);
+                    }
+
+                    /*Por último, sólo nos faltaría añadir el método de pago seleccionado:*/
+                    $order->update(['payment_method' => 'Credit Card']);
+
+                    return view('shopping_cart.completed', compact('shopping_cart', 'order'));
+                } else {
+                    \Session::put('error','Money not add in wallet!!');
+                    return redirect()->route('stripform');
+                }
+            } catch (Exception $e) {
+                \Session::put('error',$e->getMessage());
+                return redirect()->route('stripform');
+            } catch(\Cartalyst\Stripe\Exception\CardErrorException $e) {
+                \Session::put('error',$e->getMessage());
+                return redirect()->route('stripform');
+            } catch(\Cartalyst\Stripe\Exception\MissingParameterException $e) {
+                \Session::put('error',$e->getMessage());
+                return redirect()->route('stripform');
+            }
+        }
+        \Session::put('error','All fields are required!!');
+        return redirect()->route('stripform');
+    } 
 }

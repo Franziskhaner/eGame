@@ -9,17 +9,17 @@
 		@endif
 		<div class="panel panel-default">
 			<div class="panel-heading">
-    			<h1>Your Account</h1>
+    			<h2>Your Account</h2>
     		</div>
 			<div class="panel-body">
 				<div class="row	top-space">
 					<div class="col-md-4 sale-data"> <!-- Definimos el tamaño por pantalla (movil, mediana y larga) -->
-						<span> {{$orders->count()}} </span>
+						<span> {{$totalOrders}} </span>
 						Shoppings
 					</div>
 
 					<div class="col-md-4 sale-data">
-						<span>{{$ratings->count()}}</span>
+						<span>{{$totalRatings}}</span>
 						Ratings
 					</div>
 
@@ -40,16 +40,20 @@
 						<h4><strong>Telephone:  </strong>{{$user->telephone}}<h4>
 						<h4><strong>Register date:  </strong>{{$user->created_at}}<h4>
 					</div>
-					<div class="col-md-6" style="margin-top: 50px">
+					<div class="col-md-6" style="margin-top: 100px">
 						<div class='form-group'>
-							<a class="btn btn-info" href="{{ route('user_ratings') }}" style="background-color:Orange">Your Ratings</a>
-							<a class="btn btn-info" href="{{ route('user_orders') }} " >Your Orders</a>
-							<a class="btn btn-primary" href="{{action('UserController@editProfile', $user->id)}}">Edit Profile</a>
-							<form action="{{action('UserController@destroy', $user->id)}}" method="post">
-			                   {{csrf_field()}}
-			                   <input name="_method" type="hidden" value="DELETE">
-			                   <button class="btn btn-danger" type="submit" onclick="return confirm('DANGER! You will delete your account completely, this action cannot be undone, are you sure about this?')">Delete Account</button>
-			                </form>
+							<div class="row" style="text-align:center;">
+								<a class="btn btn-info" href="{{ route('user_ratings') }}" style="background-color:Orange">Your Ratings</a>
+								<a class="btn btn-info" href="{{ route('user_orders') }} " >Your Orders</a>
+								<a class="btn btn-primary" href="{{action('UserController@editProfile', $user->id)}}">Edit Profile</a>
+							</div>
+							<div class="row">
+								<form action="{{action('UserController@destroy', $user->id)}}" method="post" style="text-align:center;">
+				                   {{csrf_field()}}
+				                   <input name="_method" type="hidden" value="DELETE">
+				                   <button class="btn btn-danger" type="submit" onclick="return confirm('DANGER! You will delete your account completely, this action cannot be undone, are you sure about this?')">Delete Account</button>
+				                </form>
+							</div>
 			            </div>
 					</div>
 				</div>

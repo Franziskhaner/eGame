@@ -196,9 +196,14 @@
           captionText.innerHTML = dots[slideIndex-1].alt;
         }
     </script>
+    <script
+        src="https://checkout.stripe.com/checkout.js"
+        data-key="{{ config('services.stripe.key') }}"
+        image="https://stripe.com/img/documentation/checkout/marketplace.png"
+        data-locale="auto">
+    </script>
     <script>
         $.material.init();
-    
     </script>
     <script src="{{ asset('js/app.js') }}"></script>
 </body>

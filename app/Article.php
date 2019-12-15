@@ -2,12 +2,13 @@
 namespace App;
 use Illuminate\Database\Eloquent\Model;
 
-use App\InShoppingCart;
-use App\ShoppingCart;
-use App\OrderedArticle;
+use Auth;
 use App\Order;
 use App\Article;
-use Auth;
+use App\ShoppingCart;
+use App\InShoppingCart;
+use App\OrderedArticle;
+use App\RecommendationsSystemWeigth;
 
 class Article extends Model
 {
@@ -34,7 +35,7 @@ class Article extends Model
 					->setPrice($this->price / 100);
 	}
 
-	public static function generateArticlesMatrix(){ /*Este método generará una matriz que contendrá un vector asociativo con los atributos necesarios por cada artículo de la Base de Datos y que se utilizará para calcular los artículos similares posteriormente*/
+	public static function generateArticlesMatrix(){ /*Este método generará una matriz compuesta de arrays asociativos con los atributos necesarios por cada artículo de la Base de Datos. Esta matriz se utilizará para calcular los artículos similares posteriormente*/
 		$articlesDB = Article::all();
         
         $articlesAsociativeMatrix = array ();
@@ -58,11 +59,23 @@ class Article extends Model
 	}
 
 	public static function filteredBySimilarArticles($id){
+
+        $articlesMatrix = Article::generateArticlesMatrix(); 
+        $articleSimilarity = new ContentBasedFiltering($articlesMatrix);
+
+        /*Una vez generado nuestro objeto ContentBasedFiltering, llamamos a los métodos seteadores de los pesos, para pasarles los valores introducidos por el usuario administrador, para poder realizar pruebas y comparaciones:*/
+
+        $articleSimilarity->setPriceWeight(RecommendationsSystemWeigth::first()->price);
+        $articleSimilarity->setGenderWeight(RecommendationsSystemWeigth::first()->gender);
+        $articleSimilarity->setPlatformWeight(RecommendationsSystemWeigth::first()->platform);
+
+        /*Una vez seteados los pesos, llamamos a la función que se encarga de calcular la matriz de similitud de los artículos:*/
+
+        $similarityMatrix = $articleSimilarity->calculateSimilarityMatrix();
         
-        $articlesMatrix 			  = Article::generateArticlesMatrix(); 
-        $articleSimilarity 			  = new ContentBasedFiltering($articlesMatrix);
-        $similarityMatrix  			  = $articleSimilarity->calculateSimilarityMatrix();
-        $articlesSortedBySimilarity   = $articleSimilarity->getArticlesSortedBySimilarity($id, $similarityMatrix); /*Ordenamos la matriz de similuitudes pasándole el id ($id) del artículo indicado en la URL para hacer las recomendaciones en base a él*/
+        /*Y por último, ordenamos la matriz de similuitudes pasándole el id ($id) del artículo indicado en la URL para hacer las recomendaciones en base a él*/
+
+        $articlesSortedBySimilarity = $articleSimilarity->getArticlesSortedBySimilarity($id, $similarityMatrix);
 
         return $articlesSortedBySimilarity;
 	}
@@ -88,14 +101,24 @@ class Article extends Model
         $articlesMatrix = Article::generateArticlesMatrix(); 
 
         $articleSimilarity = new ContentBasedFiltering($articlesMatrix);
+
+        /*A continuación, llamamos a los métodos seteadores de los pesos, para pasarles los valores introducidos por el usuario administrador, para poder realizar pruebas y comparaciones:*/
+
+        $articleSimilarity->setPriceWeight(RecommendationsSystemWeigth::first()->price);
+        $articleSimilarity->setGenderWeight(RecommendationsSystemWeigth::first()->gender);
+        $articleSimilarity->setPlatformWeight(RecommendationsSystemWeigth::first()->platform);
+
+        /*Una vez seteados los pesos, llamamos a la función que se encarga de calcular la matriz de similitud de los artículos:*/
+
         $similarityMatrix  = $articleSimilarity->calculateSimilarityMatrix();
 
-        /*Ahora vamos a comparar cada artículo comprado por el usuario con el resto de artículos de la BD para obtener los artículos más recomendados/similares*/
+        /*Ahora vamos a comparar cada artículo comprado por el usuario con el resto de artículos de la BD para obtener los artículos más recomendados/similares según las compras realizadas:*/
         $recommendedArticlesByPurchases = array();
 
         foreach($articlesIdOrderedByUser as $articleIdOrderedByUser){
         	$recommendedArticlesByPurchases   = $articleSimilarity->getArticlesSortedBySimilarity($articleIdOrderedByUser, $similarityMatrix);
         }
+
         return $recommendedArticlesByPurchases;
     }
 }

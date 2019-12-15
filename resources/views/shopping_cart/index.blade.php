@@ -37,7 +37,10 @@
 			</tbody>
 		</table>
 		<div class='text-right'>
-			@include('shopping_cart.form')
+			<a href="{{ route('delivery') }}" class="btn btn-success">
+	            Checkout
+	        </a>
+	        <a href="{{route('home')}}" class="btn btn-info">Continues shopping</a>
 		</div>
 	</div>
 @endsection

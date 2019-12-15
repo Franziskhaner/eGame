@@ -10,8 +10,12 @@ class Rating extends Model
     
     protected $fillable = ['id', 'score', 'comment', 'user_id', 'article_id'];
 
+    public static function totalUserRatings(){
+        return count(Rating::where('user_id', Auth::user()->id)->get());
+    }
+
     public static function userRatings(){
-    	$ratings = Rating::orderBy('created_at', 'DESC')->where('user_id', Auth::user()->id)->get();
+    	$ratings = Rating::orderBy('id', 'DESC')->where('user_id', Auth::user()->id)->paginate(4);
     	return $ratings;
     }
 
@@ -27,9 +31,9 @@ class Rating extends Model
     	return $comments;
     }
 
-    public function ratings()
+    public static function getReviews($article)
     {
-        return $this->morphMany('willvincent\Rateable\Rating', 'rateable');
+        return Rating::where('article_id', $article)->get();
     }
 
     public function averageRating(){

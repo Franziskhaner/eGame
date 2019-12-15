@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 Use App\InShoppingCart;
 use App\ShoppingCart;
 use App\PayPal;
+use App\Order;
 use Auth;
 
 class ShoppingCartController extends Controller
@@ -55,8 +56,41 @@ class ShoppingCartController extends Controller
     public function show($id){
         $shopping_cart = ShoppingCart::where('custom_id', $id)->first(); /*Utilizamos where() cuando queremos buscar otro elemento diferente a la clave primaria, para la clave primaria usamos find()*/
 
-        $order = $shopping_cart->order();
+        $order = Order::where('user_id', Auth::user()->id)->get()->last();
 
-        return view('shopping_cart.completed', ['shopping_cart' => $shopping_cart, 'order' => $order]);
+        return view('shopping_cart.completed', compact('shopping_cart', 'order'));
+    }
+
+    public function deliveryOptions(){
+        $order = new Order;
+        return view('shopping_cart.delivery_options', compact('order'));
+    }
+
+    public function deliveryOptionsStore(Request $request){
+
+        $shopping_cart = $request->shopping_cart;
+
+        $this->validate($request,[
+            'line1'          => 'required|string',
+            'city'           => 'required|string',
+            'postal_code'    => 'required|integer|max:99999',
+            'country_code'   => 'required|string',
+            'state'          => 'required|string'
+        ]);
+        
+        $order = Order::create([
+            'recipient_name' => $request['recipient_name'],
+            'line1'          => $request['line1'],
+            'line2'          => $request['line2'],
+            'city'           => $request['city'],
+            'postal_code'    => $request['postal_code'],
+            'state'          => $request['state'],
+            'country_code'   => $request['country_code'],
+            'total'          => $shopping_cart->total(),
+            'email'          => Auth::user()->email,
+            'user_id'        => Auth::user()->id
+        ]); /*Los valores que faltan del pedido se rellanarán una vez se procese el pago, ya sea vía PayPal o vía Tarjeta de Crédito.*/
+
+        return view('shopping_cart.payment_method', compact('order'));
     }
 }

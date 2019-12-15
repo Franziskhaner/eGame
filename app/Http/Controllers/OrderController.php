@@ -65,7 +65,6 @@ class OrderController extends Controller
             'recipient_name' => $request['recipient_name'],
             'line1'          => $request['line1'],
             'line2'          => $request['line2'],
-            'address'        => $request['address'],
             'city'           => $request['city'],
             'postal_code'    => $request['postal_code'],
             'country_code'   => $request['country_code'],
@@ -145,5 +144,12 @@ class OrderController extends Controller
     {
         Order::find($id)->delete();
         return redirect()->route('orders.index')->with('success','Order deleted successfully!');
+    }
+
+    public function cancelOrder($id)
+    {   /*Elimina un pedido creado tras elegir la dirección de entrega, cuando se cancela desde la vista 'payment_method' antes de proceder al cobro.*/
+        Order::find($id)->delete();
+        echo Order::find($id);
+        return redirect()->route('home');
     }
 }
