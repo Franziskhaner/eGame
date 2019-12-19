@@ -1,8 +1,13 @@
 @extends('layouts.app')
-
 @section('title', 'Articles eGame')
-
 @section('content')
+	@if(session('error'))
+        <div class="custom-alerts alert alert-danger fade in">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true"></button>
+            {{session('error')}}
+        </div>
+        <?php Session::forget('error');?>
+    @endif
 	<div class="text-center products-container">
 		<div class="row">
 			@foreach($articles as $article)
@@ -53,7 +58,7 @@
 			@endforeach
 		</div>
 		<div>
-			{{--$articles->links()--}}
+		{{--$articles->links()--}}
 		</div>
 	</div>
 @endsection

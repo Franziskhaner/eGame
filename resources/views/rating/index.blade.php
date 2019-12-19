@@ -9,10 +9,31 @@
         <div class="alert alert-success">
             {{session('delete')}}
         </div>
+    @elseif(session('error'))
+        <div class="custom-alerts alert alert-danger fade in">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true"></button>
+            {{session('error')}}
+        </div>
+        <?php Session::forget('error');?>
     @endif
 	<div class="panel panel-default">
 		<div class="panel-heading">
-			<h2>Ratings</h2>
+			<div class="row">
+                <div class="col-md-8">
+                    <h2>Ratings</h2>
+                </div>
+                <div class="col-md-4">
+                    <form action="{{action('MainController@crudSearch', 'ratings')}}" method="get">  
+                        <input list="ratings" name="crud_search">
+                        <datalist id="ratings">
+                            @foreach($ratings as $rating)
+                                <option value="{{ $rating->id }}"></option>
+                            @endforeach
+                        </datalist>
+                        <input type="submit" value="Search" class="btn btn-primary">
+                    </form>
+                </div>  
+            </div>
 		</div>
 		@if($ratings->count())
 			<table class="table table-striped">

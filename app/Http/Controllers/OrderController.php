@@ -149,7 +149,7 @@ class OrderController extends Controller
     public function cancelOrder($id)
     {   /*Elimina un pedido creado tras elegir la dirección de entrega, cuando se cancela desde la vista 'payment_method' antes de proceder al cobro.*/
         Order::find($id)->delete();
-        echo Order::find($id);
+
         return redirect()->route('home');
     }
 }

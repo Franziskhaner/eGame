@@ -9,11 +9,33 @@
         <div class="alert alert-success">
             {{session('delete')}}
         </div>
+    @elseif(session('error'))
+        <div class="custom-alerts alert alert-danger fade in">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true"></button>
+            {{session('error')}}
+        </div>
+        <?php Session::forget('error');?>
     @endif
 	<div class="panel panel-default">
 		<div class="panel-heading">
-			<h2>Orders</h2>
+			<div class="row">
+                <div class="col-md-8">
+                    <h2>Orders</h2>
+                </div>
+                <div class="col-md-4">
+                    <form action="{{action('MainController@crudSearch', 'orders')}}" method="get">  
+                        <input list="orders" name="crud_search">
+                        <datalist id="orders">
+                            @foreach($orders as $order)
+                                <option value="{{ $order->id }}"></option>
+                            @endforeach
+                        </datalist>
+                        <input type="submit" value="Search" class="btn btn-primary">
+                    </form>
+                </div>  
+            </div>
 		</div>
+		{{--
 		<div class="panel-body">
 			<h3>Statistics</h3>
 			<div class="row top-space">
@@ -36,6 +58,7 @@
 			</div>
 			<h3>Shoppings</h3>	
 		</div>
+		--}}
 		@if($orders->count())
 			<table class="table table-striped">
 				<thead style="background-color:#3f51b5; color:white">
@@ -43,14 +66,14 @@
 						<th>ID</th>
 						<th>Shopping Date</th>
 						<th>User ID (Customer)</th>
-						<th>Delivery Addressee (Only PayPal)</th>
+						<th>Delivery Addressee</th>
 						<th>Delivery Address</th>
 						<th>City</th>
 						<th>Postal code</th>
 						<th>Province</th>
 						<th>Country Code</th>
 						<th>Payment Method</th>
-						<th>PayPal Account</th>
+						<th>Email</th>
 						<th>Total Amount</th>
 						<th>Status</th>
 						<th>Actions</th>

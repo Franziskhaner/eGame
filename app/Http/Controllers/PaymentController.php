@@ -30,7 +30,7 @@ class PaymentController extends Controller
         $response = $paypal->execute($request->paymentId, $request->PayerID);
 
         if($response->state == 'approved'){ /*Si PayPayl acepta el pago, mostramos la información del pedido tras el pago devolviendo a la vista completed.blade.php el $order con dicha info*/
-            \Session::remove('shopping_cart_id');
+            
         	$order = Order::createFormPayPalResponse($response, $shopping_cart);
             $shopping_cart->approve();  /*El método aprove() se encargará de generar un customID único para el carrito de forma que no sea secuencial y además pondrá el estado a 'approved'*/
             
@@ -41,9 +41,10 @@ class PaymentController extends Controller
                     'article_id' => $shopping_cart->articles()->get()[$i]->id
                 ]);
             }
+            \Session::remove('shopping_cart_id');
         }
 
-        return view('shopping_cart.completed', ['shopping_cart' => $shopping_cart, 'order' => $order]);
+        return view('shopping_cart.completed', compact('shopping_cart', 'order'));
     }
 
     /**
@@ -118,8 +119,12 @@ class PaymentController extends Controller
                         ]);
                     }
 
-                    /*Por último, sólo nos faltaría añadir el método de pago seleccionado:*/
+                    /*Por último, sólo nos faltaría añadir el método de pago seleccionado y el destinatario del pedido (recipient_name) en el caso de que no se haya rellenado en la vista de delivery_options, utilizaremos el nombre del usuario que haya realizado el pago en este caso:*/
+                    
                     $order->update(['payment_method' => 'Credit Card']);
+                    
+                    if($order->recipient_name == null)
+                        $order->update(['recipient_name' => Auth::user()->first_name.' '.Auth::user()->last_name]);
 
                     return view('shopping_cart.completed', compact('shopping_cart', 'order'));
                 } else {

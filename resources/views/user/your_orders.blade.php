@@ -18,14 +18,14 @@
 					<thead style="background-color:#3f51b5; color:white">
 						<tr>
 							<th>Shopping Date</th>
+							<th>Addressee</th>
 							<th>Address</th>
 							<th>City</th>
 							<th>Postal Code</th>
 							<th>Province</th>
-							<th>Country Code</th>
-							<th>PayPal Account</th>
+							<th>Email</th>
+							<th>Payment Method</th>
 							<th>Total Price</th>
-							<th>Status</th>
 							<th>Purchased Games</th>
 							<th>Rate your games!</th>
 						</tr>
@@ -34,14 +34,14 @@
 						@foreach($ordersByUser as $order)
 							<tr>
 								<td>{{$order->created_at}}</td>
+								<td>{{$order->recipient_name}}</td>
 	 							<td>{{$order->address()}}</td>
 								<td>{{$order->city}}</td>
 								<td>{{$order->postal_code}}</td>
 								<td>{{$order->state}}</td>
-								<td>{{$order->country_code}}</td>
 								<td>{{$order->email}}</td>
+								<td>{{$order->payment_method}}</td>
 								<td>{{$order->total}} €</td>
-								<td>{{$order->status}}</td>
 								<td> 
 									<!--{{ $counter = 1 }}-->
 									@foreach($orderedArticles->where('order_id', $order->id) as $orderedArticle)

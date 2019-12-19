@@ -34,6 +34,8 @@ Route::get('/recommendations', function(){
 
 })->name('recommendations');
 
+Route::get('{crud}/crud_search', 'MainController@crudSearch');
+
 /*Ruta creada automáticamente al generar las vistas de login y registro con migraciones.*/
 Auth::routes();
 

@@ -13,7 +13,7 @@
 				<span class="{{$shopping_cart->custom_id}}">{{$shopping_cart->custom_id}}</span>
 			</h3>
 			
-			<p>Please, Confirm the details of your shipment:</p>
+			<p>Please, confirm the details of your shipment:</p>
 
 			<div class="row large-padding">
 				<label class="col-xs-6">Adressee:</label>
@@ -44,6 +44,8 @@
 				<br>
 				@if($order->payment_method == 'Credit Card')
 					<a href="{{url('https://dashboard.stripe.com/test/payments?status%5B%5D=successful')}}">More information about your payment...</a>
+				@else
+					<a href="{{url('https://developer.paypal.com/developer/notifications/')}}">More information about your payment...</a>
 				@endif
 			</div>
 		</div>

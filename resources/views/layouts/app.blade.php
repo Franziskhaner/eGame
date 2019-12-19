@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.3.0/css/material-fullpalette.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.3.0/css/ripples.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"><!--Para la valoración con Rating Stars -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-star-rating/4.0.2/css/star-rating.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-star-rating/4.0.2/css/star-rating.min.css"/>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
@@ -58,7 +58,7 @@
                         </div>
                     </ul>
                     <!-- Center Side Of Navbar -->
-                    <div class="col-md-5">
+                    <div class="col-md-4" style="text-align: right;">
                         {{--
                         <form action="{{action('MainController@search', 'search')}}" method="get">
                             <div class="input-group" style="display: inline-block;">
@@ -76,8 +76,19 @@
                                     <option value="{{ $article->name }}">{{$article->name}}</option>
                                 @endforeach
                             </datalist>
-                            <input type="submit" value="Search" class="btn btn-success">
+                            <input type="submit" value="Search" class="btn btn-primary">
                         </form>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="dropdown">
+                            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Avanced Search
+                            <span class="caret"></span></button>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">HTML</a></li>
+                                <li><a href="#">CSS</a></li>
+                                <li><a href="#">JavaScript</a></li>
+                            </ul>
+                        </div>
                     </div>
                     <!-- Right Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-right">
@@ -150,9 +161,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.3.0/js/material.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.3.0/js/ripples.min.js"></script><!-- ripples.min.js es para el efecto de onda al hacer click -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-star-rating/4.0.2/js/star-rating.min.js"></script>
-    <script type="text/javascript">
+    <script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.min.js">
         $("#input-id").rating();
     </script>
+
     <script name="selectedArticleToRate" type="text/javascript">
         function myFunction(parameter, parameter2){
             var select = parameter;
@@ -164,7 +176,8 @@
               });
         }
     </script>
-    <script name="slideShowCarousel" type="text/javascript">
+    {{--
+    <script name="slideShowCarousel">
         var slideIndex = 1;
         showSlides(slideIndex);
 
@@ -196,12 +209,15 @@
           captionText.innerHTML = dots[slideIndex-1].alt;
         }
     </script>
+    --}}
     <script
         src="https://checkout.stripe.com/checkout.js"
         data-key="{{ config('services.stripe.key') }}"
         image="https://stripe.com/img/documentation/checkout/marketplace.png"
         data-locale="auto">
+        $(".stripe-button");
     </script>
+    
     <script>
         $.material.init();
     </script>

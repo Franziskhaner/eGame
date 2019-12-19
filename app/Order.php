@@ -65,13 +65,25 @@ class Order extends Model
 		*/
         $orderData = $orderData[key($orderData)];
 
-		/*El resto de datos de la orden lo obtenemos asi:*/
-        $orderData["payment_method"] = 'PayPal';
+		/*Rellenamos el resto de campos del pedido creado en la vista delivery_options:*/
 		$orderData["email"]   = $payer->payer_info->email;
 		$orderData["total"]   = $shopping_cart->total();
         $orderData["user_id"] = Auth::user()->id;   /*Este es el usuario que ha realizado el pedido*/
+        $order = Order::where('user_id', Auth::user()->id)->get()->last();  /*Último pedido generado por el usuario actual.*/
         
-    	return Order::create($orderData);
+        $order->update([
+            'recipient_name' => $orderData['recipient_name'],
+            'line1' => $orderData['line1'],
+            'city' => $orderData['city'],
+            'postal_code' => $orderData['postal_code'],
+            'state' => $orderData['state'],
+            'country_code' => $orderData['country_code'],
+            'email' => $orderData['email'], /*Actualizamos estos datos sobre el pedido creado en la delivery_options*/
+            'total' => $orderData['total'],
+            'user_id' => $orderData['user_id']
+        ]);
+
+    	return $order;
     }
 
     public static function totalUserOrders(){
