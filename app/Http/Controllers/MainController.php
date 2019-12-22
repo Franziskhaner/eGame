@@ -71,6 +71,24 @@ class MainController extends Controller
         }
     }
 
+    public function advancedSearch(Request $request){
+        $name = $request->get('name');
+        $platform = $request->get('platform');
+        $gender = $request->get('gender');
+        $price = $request->get('price');
+        $release_date = $request->get('release_date');
+
+        /*A continuación hacemos uso de los métodos Scope definidos en la clase Article.php para optimizar las búsquedas en BD:*/
+        $articles = Article::orderBy('id', 'DESC')->name($name)->gender($gender)->platform($platform)->price($price)->releaseDate($release_date)->paginate(4);
+
+        if($articles->count())
+            return view('main.search', compact('articles'));
+        else{
+            \Session::put('error', 'There is no results for this query.');
+            return back();
+        }
+    }
+
     public function crudSearch(Request $request){
         $search = $request->get('crud_search');
         $crud_path = $request->path();
@@ -95,7 +113,7 @@ class MainController extends Controller
                 }
                 break;
             case 'orders/crud_search':
-                $orders = Order::where('id', 'like', '%'.$search.'%')->orWhere('user_id', 'like', '%'.$search.'%')->orWhere('recipient_name', 'like', '%'.$search.'%')->orWhere('total', 'like','%'.$search.'%')->orWhere('email', 'like','%'.$search.'%')->orWhere('status', 'like','%'.$search.'%')->orWhere('line1', 'like','%'.$search.'%')->orWhere('city', 'like','%'.$search.'%')->orWhere('country_code', 'like','%'.$search.'%')->orWhere('payment_method', 'like','%'.$search.'%')->paginate(4);
+                $orders = Order::where('id', 'like', '%'.$search.'%')->orWhere('user_id', 'like', '%'.$search.'%')->orWhere('recipient_name', 'like', '%'.$search.'%')->orWhere('total', 'like','%'.$search.'%')->orWhere('email', 'like','%'.$search.'%')->orWhere('status', 'like','%'.$search.'%')->orWhere('line1', 'like','%'.$search.'%')->orWhere('city', 'like','%'.$search.'%')->orWhere('country_code', 'like','%'.$search.'%')->orWhere('payment_method', 'like','%'.$search.'%')->orWhere('created_at', 'like','%'.$search.'%')->paginate(4);
                 if($orders->count())
                     return view('order.index', compact('orders'));
                 else{

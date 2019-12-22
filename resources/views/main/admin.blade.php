@@ -9,6 +9,12 @@
 	        <div class="alert alert-success">
 	            {{session('delete')}}
 	        </div>
+	    @elseif(session('error'))
+	        <div class="custom-alerts alert alert-danger fade in">
+	            <button type="button" class="close" data-dismiss="alert" aria-hidden="true"></button>
+	            {{session('error')}}
+	        </div>
+	        <?php Session::forget('error');?>
 	    @endif
 		<div class="big-padding text-center blue-grey white-text">
 			<h2>Admin Panel</h2>

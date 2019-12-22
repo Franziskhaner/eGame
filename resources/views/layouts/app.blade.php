@@ -36,7 +36,6 @@
                     <a class="navbar-brand" href="{{ url('/') }}"><i class="fa fa-fw fa-home"></i>
                         eGame
                     </a> 
-                {{--<a class="navbar-brand" href="#"><i class="fa fa-fw fa-envelope"></i> Contact</a>--}} <!-- Para el botón Contacto -->
                 </div>
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
@@ -58,37 +57,20 @@
                         </div>
                     </ul>
                     <!-- Center Side Of Navbar -->
-                    <div class="col-md-4" style="text-align: right;">
-                        {{--
-                        <form action="{{action('MainController@search', 'search')}}" method="get">
-                            <div class="input-group" style="display: inline-block;">
-                                <input type="search" name="search" class="form-control">
-                                <span class="input-group-prepend">
-                                    <button type="submit" class="btn btn-success">Search</button>
-                                </span>
-                            </div>
-                        </form>
-                        --}}
-                        <form action="{{action('MainController@search', 'search')}}" method="get">
-                            <input list="articles" name="search">
+                    <div class="col-md-3" style="margin-left: 120px; margin-top: 13px;">
+                        <form class="search" action="{{action('MainController@search', 'search')}}" method="get">
+                            <input list="articles" placeholder="Search a game..." name="search">
                             <datalist id="articles">
                                 @foreach($articlesCollection as $article)
                                     <option value="{{ $article->name }}">{{$article->name}}</option>
                                 @endforeach
                             </datalist>
-                            <input type="submit" value="Search" class="btn btn-primary">
+                            <button type="submit"><i class="fa fa-search"></i></button>
                         </form>
                     </div>
-                    <div class="col-md-3">
-                        <div class="dropdown">
-                            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Avanced Search
-                            <span class="caret"></span></button>
-                            <ul class="dropdown-menu">
-                                <li><a href="#">HTML</a></li>
-                                <li><a href="#">CSS</a></li>
-                                <li><a href="#">JavaScript</a></li>
-                            </ul>
-                        </div>
+                    <!--Botón de búsqueda avanzada -->
+                    <div class="col-md-3" style="margin-top: 3px;" onclick="advancedSearchFunction()">
+                        <button class="btn btn-info">Advanced</button> 
                     </div>
                     <!-- Right Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-right">
@@ -154,6 +136,72 @@
                 </div>
             </div>
         </nav>
+        <div class="panel panel-default" id="advancedSearch">
+            <div class="panel-heading">
+                <h3>Advanced Search</h3>
+                <form id="searchForm" action="{{action('MainController@advancedSearch', 'advancedSearch')}}" method="get">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <input list="articles" placeholder="Name..." name="name">
+                            <datalist id="articles">
+                                @foreach($articlesCollection as $article)
+                                    <option value="{{ $article->name }}">{{$article->name}}</option>
+                                @endforeach
+                            </datalist>
+                        </div>
+                        <div class="col-md-2">
+                            <input list="platforms" placeholder="Platform..." name="platform">
+                            <datalist id="platforms">
+                                <option value="PS4">PS4</option>
+                                <option value="XBOX ONE">XBOX ONE</option>
+                                <option value="PC">PC</option>
+                                <option value="NINTENDO SWITCH">NINTENDO SWITCH</option>
+                                <option value="NINTENDO 3DS">NINTENDO 3DS</option>
+                                <option value="WII U">WII U</option>
+                                <option value="PS VITA">PLAYSTATION VITA</option>
+                                <option value="RETRO">RETRO</option>
+                            </datalist>
+                        </div>
+                        <div class="col-md-2">
+                            <input list="genders" placeholder="Genders..." name="gender">
+                            <datalist id="genders">
+                                <option value="Action">Action</option>
+                                <option value="Shooter">Shooter</option>
+                                <option value="Fighting">Fighting</option>
+                                <option value="Platformer">Platformer</option>
+                                <option value="Horror">Horror</option>
+                                <option value="Adventure">Adventure</option>
+                                <option value="RPG">RPG</option>
+                                <option value="Sport">Sport</option>
+                                <option value="Strategy">Strategy</option>
+                                <option value="Puzzle">Puzzle</option>
+                                <option value="Racing">Racing</option>
+                                <option value="Simulator">Simulator</option>
+                                <option value="Open World">Open World</option>
+                            </datalist>
+                        </div>
+                        <div class="col-md-2">
+                            <input list="prices" placeholder="Price..." name="price">
+                            <datalist id="prices">
+                                <option value="Minus 10€"></option>
+                                <option value="10€ - 20€"></option>
+                                <option value="20€ - 30€"></option>
+                                <option value="30€ - 40€"></option>
+                                <option value="40€ - 50€"></option>
+                                <option value="50€ - 60€"></option>
+                                <option value="More 60€"></option>
+                            </datalist>
+                        </div>
+                        <div class="col-md-2">
+                            <input id="release_date" type="date" name="release_date" placeholder="Release date...">
+                        </div>
+                        <div class="col">
+                            <input type="submit" class="btn btn-info" value="Search">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
         @yield('content')
     </div>
     <!-- Scripts -->
@@ -161,11 +209,27 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.3.0/js/material.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.3.0/js/ripples.min.js"></script><!-- ripples.min.js es para el efecto de onda al hacer click -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-star-rating/4.0.2/js/star-rating.min.js"></script>
-    <script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.min.js">
+    <script>
+        /* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
+        var dropdown = document.getElementsByClassName("dropdown-btn");
+        var i;
+
+        for (i = 0; i < dropdown.length; i++) {
+          dropdown[i].addEventListener("click", function() {
+          this.classList.toggle("active");
+          var dropdownContent = this.nextElementSibling;
+          if (dropdownContent.style.display === "block") {
+          dropdownContent.style.display = "none";
+          } else {
+          dropdownContent.style.display = "block";
+          }
+          });
+        }
+    </script>
+    <script>
         $("#input-id").rating();
     </script>
-
-    <script name="selectedArticleToRate" type="text/javascript">
+    <script name="selectedArticleToRate">
         function myFunction(parameter, parameter2){
             var select = parameter;
             select.addEventListener("change",
@@ -174,6 +238,18 @@
                 var button = "#starButton-" + parameter2;
                 $(button).attr("href", "rate_your_order/"+selectedGame);
               });
+        }
+    </script>
+    <script>
+        //* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
+        function advancedSearchFunction(){
+            var dropdownContent = document.getElementById("advancedSearch")
+
+            if (dropdownContent.style.display === "none") {
+              dropdownContent.style.display = "block";
+            } else {
+              dropdownContent.style.display = "none";
+            }
         }
     </script>
     {{--
@@ -217,7 +293,6 @@
         data-locale="auto">
         $(".stripe-button");
     </script>
-    
     <script>
         $.material.init();
     </script>

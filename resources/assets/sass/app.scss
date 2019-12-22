@@ -24,7 +24,7 @@
 }
 
 /*Agrega un color de fondo negro a los enlaces de la barra de navegación al pasar el raton por encima*/
-.navbar-header a:hover, .dropdown:hoder .dropbtn {
+.navbar-header a:hover, .dropdown:hover .dropbtn {
   background-color: #000;
 }
 
@@ -315,7 +315,48 @@
   opacity: 0.6;
 }
 
-.active,
-.demo:hover {
-  opacity: 1;
+/* Add an active class to the active dropdown button */
+.active {
+  background-color: green;
+  color: white;
+}
+
+/* Style the search field */
+form.search input[list] {
+  padding: 5px;
+  font-size: 17px;
+  border: 1px solid grey;
+  float: left;
+  width: 80%;
+  background: #f1f1f1;
+  border-radius: 2px 0px 0px 2px;
+}
+
+/* Style the submit button */
+form.search button {
+  padding: 5px;
+  float: left;
+  width: 20%;
+  background: #00ABF7;
+  color: white;
+  font-size: 17px;
+  border: 1px solid grey;
+  border-left: none; /* Prevent double borders */
+  cursor: pointer;
+  border-radius: 0px 2px 2px 0px;
+}
+
+form.search button:hover {
+  background: #0b7dda;
+}
+
+/* Clear floats */
+form.search::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+#advancedSearch{
+  display: none;
 }

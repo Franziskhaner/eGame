@@ -17,9 +17,59 @@ class Article extends Model
 	//Agregamos los datos de la tabla
 	protected $fillable =['id', 'name', 'price', 'quantity', 'release_date', 'players_num', 'gender', 'platform', 'description', 'assessment'];
 
+    //Query Scopes:
 	public function scopeLatest($query){	//Nos va a devolver los últimos productos.
 		return $query->orderBy('id', 'asc');
 	}
+
+    public function scopeName($query, $name){
+        if($name)
+            return $query->where('name', 'like', '%'.$name.'%');
+    }
+
+    public function scopePlatform($query, $platform){
+        if($platform)
+            return $query->where('platform', 'like', '%'.$platform.'%');
+    }
+
+    public function scopeGender($query, $gender){
+        if($gender)
+            return $query->where('gender', 'like', '%'.$gender.'%');
+    }
+
+    public function scopePrice($query, $price){
+        switch ($price) {
+            case 'Minus 10€':
+                return $query->where('price', '<', 10);
+                break;
+            case '10€ - 20€':
+                return $query->whereBetween('price', [10, 20]);
+                break;
+            case '20€ - 30€':
+                return $query->whereBetween('price', [20, 30]);
+                break;
+            case '30€ - 40€':
+                return $query->whereBetween('price', [30, 40]);
+                break;
+            case '40€ - 50€':
+                return $query->whereBetween('price', [40, 50]);
+                break;
+            case '50€ - 60€':
+                return $query->whereBetween('price', [50, 60]);
+                break;
+            case 'More 60€':
+                return $query->where('price', '>', 60);
+                break;
+            default:
+                return 0;
+                break;
+        }
+    }
+
+    public function scopeReleaseDate($query, $releaseDate){
+        if($releaseDate)
+            return $query->where('release_date', 'like', '%'.$releaseDate.'%');
+    }
 
 	public function paypalItem(){ //Es llamada desde el modelo PayPal.php para indicar a Paypal toda la info de nuestro carrito.
 		

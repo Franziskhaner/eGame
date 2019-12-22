@@ -45,7 +45,7 @@
 	<div class="form-group{{ $errors->has('release_date') ? ' has-error' : '' }}">
 		<label for="release_date" class="col-md-4 control-label">Release date</label>
 		<div class="col-md-6">
-			<input id="quantity" type="date" class="form-control" name="release_date" value="{{ $article->release_date }}">
+			<input id="release_date" type="date" class="form-control" name="release_date" value="{{ $article->release_date }}">
 
 			@if ($errors->has('release_date'))
 	            <span class="help-block">

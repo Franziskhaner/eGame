@@ -17,6 +17,8 @@ Route::get('/', 'MainController@home')->name('home');
 
 Route::get('/search', 'MainController@search');
 
+Route::get('/advancedSearch', 'MainController@advancedSearch');
+
 Route::post('/admin/{weigths}', 'MainController@update');
 
 Route::get('/recommendations', function(){
@@ -31,7 +33,6 @@ Route::get('/recommendations', function(){
         $articles = Article::orderBy('id','desc')->paginate(8);
         return view('main.home', compact('articles'));
     }
-
 })->name('recommendations');
 
 Route::get('{crud}/crud_search', 'MainController@crudSearch');
