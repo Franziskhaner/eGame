@@ -63,7 +63,7 @@ class ContentBasedFiltering
         arsort($similarities);  //Ordena el array en orden inverso manteniendo la asociación de índices
 
         foreach ($similarities as $articleIdKey => $similarity) {
-            $id       = intval(str_replace('article_id_', '', $articleIdKey)); /*Reemplazamos el 'article_id' de cada artículo dentro del vector de similitudes ($similarities)  por un string vacío '', y guardamos su valor como entero, osea su ID.*/
+            $id       = intval(str_replace('article_id_', '', $articleIdKey)); /*Reemplazamos el 'article_id' de cada artículo dentro del vector de similitudes ($similarities) por un string vacío '', y guardamos su valor como entero, osea su ID.*/
             $articles = array_filter($this->articles, function ($article) use ($id) { return $article['id'] === $id; });/* */
             if (! count($articles)) {
                 continue;

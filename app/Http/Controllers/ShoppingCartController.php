@@ -87,4 +87,28 @@ class ShoppingCartController extends Controller
 
         return view('shopping_cart.payment_method', compact('order'));
     }
+
+    /*
+    public function deliveryOptionsStoreWithoutForm(Request $request, $id){
+        /*Esta opción es para utilizar los datos del perfil del usuario como datos de envío del pedido (link de la vista delivery_options), sin tener que rellenar el formulario.*/
+        //$shopping_cart = $request->shopping_cart;
+        /*
+        print_r('HOLI_1');
+        $order = Order::find($id);
+        print_r('HOLI_2');
+        $order->update([
+            'recipient_name' => Auth::user()->first_name,
+            'line1'          => Auth::user()->address,
+            'city'           => Auth::user()->city,
+            'postal_code'    => Auth::user()->postal_code,
+            'state'          => 'Cádiz',
+            'country_code'   => 'ES',
+            'email'          => Auth::user()->email,
+            'user_id'        => Auth::user()->id
+        ]);
+
+        print_r('HOLI_3');
+        return view('shopping_cart.payment_method', compact('order'));
+    }
+    */
 }

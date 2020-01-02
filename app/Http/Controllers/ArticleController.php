@@ -125,7 +125,7 @@ class ArticleController extends Controller{
     }
 
     public function showByPlatform($platform){
-        $articles = Article::orderBy('id','desc')->where('platform', $platform)->get();
+        $articles = Article::orderBy('id','desc')->where('platform', $platform)->paginate(8);
         return view('article.showByPlatform', compact('articles'));
     }
 }

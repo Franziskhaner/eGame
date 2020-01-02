@@ -1,6 +1,7 @@
 <?php
 namespace App;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
 
 use Auth;
 use App\Order;
@@ -170,6 +171,37 @@ class Article extends Model
         }
 
         return $recommendedArticlesByPurchases;
+    }
+
+    public static function bestSellers(){
+        /*Con el método orderedArticleCount() contamos el número de veces que ha sido comprado cada artículo y lo almacenamos en el campo 'purchasesNum' del array asociativo $bestSellers:*/
+
+        $articles = Article::all();
+
+        for($i = 0; $i < sizeof($articles); $i++){
+            $bestSellers[$i] = array(
+                'id'           => $articles[$i]->id,
+                'name'         => $articles[$i]->name,
+                'price'        => $articles[$i]->price,
+                'gender'       => $articles[$i]->gender,
+                'platform'     => $articles[$i]->platform,
+                'quantity'     => $articles[$i]->quantity,
+                'extension'    => $articles[$i]->extension,
+                'assessment'   => $articles[$i]->assessment,
+                'players_num'  => $articles[$i]->players_num,
+                'release_date' => $articles[$i]->release_date,
+                'purchasesNum' => OrderedArticle::orderedArticleCount($articles[$i]->id)
+            );
+        }
+
+        /*Por último, devolvemos el array ordenado según el número de compras(o ventas) de dicho artículo:*/
+        $bestSellers = collect($bestSellers)->sortBy('purchasesNum')->reverse()->toArray();
+
+        return  $bestSellers;
+    }
+
+    public static function bestRated(){
+        return Article::orderBy('assessment', 'desc')->limit(6)->get();
     }
 }
 ?>

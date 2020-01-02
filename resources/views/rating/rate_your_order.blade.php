@@ -11,14 +11,12 @@
 			<br/>
 			</div>
 			<div class="row">
-				<div class="col-sm-1"></div>
-				<div class="col-sm-5">
+				<div class="col-sm-6 text-center" style="padding: 30px;">
 					@if($article->extension)
 						<img src='{{url("/articles/images/$article->id.$article->extension")}}' class="product-avatar">
 					@endif
 				</div>
-				<div class="col-sm-1"></div>
-				<div class="col-sm-5">
+				<div class="col-sm-6" style="padding: 30px;">
 					<strong>Price:</strong><p>{{$article->price}}</p>
 					<strong>Platform:</strong><p>{{$article->platform}}</p>
 					<strong>Gender:</strong><p>{{$article->gender}}</p>
@@ -36,7 +34,7 @@
 						</div>
 						<h3>Write your opinion:</h3>
 						<div class="form-group">		
-							{{ Form::text('comment', $rating->comment, ['class' => 'form-control', 'placeholder' => 'Why did you choose this game? What did you like and what not?']) }}
+							{{ Form::textarea('comment', $rating->comment, ['class' => 'form-control', 'placeholder' => 'Why did you choose this game? What did you like and what not?']) }}
 						</div>
 						{{ Form::hidden('article_id', $article->id) }}
 						<div class="form-group text-center">

@@ -58,7 +58,7 @@
 			@endforeach
 		</div>
 		<div>
-		{{--$articles->links()--}}
+		{{ $articles->links() }}
 		</div>
 	</div>
 @endsection

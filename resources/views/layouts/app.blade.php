@@ -51,13 +51,13 @@
                                 <a href="{{action('ArticleController@showByPlatform', 'NINTENDO SWITCH')}}">NINTENDO SWITCH</a>
                                 <a href="{{action('ArticleController@showByPlatform', 'NINTENDO 3DS')}}">NINTENDO 3DS</a>
                                 <a href="{{action('ArticleController@showByPlatform', 'WII U')}}">WII U</a>
-                                <a href="{{action('ArticleController@showByPlatform', 'PS VITA')}}">PLAYSTATION VITA</a>
+                                <a href="{{action('ArticleController@showByPlatform', 'PLAYSTATION VITA')}}">PLAYSTATION VITA</a>
                                 <a href="{{action('ArticleController@showByPlatform', 'RETRO')}}">RETRO</a>
                             </div>
                         </div>
                     </ul>
                     <!-- Center Side Of Navbar -->
-                    <div class="col-md-3" style="margin-left: 120px; margin-top: 13px;">
+                    <div class="col-md-3" style="margin-left: 100px; margin-top: 13px;">
                         <form class="search" action="{{action('MainController@search', 'search')}}" method="get">
                             <input list="articles" placeholder="Search a game..." name="search">
                             <datalist id="articles">
@@ -69,7 +69,7 @@
                         </form>
                     </div>
                     <!--Botón de búsqueda avanzada -->
-                    <div class="col-md-3" style="margin-top: 3px;" onclick="advancedSearchFunction()">
+                    <div class="col-md-2" style="margin-top: 3px;" onclick="advancedSearchFunction()">
                         <button class="btn btn-info">Advanced</button> 
                     </div>
                     <!-- Right Side Of Navbar -->
@@ -158,7 +158,7 @@
                                 <option value="NINTENDO SWITCH">NINTENDO SWITCH</option>
                                 <option value="NINTENDO 3DS">NINTENDO 3DS</option>
                                 <option value="WII U">WII U</option>
-                                <option value="PS VITA">PLAYSTATION VITA</option>
+                                <option value="PLAYSTATION VITA">PLAYSTATION VITA</option>
                                 <option value="RETRO">RETRO</option>
                             </datalist>
                         </div>
@@ -166,18 +166,19 @@
                             <input list="genders" placeholder="Genders..." name="gender">
                             <datalist id="genders">
                                 <option value="Action">Action</option>
-                                <option value="Shooter">Shooter</option>
-                                <option value="Fighting">Fighting</option>
-                                <option value="Platformer">Platformer</option>
-                                <option value="Horror">Horror</option>
                                 <option value="Adventure">Adventure</option>
-                                <option value="RPG">RPG</option>
-                                <option value="Sport">Sport</option>
-                                <option value="Strategy">Strategy</option>
+                                <option value="Fighting">Fighting</option>
+                                <option value="Horror">Horror</option>
+                                <option value="Minigames">Minigames</option>                     
+                                <option value="Open World">Open World</option>
+                                <option value="Platformer">Platformer</option>
                                 <option value="Puzzle">Puzzle</option>
                                 <option value="Racing">Racing</option>
+                                <option value="RPG">RPG</option>
+                                <option value="Shooter">Shooter</option>
                                 <option value="Simulator">Simulator</option>
-                                <option value="Open World">Open World</option>
+                                <option value="Sport">Sport</option>
+                                <option value="Strategy">Strategy</option>
                             </datalist>
                         </div>
                         <div class="col-md-2">
@@ -195,7 +196,7 @@
                         <div class="col-md-2">
                             <input id="release_date" type="date" name="release_date" placeholder="Release date...">
                         </div>
-                        <div class="col">
+                        <div class="col-md-2">
                             <input type="submit" class="btn btn-info" value="Search">
                         </div>
                     </div>
@@ -229,7 +230,7 @@
     <script>
         $("#input-id").rating();
     </script>
-    <script name="selectedArticleToRate">
+    <script>
         function myFunction(parameter, parameter2){
             var select = parameter;
             select.addEventListener("change",
@@ -241,7 +242,7 @@
         }
     </script>
     <script>
-        //* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
+        /* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
         function advancedSearchFunction(){
             var dropdownContent = document.getElementById("advancedSearch")
 
@@ -252,40 +253,6 @@
             }
         }
     </script>
-    {{--
-    <script name="slideShowCarousel">
-        var slideIndex = 1;
-        showSlides(slideIndex);
-
-        // Next/previous controls
-        function plusSlides(n) {
-          showSlides(slideIndex += n);
-        }
-
-        // Thumbnail image controls
-        function currentSlide(n) {
-          showSlides(slideIndex = n);
-        }
-
-        function showSlides(n) {
-          var i;
-          var slides = document.getElementsByClassName("mySlides");
-          var dots = document.getElementsByClassName("demo");
-          var captionText = document.getElementById("caption");
-          if (n > slides.length) {slideIndex = 1}
-          if (n < 1) {slideIndex = slides.length}
-          for (i = 0; i < slides.length; i++) {
-            slides[i].style.display = "none";
-          }
-          for (i = 0; i < dots.length; i++) {
-            dots[i].className = dots[i].className.replace(" active", "");
-          }
-          slides[slideIndex-1].style.display = "block";
-          dots[slideIndex-1].className += " active";
-          captionText.innerHTML = dots[slideIndex-1].alt;
-        }
-    </script>
-    --}}
     <script
         src="https://checkout.stripe.com/checkout.js"
         data-key="{{ config('services.stripe.key') }}"

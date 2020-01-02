@@ -19,12 +19,12 @@
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			<div class="row">
-                <div class="col-md-8">
+                <div class="col-md-7">
                     <h2>Ratings</h2>
                 </div>
-                <div class="col-md-4">
-                    <form action="{{action('MainController@crudSearch', 'ratings')}}" method="get">  
-                        <input list="ratings" name="crud_search">
+                <div class="col-md-5">
+                    <form action="{{action('MainController@crudSearch', 'ratings')}}" method="get"> 
+                        <input list="ratings" name="crud_search" placeholder="Search a rating..." style="padding-top: 5px; padding-bottom: 7px; width: 60%;">
                         <datalist id="ratings">
                             @foreach($ratings as $rating)
                                 <option value="{{ $rating->id }}"></option>

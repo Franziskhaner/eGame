@@ -19,18 +19,18 @@
     <div class="panel panel-default">
         <div class="panel-heading">
             <div class="row">
-                <div class="col-md-8">
+                <div class="col-md-7">
                     <h2>Articles</h2>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-5">
                     <form action="{{action('MainController@crudSearch', 'articles')}}" method="get">
-                        <input list="articles" name="crud_search">
+                        <input list="articles" name="crud_search" placeholder="Search an article..." style="padding-top: 5px; padding-bottom: 7px; width: 60%;">
                         <datalist id="articles">
                             @foreach($articles as $article)
                                 <option value="{{ $article->name }}">{{$article->name}}</option>
                             @endforeach
                         </datalist>
-                        <input type="submit" value="Search" class="btn btn-primary">
+                        <input type="submit" value="Search" class="btn btn-primary" style="">
                     </form>
                 </div>
             </div>

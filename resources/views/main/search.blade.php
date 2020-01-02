@@ -8,7 +8,6 @@
         </div>
         <?php Session::forget('error');?>
     @endif
-    {{--
 	@if($search)
 		<div class="panel panel-default">
 			<div class="panel-heading">
@@ -21,7 +20,6 @@
 			</div>
 		</div>
 	@endif
-	--}}
 	<div class="text-center products-container">
 		<div class="row">
 			@foreach($articles as $article)
@@ -72,7 +70,7 @@
 			@endforeach
 		</div>
 		<div>
-		{{--$articles->links()--}}
+		{{$articles->links()}}
 		</div>
 	</div>
 @endsection

@@ -1,6 +1,5 @@
 <div class="container text-center">
 	<div class="card product text-left">
-
 		@if(Auth::check() && Auth::user()->role == 'Admin') {{-- Con ésto comprobamos si el usuario ha iniciado sesión y además posee el role Administrador, en ese caso se le darán permisos de administrador sobre el artículo--}}
 			<div class="absolute actions">
 				<form action="{{action('ArticleController@destroy', $article->id)}}" method="post">
@@ -23,7 +22,7 @@
 			</div>
 			<div class="col-sm-6 col-xs-12">
 				<p>
-					<strong>Price:</strong><p>{{$article->price}}</p>
+					<strong>Price:</strong><p>{{$article->price}} €</p>
 					<strong>Platform:</strong><p>{{$article->platform}}</p>
 					<strong>Gender:</strong><p>{{$article->gender}}</p>
 					<strong>Release Date:</strong><p>{{$article->release_date}}</p>
@@ -63,7 +62,9 @@
 			<p>{{$article->description}}</p>
 		</div>
 	</div>
-	<br></br>
+	<br><br>
+	@include('recommended_article.similar_articles', compact('articles'))
+	<br><br>
 	@if(count($reviews))
 		<div class="panel panel-default">
 			<div class="panel-heading">
@@ -107,6 +108,4 @@
 			<br></br>
 		</div>
 	@endif
-	<br></br>
-	@include('recommended_article.similar_articles', compact('article', 'articles'))
 </div>

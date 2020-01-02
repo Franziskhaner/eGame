@@ -66,11 +66,11 @@ def find_n_neighbours(df,n):
           index = ['top{}'.format(i) for i in range(1, n+1)]), axis=1)
     return df
 
-# top 5 vecinos por cada usuario
-sim_user_5_u = find_n_neighbours(similarity_with_user, 5)
+# top 6 vecinos por cada usuario
+sim_user_6_u = find_n_neighbours(similarity_with_user, 6)
 
-# top 5 vecinos por cada usuario
-sim_user_5_m = find_n_neighbours(similarity_with_article, 5)
+# top 6 vecinos por cada usuario
+sim_user_6_m = find_n_neighbours(similarity_with_article, 6)
 
 """
 Ha continuación definimos la Función de Puntuaciones, la cual se encargará de predecir una puntuación sobre un juego
@@ -91,7 +91,7 @@ Article_user = Rating_avg.groupby(by='user_id')['article_id'].apply(lambda x:','
 
 def get_predicted_articles(user):
     Article_seen_by_user = check.columns[check[check.index==user].notna().any()].tolist()
-    a = sim_user_5_m[sim_user_5_m.index==user].values
+    a = sim_user_6_m[sim_user_6_m.index==user].values
     b = a.squeeze().tolist()
     d = Article_user[Article_user.index.isin(b)]
     l = ','.join(d.values)
@@ -114,12 +114,12 @@ def get_predicted_articles(user):
         final_score = avg_user + (nume/deno)
         score.append(final_score)
     data = pd.DataFrame({'article_id':Articles_under_consideration,'score':score})
-    top_5_recommendation = data.sort_values(by='score', ascending=False).head(5)
-    Article_ID = top_5_recommendation.merge(articles, how='inner', on='article_id')
+    top_6_recommendation = data.sort_values(by='score', ascending=False).head(6)
+    Article_ID = top_6_recommendation.merge(articles, how='inner', on='article_id')
     Article_IDs = json.dumps(Article_ID.article_id.values.tolist())
     return Article_IDs
 
-#Y finalmente devolvemos las predicciones de los 5 mejores artículos para el usuario recibido por parámetro:
+#Y finalmente, devolvemos las predicciones de los 5 mejores artículos para el usuario recibido por parámetro:
 
 predicted_articles = get_predicted_articles(user)
 print(predicted_articles)

@@ -70,6 +70,7 @@ Route::post('/cancel_order/{id}', 'OrderController@cancelOrder');
 Route::resource('orders', 'OrderController');
 
 Route::resource('in_shopping_carts', 'InShoppingCartController', ['only' => ['store', 'destroy']]);
+
 Route::resource('shopping', 'ShoppingCartController', ['only' => ['show']]);	/*Ruta del link permanente generado tras el pago con PayPal de una compra*/
 
 Route::get('articles/images/{filename}', function($filename){	/*Con esta ruta hacemos que nuestras imágenes de la carpeta storage se vuelquen a la carpeta public() para que sean visibles desde la web.*/

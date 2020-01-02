@@ -26,8 +26,11 @@ class MainController extends Controller
                 $articlesByContentBasedFiltering = Article::filteredByUserPurchases();
                 $articlesByCollaborativeFiltering = CollaborativeFiltering::getRecommendations();
 
+                $bestRated = Article::bestRated();
+                $bestSellers = Article::bestSellers();
+
                 if(count($articlesByContentBasedFiltering) > 0 || $articlesByCollaborativeFiltering > 0){    /*Las recomendaciones basadas en compras las haremos siempre y cuando el usurio haya hecho al menos una, al igual que las del filtrado colaborativo, se harán siempre que el usuario haya valorado algún artículo.*/
-                    return view('recommended_article.home', compact(['articlesByContentBasedFiltering', 'articlesByCollaborativeFiltering']));
+                    return view('recommended_article.home', compact(['bestRated', 'bestSellers', 'articlesByContentBasedFiltering', 'articlesByCollaborativeFiltering']));
                 }
                 else{   /*Si el usuario acaba de registrase y aún no ha comprado ni valorado ningún artículo, se le mostrará la vista home normal:*/
                     $articles = Article::orderBy('id','desc')->paginate(8);
@@ -62,7 +65,7 @@ class MainController extends Controller
 
     public function search(Request $request){
         $search = $request->get('search');
-        $articles = Article::where('name', 'like', '%'.$search.'%')->get();
+        $articles = Article::where('name', 'like', '%'.$search.'%')->paginate(8);
         if($articles->count())
         	return view('main.search', compact('articles', 'search'));
         else{
@@ -78,11 +81,13 @@ class MainController extends Controller
         $price = $request->get('price');
         $release_date = $request->get('release_date');
 
+        $search = $request->get('name');
+
         /*A continuación hacemos uso de los métodos Scope definidos en la clase Article.php para optimizar las búsquedas en BD:*/
-        $articles = Article::orderBy('id', 'DESC')->name($name)->gender($gender)->platform($platform)->price($price)->releaseDate($release_date)->paginate(4);
+        $articles = Article::orderBy('id', 'DESC')->name($name)->gender($gender)->platform($platform)->price($price)->releaseDate($release_date)->paginate(8);
 
         if($articles->count())
-            return view('main.search', compact('articles'));
+            return view('main.search', compact('articles', 'search'));
         else{
             \Session::put('error', 'There is no results for this query.');
             return back();

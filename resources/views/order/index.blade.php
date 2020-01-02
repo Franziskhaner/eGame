@@ -19,12 +19,12 @@
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			<div class="row">
-                <div class="col-md-8">
+                <div class="col-md-7">
                     <h2>Orders</h2>
                 </div>
-                <div class="col-md-4">
-                    <form action="{{action('MainController@crudSearch', 'orders')}}" method="get">  
-                        <input list="orders" name="crud_search">
+                <div class="col-md-5">
+                    <form action="{{action('MainController@crudSearch', 'orders')}}" method="get"> 
+                        <input list="orders" name="crud_search" placeholder="Search an order..." style="padding-top: 5px; padding-bottom: 7px; width: 60%;">
                         <datalist id="orders">
                             @foreach($orders as $order)
                                 <option value="{{ $order->id }}"></option>
@@ -35,30 +35,6 @@
                 </div>  
             </div>
 		</div>
-		{{--
-		<div class="panel-body">
-			<h3>Statistics</h3>
-			<div class="row top-space">
-				<div class="col-md-3 sale-data"> <!-- Definimos el tamaño por pantalla (movil, mediana y larga) -->
-					<span>{{$totalIncomes}} €</span>
-					Total incomes
-				</div>
-				<div class="col-md-3 sale-data">
-					<span>{{$totalMonth}} €</span>
-					Month incomes
-				</div>
-				<div class="col-md-3 sale-data">
-					<span>{{$totalCount}}</span>
-					Total sales
-				</div>
-				<div class="col-md-3 sale-data-2">
-					<span>{{$totalMonthCount}}</span>
-					Month sales
-				</div>
-			</div>
-			<h3>Shoppings</h3>	
-		</div>
-		--}}
 		@if($orders->count())
 			<table class="table table-striped">
 				<thead style="background-color:#3f51b5; color:white">
@@ -118,7 +94,7 @@
             	<td colspan="8">There is not register!!</td>
         	</tr>
         @endif
-		{{ $orders->links() }} <!--Con este método, mostramos el paginador en la página de Artículos--> 
+		{{ $orders->links() }} <!--Con este método, mostramos el paginador en la página de Artículos-->
         <div class="floating">
             <a href="{{ route('orders.create') }}" class="btn btn-primary btn-fab">
                 <i class="material-icons">add</i> <!-- Añadimos el icono '+' con material design de googleapis.com-->

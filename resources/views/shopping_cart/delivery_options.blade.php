@@ -8,10 +8,8 @@
 			<div class="panel-body">
 				{!! Form::open(['url' => 'payment_method', 'method' => 'POST', 'class' => 'form-horizontal']) !!}  
 				    {{ csrf_field() }}
-
 				    <div class="form-group{{ $errors->has('recipient_name') ? ' has-error' : '' }}">
 				        <label for="recipient_name" class="col-md-4 control-label">Full Name</label>
-
 				        <div class="col-md-6">
 				            {{ Form::text('recipient_name', $order->recipient_name, ['class' => 'form-control']) }}
 
@@ -22,7 +20,6 @@
 				            @endif
 				        </div>
 				    </div>
-
 				    <div class="form-group{{ $errors->has('line1') ? ' has-error' : '' }}">
 				        <label for="line1" class="col-md-4 control-label">Address Line 1</label>
 
@@ -36,10 +33,8 @@
 				            @endif
 				        </div>
 				    </div>
-
 				    <div class="form-group{{ $errors->has('line2') ? ' has-error' : '' }}">
 				        <label for="line2" class="col-md-4 control-label">Address Line 2 (optional)</label>
-
 				        <div class="col-md-6">
 				            {{ Form::text('line2', $order->line2, ['class' => 'form-control']) }}
 
@@ -50,7 +45,6 @@
 				            @endif
 				        </div>
 				    </div>
-
 				    <div class="form-group{{ $errors->has('city') ? ' has-error' : '' }}">
 				        <label for="city" class="col-md-4 control-label">City</label>
 
@@ -64,7 +58,6 @@
 				            @endif
 				        </div>
 				    </div>
-
 				    <div class="form-group{{ $errors->has('postal_code') ? ' has-error' : '' }}">
 				        <label for="postal_code" class="col-md-4 control-label">Postal Code</label>
 
@@ -78,7 +71,6 @@
 				            @endif
 				        </div>
 				    </div>
-
 				    <div class="form-group{{ $errors->has('state') ? ' has-error' : '' }}">
 				        <label for="state" class="col-md-4 control-label">Province</label>
 
@@ -92,7 +84,6 @@
 				            @endif
 				        </div>
 				    </div>
-
 				    <div class="form-group{{ $errors->has('country_code') ? ' has-error' : '' }}">
 				        <label for="country_code" class="col-md-4 control-label">Country Code</label>
 
@@ -106,6 +97,7 @@
 				            @endif
 				        </div>
 				    </div>
+  					<br>
   					<br>
 				    <div class="text-center">
 						<input type="submit"  value="Continue" class="btn btn-success">

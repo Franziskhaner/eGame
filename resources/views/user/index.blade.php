@@ -19,12 +19,12 @@
     <div class="panel panel-default">
         <div class="panel-heading">
             <div class="row">
-                <div class="col-md-8">
+                <div class="col-md-7">
                     <h2>Users</h2>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-5">
                     <form action="{{action('MainController@crudSearch', 'users')}}" method="get">  
-                        <input list="users" name="crud_search">
+                        <input list="users" name="crud_search" placeholder="Search an user..." style="padding-top: 5px; padding-bottom: 7px; width: 60%;">
                         <datalist id="users">
                             @foreach($users as $user)
                                 <option value="{{ $user->first_name }}">{{$user->first_name}}</option>

@@ -30,7 +30,7 @@
 				</div>
 				<br>
 				<div class="row">
-					<div class="col-md-4" style="margin: 50px">
+					<div class="col-md-4" style="margin:60px; margin-left: 200px;">
 						<h4><strong>First name:  </strong>{{$user->first_name}}</h4>
 						<h4><strong>Last name:  </strong>{{$user->last_name}}<h4>
 						<h4><strong>Email:  </strong>{{$user->email}}<h4>
@@ -40,20 +40,24 @@
 						<h4><strong>Telephone:  </strong>{{$user->telephone}}<h4>
 						<h4><strong>Register date:  </strong>{{$user->created_at}}<h4>
 					</div>
-					<div class="col-md-6" style="margin-top: 100px">
-						<div class='form-group'>
-							<div class="row" style="text-align:center;">
+					<div class="col-md-4" style="margin-top: 50px">
+						<div class='form-group text-center'>
+							<div class="row">
 								<a class="btn btn-info" href="{{ route('user_ratings') }}" style="background-color:Orange">Your Ratings</a>
-								<a class="btn btn-info" href="{{ route('user_orders') }} " >Your Orders</a>
+							</div>
+							<div class="row">
+								<a class="btn btn-info" href="{{ route('user_orders') }}" >Your Orders</a>
+							</div>
+							<div class="row">
 								<a class="btn btn-primary" href="{{action('UserController@editProfile', $user->id)}}">Edit Profile</a>
 							</div>
 							<div class="row">
 								<form action="{{action('UserController@destroy', $user->id)}}" method="post" style="text-align:center;">
 				                   {{csrf_field()}}
 				                   <input name="_method" type="hidden" value="DELETE">
-				                   <button class="btn btn-danger" type="submit" onclick="return confirm('DANGER! You will delete your account completely, this action cannot be undone, are you sure about this?')">Delete Account</button>
+				                   <a class="btn btn-danger" type="submit" onclick="return confirm('DANGER! You will delete your account completely, this action cannot be undone, are you sure about this?')">Delete Account</a>
 				                </form>
-							</div>
+							</div>	
 			            </div>
 					</div>
 				</div>

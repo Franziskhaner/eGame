@@ -59,7 +59,7 @@
 			@endif
 		</div>
 		<div>
-			<!-- Aquí iría el método encargado de la paginación de los artículos -->
+			{{$articles->links()}}
 		</div>
 	</div>
 @endsection

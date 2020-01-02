@@ -77,6 +77,12 @@ class RatingController extends Controller
                 'article_id' => $request['article_id']
             ]);
 
+            /*Recalculamos la valoración media del artículo, con este nuevo rating:*/
+            $assessment = Rating::articleAverageRating($request['article_id']);
+
+            /*Y la actualizamos en el artículo en cuestión:*/
+            Article::find($request['article_id'])->update(['assessment' => $assessment]);
+
             return redirect()->route('user_ratings')->with('success', 'Rating created successfully!');
         }
     }

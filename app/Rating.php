@@ -36,6 +36,13 @@ class Rating extends Model
         return Rating::where('article_id', $article)->get();
     }
 
+    public static function articleAverageRating($article){
+        $total = Rating::where('article_id', $article)->sum('score');
+        $count = Rating::where('article_id', $article)->count();
+        $avgAssessment = $total/$count;
+        return $avgAssessment;
+    }
+
     public function averageRating(){
         return $this->ratings()->avg('rating');
     }

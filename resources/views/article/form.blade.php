@@ -71,7 +71,7 @@
 	<div class="form-group{{ $errors->has('gender') ? ' has-error' : '' }}">
 		<label for="gender" class="col-md-4 control-label">Gender</label>
 		<div class="col-md-6">
-			{{ Form::select('gender', ['Action' => 'Action', 'Shooter' => 'Shooter', 'Fighting' => 'Fighting', 'Platformer' => 'Platformer', 'Horror' => 'Horror', 'Adventure' => 'Adventure', 'RPG' => 'RPG', 'Sport' => 'Sport', 'Strategy' => 'Strategy', 'Puzzle' => 'Puzzle', 'Racing' => 'Racing', 'Simulator' => 'Simulator', 'Open World' => 'Open World'], $article->gender, ['class' => 'form-control']) }}
+			{{ Form::select('gender', ['Action' => 'Action', 'Adventure' => 'Adventure',  'Fighting' => 'Fighting', 'Horror' => 'Horror', 'Minigames' => 'Minigames', 'Open World' => 'Open World', 'Platformer' => 'Platformer', 'Puzzle' => 'Puzzle', 'Racing' => 'Racing', 'RPG' => 'RPG', 'Shooter' => 'Shooter', 'Simulator' => 'Simulator', 'Sport' => 'Sport', 'Strategy' => 'Strategy'], $article->gender, ['class' => 'form-control']) }}
 
 			@if ($errors->has('gender'))
 	            <span class="help-block">
