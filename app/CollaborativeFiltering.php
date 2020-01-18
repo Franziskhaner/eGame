@@ -15,7 +15,7 @@ class CollaborativeFiltering
 		if(count(Rating::userRatings())){	//Aplicaremos el algoritmo siempre y cuando el usuario haya comenzado a valorar:
 			$user_id = Auth::user()->id;	//Nos quedamos con el ID del usuario que ha iniciado sesión para generar sus recomendaciones:
 			
-			$process = new Process("C:\Users\Francis\AppData\Local\Programs\Python\Python38-32\python.exe C:/wamp64/www/eGame/app/Python/sql_to_csv.py");
+			$process = new Process("/../wamp64/www/eGame/app/Python/Python38-32/python.exe /../wamp64/www/eGame/app/Python/sql_to_csv.py");
 			$process->run();
 
 			if (!$process->isSuccessful()) {
@@ -23,7 +23,7 @@ class CollaborativeFiltering
 			}
 
 			/*Ahora procederemos a invocar el script de Python con el que generamos las recomendaciones basadas en filtrado colaborativo, para ello utilizamos la librería Proccess de Symfony:*/
-			$process_2 = new Process("C:\Users\Francis\AppData\Local\Programs\Python\Python38-32\python.exe C:/wamp64/www/eGame/app/Python/collaborative_filtering.py {$user_id}");
+			$process_2 = new Process("/../wamp64/www/eGame/app/Python/Python38-32/python.exe /../wamp64/www/eGame/app/Python/collaborative_filtering.py {$user_id}");
 			$process_2->run();
 
 			if (!$process_2->isSuccessful()) {

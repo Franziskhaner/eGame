@@ -18,8 +18,8 @@ class ArticleController extends Controller{
     }
 
     public function index(){
-    	$articles = Article::orderBy('id','desc')->paginate(5);	//Así listamos los artículos traídos desde BD por el modelo ordenados por orden descendiente por su publicación y con un máximo de 3 artículos por página.
-    	return view('article.index', compact('articles')); //compact('article') equivale a ['article' => $article]
+    	$articles = Article::orderBy('id','desc')->paginate(5);	
+    	return view('article.index', compact('articles'));
     }
 
     public function create(){
@@ -70,7 +70,7 @@ class ArticleController extends Controller{
 
     public function show($id){
         $articles = Article::filteredBySimilarArticles($id);
-        $article  = Article::find($id);
+        $article = Article::find($id);
         $reviews = Rating::getReviews($id);
         $users = User::all();
 
@@ -86,7 +86,7 @@ class ArticleController extends Controller{
     }
 
     public function update(Request $request, $id){
-        $hasFile = $request->hasFile('cover') && $request->cover->isValid();  //El método hasFile de Laravel nos permite saber si el artículo contiene una imagen o no. isValid() devuelve true cuando el archivo se pudo subir correctamente.
+        $hasFile = $request->hasFile('cover') && $request->cover->isValid();
 
         $this->validate($request, [
             'name'         => 'required',
@@ -105,13 +105,13 @@ class ArticleController extends Controller{
         $article->update($request->all());
 
         if($hasFile){
-            $extension = $request->cover->extension();  //Nos devuelve cual es la extension del archivo que se está intentando subir.
+            $extension = $request->cover->extension();
             $article->extension = $extension;
         }
 
         if($article->save()){
             if($hasFile){
-                $request->cover->storeAs('images', "$article->id.$extension"); //Con storeAs() definimos donde y con que nombre almacenamos la imagen.
+                $request->cover->storeAs('images', "$article->id.$extension");
             }
             return redirect()->route('articles.index')->with('success','Article updated successfully!');
         }
@@ -126,6 +126,6 @@ class ArticleController extends Controller{
 
     public function showByPlatform($platform){
         $articles = Article::orderBy('id','desc')->where('platform', $platform)->paginate(8);
-        return view('article.showByPlatform', compact('articles'));
+        return view('article.show_by_platform', compact('articles'));
     }
 }

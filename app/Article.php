@@ -5,6 +5,7 @@ use Illuminate\Support\Arr;
 
 use Auth;
 use App\Order;
+use App\Rating;
 use App\Article;
 use App\ShoppingCart;
 use App\InShoppingCart;
@@ -75,9 +76,9 @@ class Article extends Model
 	public function paypalItem(){ //Es llamada desde el modelo PayPal.php para indicar a Paypal toda la info de nuestro carrito.
 		
 		$shopping_cart_id  = ShoppingCart::where('user_id', Auth::user()->id)->get()->last()->id; //Obtenemos el id del carrito del usuario con sesión actual.
-		$in_shopping_carts = InShoppingCart::get()->where('shopping_cart_id', $shopping_cart_id);	//Con ese id sacamos todas las istancias del carrito actual
+		$in_shopping_carts = InShoppingCart::get()->where('shopping_cart_id', $shopping_cart_id);//Con ese id sacamos todas las istancias del carrito actual
 		
-		$in_shopping_cart_article_quantity = $in_shopping_carts->where('article_id', $this->id)->first()->quantity;	//Finalmente obtenemos la instancia del articulo actual y nos quedamos con las cantidades del mismo para pasarsela al item() de PayPal:
+		$in_shopping_cart_article_quantity = $in_shopping_carts->where('article_id', $this->id)->first()->quantity;	//Finalmente obtenemos la instancia del articulo actual y nos quedamos con las cantidades del mismo para pasársela al método item() de PaypalPayment:
 	
 		return \PaypalPayment::item()->setName($this->name)
 					->setDescription($this->description)
@@ -114,7 +115,7 @@ class Article extends Model
         $articlesMatrix = Article::generateArticlesMatrix(); 
         $articleSimilarity = new ContentBasedFiltering($articlesMatrix);
 
-        /*Una vez generado nuestro objeto ContentBasedFiltering, llamamos a los métodos seteadores de los pesos, para pasarles los valores introducidos por el usuario administrador, para poder realizar pruebas y comparaciones:*/
+        /*Una vez generado nuestro objeto ContentBasedFiltering, llamamos a los métodos seteadores de los pesos, para pasarles los valores introducidos por el usuario administrador, y poder así, mostrar comparativas entre las recomendaciones:*/
 
         $articleSimilarity->setPriceWeight(RecommendationsSystemWeigth::first()->price);
         $articleSimilarity->setGenderWeight(RecommendationsSystemWeigth::first()->gender);
@@ -124,7 +125,7 @@ class Article extends Model
 
         $similarityMatrix = $articleSimilarity->calculateSimilarityMatrix();
         
-        /*Y por último, ordenamos la matriz de similuitudes pasándole el id ($id) del artículo indicado en la URL para hacer las recomendaciones en base a él*/
+        /*Y por último, ordenamos la matriz de similuitudes pasándole el id del artículo indicado en la URL para hacer las recomendaciones en base a él*/
 
         $articlesSortedBySimilarity = $articleSimilarity->getArticlesSortedBySimilarity($id, $similarityMatrix);
 
@@ -145,7 +146,7 @@ class Article extends Model
 
         $articlesIdOrderedByUser = array_unique($articles); /*Ya tenemos el vector con los IDs de los artículos pedidos por el usuario, sólo queda eliminar las instancias duplicadas de dichos IDs, para ello usamos array_unique()*/
 
-        $articlesOrderedByUser = Article::wherein('id', $articlesIdOrderedByUser)->get(); /*Sacamos las instancias (filas) de los articulos pedidos por el usuario de la tabla articles (filtrando por los Ids obtenidos arriba)*/
+        $articlesOrderedByUser = Article::wherein('id', $articlesIdOrderedByUser)->get(); /*Sacamos las instancias (filas) de los artículos pedidos por el usuario de la tabla articles (filtrando por los Ids obtenidos arriba)*/
 
         $articlesDB = Article::all(); 
 
@@ -174,7 +175,7 @@ class Article extends Model
     }
 
     public static function bestSellers(){
-        /*Con el método orderedArticleCount() contamos el número de veces que ha sido comprado cada artículo y lo almacenamos en el campo 'purchasesNum' del array asociativo $bestSellers:*/
+        /*Con el método orderedArticleCount() contamos el número de veces que ha sido comprado cada artículo y lo almacenamos en el campo 'purchasesNum' del array asociativo $bestSellers, lo hacemos así para luego poder ordenarlo por el número de compras (clave purchasesNum), ya que desde un objeto Eloquent no podemos hacerlo.*/
 
         $articles = Article::all();
 

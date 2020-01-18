@@ -14,7 +14,7 @@ class ContentBasedFiltering
 
     public function __construct(array $articles)
     {
-        $this->articles       = $articles;
+        $this->articles = $articles;
         $this->priceHighRange = max(array_column($articles, 'price'));  /*Nos quedamos con el precio del juego más caro*/
     }
 
@@ -54,21 +54,21 @@ class ContentBasedFiltering
 
     public function getArticlesSortedBySimilarity(int $articleId, array $matrix): array
     {
-        $similarities   = $matrix['article_id_' . $articleId] ?? null;
+        $similarities = $matrix['article_id_' . $articleId] ?? null;
         $sortedarticles = [];
 
         if (is_null($similarities)) {
             throw new Exception('Cant find article with that ID.');
         }
-        arsort($similarities);  //Ordena el array en orden inverso manteniendo la asociación de índices
+        arsort($similarities);  //Ordenamos el array en orden inverso manteniendo la asociación de índices
 
         foreach ($similarities as $articleIdKey => $similarity) {
-            $id       = intval(str_replace('article_id_', '', $articleIdKey)); /*Reemplazamos el 'article_id' de cada artículo dentro del vector de similitudes ($similarities) por un string vacío '', y guardamos su valor como entero, osea su ID.*/
+            $id = intval(str_replace('article_id_', '', $articleIdKey)); /*Reemplazamos el 'article_id' de cada artículo dentro del vector de similitudes ($similarities) por un string vacío '', y guardamos su valor como entero, osea su ID.*/
             $articles = array_filter($this->articles, function ($article) use ($id) { return $article['id'] === $id; });/* */
             if (! count($articles)) {
                 continue;
             }
-            $article  = $articles[array_keys($articles)[0]]; /*Nos quedamos con la clave del elemento 0 del array $articles*/
+            $article = $articles[array_keys($articles)[0]]; /*Nos quedamos con la clave del primer elemento del array $articles*/
             $article['similarity'] = $similarity; /*Añadimos la propiedad 'Similarity' a cada artículo y le asignamos su valor correspondiente ya calculado en la función calculateSimilarityScore()*/
             $sortedarticles[] = $article;
         }
