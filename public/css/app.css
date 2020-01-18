@@ -164,6 +164,13 @@
 
 .table {
   background-color: white;
+  table-layout: fixed;
+}
+
+.table th,
+.table td {
+  width: 15px;
+  word-wrap: break-word;
 }
 
 .floating {
