@@ -22,17 +22,12 @@ Route::get('/advancedSearch', 'MainController@advancedSearch');
 Route::post('/admin/{weigths}', 'MainController@update');
 
 Route::get('/recommendations', function(){
+	/*Esta ruta sólo será utilizada por el usuario administrador desde el panel Admin para observar las diferencias entre los sistemas de recomendaciones.*/
 
 	$articlesByContentBasedFiltering = Article::filteredByUserPurchases();
     $articlesByCollaborativeFiltering = CollaborativeFiltering::getRecommendations();
 
-    if(count($articlesByContentBasedFiltering) > 0 || $articlesByCollaborativeFiltering > 0){    /*Las recomendaciones basadas en compras las haremos siempre y cuando el usurio haya hecho al menos una, al igual que las del filtrado colaborativo, se harán siempre que el usuario haya valorado algún artículo.*/
-        return view('recommended_article.home', compact(['articlesByContentBasedFiltering', 'articlesByCollaborativeFiltering']));
-    }
-    else{   /*Si el usuario acaba de registrase y aún no ha comprado ni valorado ningún artículo, se le mostrará la vista home normal:*/
-        $articles = Article::orderBy('id','desc')->paginate(8);
-        return view('main.home', compact('articles'));
-    }
+    return view('recommended_article.home', compact(['articlesByContentBasedFiltering', 'articlesByCollaborativeFiltering']));
 })->name('recommendations');
 
 Route::get('{crud}/crud_search', 'MainController@crudSearch');
@@ -71,9 +66,10 @@ Route::resource('orders', 'OrderController');
 
 Route::resource('in_shopping_carts', 'InShoppingCartController', ['only' => ['store', 'destroy']]);
 
-Route::resource('shopping', 'ShoppingCartController', ['only' => ['show']]);	/*Ruta del link permanente generado tras el pago con PayPal de una compra*/
+Route::resource('shopping', 'OrderController', ['only' => ['show']]);	/*Ruta del link permanente generado tras el pago de una compra*/
 
-Route::get('articles/images/{filename}', function($filename){	/*Con esta ruta hacemos que nuestras imágenes de la carpeta storage se vuelquen a la carpeta public() para que sean visibles desde la web.*/
+Route::get('articles/images/{filename}', function($filename){	/*Con esta ruta hacemos que nuestras imágenes de la carpeta storage se vuelquen a la carpeta public para que sean visibles desde la web.*/
+
 	$path = storage_path("app/images/$filename");/*storage_path es un helper de Laravel que hace referencia a donde está nuestra carpeta de imágenes.*/
 	if(!\File::exists($path)) abort (404); //Si la imagen NO existe, se manda un error 404.
 
@@ -104,3 +100,5 @@ Route::get('rate_your_order/{id}', 'RatingController@rateYourOrder');
 Route::get('payment_with_card', 'PaymentController@payWithStripe')->name('stripform');
 
 Route::post('payment_with_card', 'PaymentController@postPaymentWithStripe')->name('paywithstripe');
+
+Route::get('searchYourOrder', 'UserController@searchYourOrder');

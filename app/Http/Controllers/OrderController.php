@@ -9,7 +9,7 @@ use App\User;
 class OrderController extends Controller
 {
     public function __construct(){  /*Con el Middelware definimos que para acceder al recurso Users, hay que autenticarse primero, este middleware es a nivel de controlador, también puede definirse a nivel de rutas.*/
-        $this->middleware('admin'); /*Este middleware se ha definido en el fichero Kernel.php con el nombre 'admin' e implementado en la ruta: C:\wamp64\www\eGame\app\Http\Middleware\IsAdmin.php para que sólo el usuario administrador pueda acceder a las vistas de este controlador.*/
+        $this->middleware('admin', ['except' => ['show']]); /*Este middleware se ha definido en el fichero Kernel.php con el nombre 'admin' e implementado en la ruta: C:\wamp64\www\eGame\app\Http\Middleware\IsAdmin.php para que sólo el usuario administrador pueda acceder a las vistas de este controlador. Dejamos el método show como excepción para que el usuario registrado pueda acceder a la vista de shopping_completed a través del link permanente.*/
     }
     /**
      * Display a listing of the resource.
@@ -23,8 +23,6 @@ class OrderController extends Controller
         $totalCount = Order::count();
         $totalMonth = Order::totalMonth();
         $totalMonthCount = Order::totalMonthCount();
-
-        //$articlesOrder = Order::articlesOrder(); //NO está terminado
 
         return view('order.index', compact(['orders', 'totalIncomes', 'totalCount', 'totalMonth', 'totalMonthCount']));
     }
@@ -87,7 +85,9 @@ class OrderController extends Controller
      */
     public function show($id)
     {
-        //
+        $order = Order::where('custom_id', $id)->first(); /*Utilizamos where() cuando queremos buscar otro elemento diferente a la clave primaria, para la clave primaria usamos find()*/
+
+        return view('shopping_cart.completed', compact('order'));
     }
 
     /**

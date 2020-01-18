@@ -36,7 +36,7 @@
 						<div class="col-sm-5 col-xs-8">
 							<p>
 								<strong>Price:</strong><p>{{$article['price']}}</p>
-								<strong>Platform:</strong><p>{{$article['platform']}}</p>
+								<strong>Gender:</strong><p>{{$article['gender']}}</p>
 								<strong>Assessment:</strong>
 								<p>
 									@php $rating = $article['assessment']; @endphp

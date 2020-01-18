@@ -27,7 +27,6 @@
 					{!! Form::open(['url' => '/ratings', 'method' => 'POST']) !!}
 						{{ csrf_field() }}  
 						<div class="form-group">
-							{{--<input id="input-1" name="input-1" class="rating rating-loading" data-min="0" data-max="5" data-step="1" value="5" data-size="xs" disabled="">--}}<!-- Esto es para listar los ratings-->
 		                    <input id="input-1" name="score" class="rating rating-loading" data-min="0" data-max="5" data-step="1" value="{{ $rating->score }}" data-size="md">
 		                    <input id="val" name="rating" value='{{ $rating->score }}' type="hidden" >
 		                    <br/>

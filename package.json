@@ -23,6 +23,7 @@
     "vue-template-compiler": "^2.6.10"
   },
   "dependencies": {
+    "chart.js": "^2.9.3",
     "rateyo": "^2.3.5"
   }
 }

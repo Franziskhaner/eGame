@@ -22,7 +22,6 @@ class PaymentController extends Controller
 
     /*Para procesar el pago vía PayPal y almacenar el pedido generado en BD:*/
     public function store(Request $request){
-    	
         $shopping_cart = $request->shopping_cart;
 
         $paypal = new PayPal($shopping_cart);
@@ -32,8 +31,11 @@ class PaymentController extends Controller
         if($response->state == 'approved'){ /*Si PayPayl acepta el pago, mostramos la información del pedido tras el pago devolviendo a la vista completed.blade.php el $order con dicha info*/
             
         	$order = Order::createFormPayPalResponse($response, $shopping_cart);
-            $shopping_cart->approve();  /*El método aprove() se encargará de generar un customID único para el carrito de forma que no sea secuencial y además pondrá el estado a 'approved'*/
             
+            $order->approve();  /*El método approve() se encargará de generar un customID único para el carrito de forma que no sea secuencial y además pondrá el estado a 'approved'*/
+
+            $shopping_cart->update(['status' => 'approved']); /*Pasamos a approved el estado del carrito actual*/
+
             for($i = 0; $i < $shopping_cart->articles()->get()->count(); $i++){
                 OrderedArticle::create([  /*Además añadiremos la relación de articulos pedidos en la tabla ordered_articles*/
                     'quantity' => $shopping_cart->inShoppingCarts()->where('article_id', $shopping_cart->articles()->get()[$i]->id)->first()->quantity, 
@@ -109,8 +111,9 @@ class PaymentController extends Controller
 
                     $order = Order::where('user_id', Auth::user()->id)->get()->last();
                     
-                    $shopping_cart->approve();  /*El método aprove() se encargará de generar un customID único para el carrito de forma que no sea secuencial y además pondrá el estado a 'approved'*/
-                    
+                    $order->approve();  /*El método aprove() se encargará de generar un customID único para el carrito de forma que no sea secuencial y además pondrá el estado a 'approved'*/
+                    $shopping_cart->update(['status' => 'approved']);
+
                     for($i = 0; $i < $shopping_cart->articles()->get()->count(); $i++){
                         OrderedArticle::create([  /*Además añadiremos la relación de articulos pedidos en la tabla ordered_articles*/
                             'quantity' => $shopping_cart->inShoppingCarts()->where('article_id', $shopping_cart->articles()->get()[$i]->id)->first()->quantity, 

@@ -78,11 +78,11 @@
 				</div>
 			</div>
 			<div class="panel-heading">
-				<h3>Dashboard</h3>
+				<h3>Sales Statistics</h3>
 			</div>
 			<div class="panel-body">
 				<div class="row top-space">
-					<div class="col-md-3 sale-data"> <!-- Definimos el tamaño por pantalla (movil, mediana y larga) -->
+					<div class="col-md-3 sale-data">
 						<span>{{$totalIncomes}} €</span>
 						Total incomes
 					</div>

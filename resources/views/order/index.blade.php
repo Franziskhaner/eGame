@@ -41,7 +41,7 @@
 					<tr>
 						<th>ID</th>
 						<th>Shopping Date</th>
-						<th>User ID (Customer)</th>
+						<th>User ID(Customer)</th>
 						<th>Delivery Addressee</th>
 						<th>Delivery Address</th>
 						<th>City</th>

@@ -9,7 +9,7 @@
 				<h2>Your payment was procesed successfully!</h2>
 				
 				<h3>This is your order number:
-					<span class="{{$shopping_cart->custom_id}}">{{$shopping_cart->custom_id}}</span>
+					<span class="{{$order->custom_id}}">{{$order->custom_id}}</span>
 				</h3>
 				<br>
 				<p>Please, confirm the details of your shipment:</p>
@@ -40,7 +40,7 @@
 					</div>
 				</div>
 				<div class="text-center top-space">
-					<a href="{{url('/shopping/'.$shopping_cart->custom_id)}}">Permanent link of your shopping</a>
+					<a href="{{url('/shopping/'.$order->custom_id)}}">Permanent link of your shopping</a>
 					<br>
 					@if($order->payment_method == 'Credit Card')
 						<a href="{{url('https://dashboard.stripe.com/test/payments?status%5B%5D=successful')}}">More information about your payment...</a>

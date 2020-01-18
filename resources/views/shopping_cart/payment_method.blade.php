@@ -86,7 +86,7 @@
 							<div class="panel-heading text-center"><h4>Pay with PayPal</h4></div>
 							<div class="panel-body text-center" style="height: 247px;">
 								{!! Form::open(['url' => '/cart', 'method' => 'POST', 'class' => 'inline-block']) !!}
-								    <button type='submit' class="btn btn-link">
+								    <button name="PayPalButton" type='submit' class="btn btn-link">
 								    	<img src='{{url("/articles/images/paypal-smart-payment-button-for-simple-membership.png")}}'>
 								    </button>
 								{!! Form::close() !!}

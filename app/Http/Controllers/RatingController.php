@@ -154,7 +154,7 @@ class RatingController extends Controller
     {
         $rating = new Rating;
         $article = Article::where('name', $article)->first();
-
+        
         return view('rating.rate_your_order', compact(['rating', 'article']));
     }
 }

@@ -10,14 +10,14 @@ use Auth;
 
 class Order extends Model
 {
-    protected $fillable = ['recipient_name', 'line1', 'line2', 'city', 'country_code', 'state', 'postal_code', 'payment_method', 'email', 'user_id', 'status', 'total'];
+    protected $fillable = ['recipient_name', 'line1', 'line2', 'city', 'country_code', 'state', 'postal_code', 'payment_method', 'email', 'user_id', 'status', 'custom_id', 'total'];
 
     public static function articles(){
         
         return $this->belongsToMany('App\Article', 'ordered_articles');
     }
 
-    public function scopeLatest($query){  /*MÉTODOS SCOPE: empiezan por 'scope' y se declaran como métodos de objeto (no estaticos), la ventaja que presentan es que pueden ser utilizados como métodos de clase (estáticos) o como metodos de objeto, según el orden en que son llamados, ejemplo: Order::scopeEjemplo() sería un metodo estático, y Order::where()->scopeEjemplo() seria no estático, la ventaja que tienen los métodos scopes es que además se pueden concatenar con otros metodos Order::where()->scopeEjemplo()->orderByCreated(). Un scope() siempre recibe como argumento un $objeto*/
+    public function scopeLatest($query){  /*MÉTODOS SCOPE: empiezan por 'scope' y se declaran como métodos de objeto (no estáticos), la ventaja que presentan es que pueden ser utilizados como métodos de clase (estáticos) o como métodos de objeto, según el orden en que son llamados, ejemplo: Order::scopeEjemplo() sería un metodo estático, y Order::where()->scopeEjemplo() seria no estático, la ventaja que tienen los métodos scopes es que además se pueden concatenar con otros métodos: Order::where()->scopeEjemplo()->orderByCreated(). Un scope() siempre recibe como argumento un $objeto*/
         return $query->orderID()->monthly();
     }
 
@@ -35,6 +35,19 @@ class Order extends Model
         return $articles;
     }
     */
+    public function approve(){
+        $this->updateCustomIDAndStatus();
+    }
+
+    public function updateCustomIDAndStatus(){
+        $this->custom_id = $this->generateCustomID();
+        $this->status = 'Approved';
+        $this->save();
+    }
+
+    public function generateCustomID(){
+        return md5("$this->id  $this->updated_at"); /*md5 convierte el input que se le pasa a una cadena hash, para añadir seguridad ante posibles ataques de ingeniería inversa, añadimos a nuestro input ID el tiempo actual del sistema sumándole el updated_at()*/
+    }
 
     public function address(){
         return "$this->line1 $this->line2";

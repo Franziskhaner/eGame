@@ -13,6 +13,7 @@ ratings_query = 'select user_id, article_id, score, created_at from ratings'
 ratings = pandas.read_sql_query(ratings_query, conn)
 ratings.to_csv("C:/wamp64/www/eGame/app/Python/ratings.csv", index=False)
 
-articles_query = 'select id, name, gender from articles'
+articles_query = 'select id, name from articles'
 articles = pandas.read_sql_query(articles_query, conn)
 articles.to_csv("C:/wamp64/www/eGame/app/Python/articles.csv", index=False)
+

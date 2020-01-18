@@ -9,7 +9,6 @@ from sklearn.metrics import pairwise_distances
 # en la clase CollaborativeFilteringController, en éste caso el user_id: 
 
 user = int(sys.argv[1]);
-#print('The User ID loged in is:', user);
 
 # En primer lugar obtenemos nuestro Dataset (fuente de datos), de la que se alimentará el sistema de recomendaciones,
 # para ello necesitaremos las valoraciones de los usuarios, así como los juegos existentes en la tienda:
@@ -21,7 +20,7 @@ Ratings = pd.read_csv("C:/wamp64/www/eGame/app/Python/ratings.csv")
 articles = articles.rename(columns={"id": "article_id"})
 
 # Para utilizar la función Similitud del Coseno más adelante, es necesario realizar un preprocesamiento
-# y limpiar los datos:
+# y limpiar los datos, también es importante normalizar las calificaciones de los usuarios:
 Mean = Ratings.groupby(by="user_id", as_index=False)['score'].mean()
 Rating_avg = pd.merge(Ratings, Mean, on='user_id')
 Rating_avg['adg_score'] = Rating_avg['score_x'] - Rating_avg['score_y']
@@ -34,7 +33,8 @@ check = pd.pivot_table(Rating_avg, values='score_x', index='user_id', columns='a
 final = pd.pivot_table(Rating_avg, values='adg_score', index='user_id', columns='article_id')
 
 # Para sustituir esos valores NaN o nulos, hemos utilizado dos métodos distintos:
-# Promedio de la película sobre la columna
+
+# Promedio del artículo sobre la columna
 final_article = final.fillna(final.mean(axis=0))
 
 # Promedio del usuario sobre la fila
@@ -54,9 +54,8 @@ np.fill_diagonal(cosine, 0 )
 similarity_with_article = pd.DataFrame(cosine, index=final_article.index)
 similarity_with_article.columns=final_user.index
 
-
 # Para mejorar la eficiencia del algoritmo, sobre todo si la base de datos de usuarios es demasiado grande, nos
-# quedamos sólo con los n usuarios más cercanos (vecinos). Establecemos 5 vecinos por defecto dado que el proyecto es
+# quedamos sólo con los n usuarios más cercanos (vecinos). Establecemos 6 vecinos por defecto dado que el proyecto es
 # de carácter didáctico:
 
 def find_n_neighbours(df,n):
@@ -66,10 +65,10 @@ def find_n_neighbours(df,n):
           index = ['top{}'.format(i) for i in range(1, n+1)]), axis=1)
     return df
 
-# top 6 vecinos por cada usuario
+# top 6 vecinos por cada usuario usando el promedio del usuario
 sim_user_6_u = find_n_neighbours(similarity_with_user, 6)
 
-# top 6 vecinos por cada usuario
+# top 6 vecinos por cada usuario usando el promedio del artículo
 sim_user_6_m = find_n_neighbours(similarity_with_article, 6)
 
 """

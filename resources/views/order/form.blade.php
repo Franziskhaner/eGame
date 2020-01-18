@@ -134,7 +134,7 @@
         <label for="status" class="col-md-4 control-label">Status</label>
 
         <div class="col-md-6">
-            {{ Form::select('status', ['Created' => 'Created', 'In Progress' => 'In Progress', 'Completed' => 'Completed', 'Cancelled' => 'Cancelled'], $order->status, ['class' => 'form-control', 'placeholder' => 'Status of the order...']) }}
+            {{ Form::select('status', ['Created' => 'Created', 'Approved' => 'Approved', 'In Progress' => 'In Progress', 'Completed' => 'Completed', 'Cancelled' => 'Cancelled'], $order->status, ['class' => 'form-control', 'placeholder' => 'Status of the order...']) }}
             @if ($errors->has('status'))
                 <span class="help-block">
                     <strong>{{ $errors->first('status') }}</strong>

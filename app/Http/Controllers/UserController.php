@@ -13,7 +13,7 @@ use Auth;
 class UserController extends Controller
 {
     public function __construct(){  /*Con el Middelware definimos que para acceder al recurso Users, hay que autenticarse primero, este middleware es a nivel de controlador, también puede definirse a nivel de rutas.*/
-        $this->middleware('admin', ['except' => ['ordersByUser', 'userRatings', 'account', 'editProfile', 'update']]); /*Este middleware se ha definido en el fichero Kernel.php con el nombre 'admin' e implementado en la ruta: C:\wamp64\www\eGame\app\Http\Middleware\IsAdmin.php para que sólo el usuario administrador pueda acceder a ésta vista*/
+        $this->middleware('admin', ['except' => ['ordersByUser', 'userRatings', 'account', 'editProfile', 'update', 'searchYourOrder']]); /*Este middleware se ha definido en el fichero Kernel.php con el nombre 'admin' e implementado en la ruta: C:\wamp64\www\eGame\app\Http\Middleware\IsAdmin.php para que sólo el usuario administrador pueda acceder a ésta vista*/
     }
     /**
      * Display a listing of the resource.
@@ -212,5 +212,32 @@ class UserController extends Controller
         //print_r($articles);
 
         return view('user.your_orders', compact(['total', 'ordersByUser', 'articles', 'orderedArticles']));
+    }
+
+    public function searchYourOrder(Request $request){
+        $total = Order::totalUserOrders();
+
+        $search = $request->get('searchYourOrder');
+
+        $ordersByUser = Order::where('custom_id', 'like', '%'.$search.'%')->first(); /*Sólo va a devolver un registro, ya que el custom_id siempre será único, pero mantenemos el  nombre de la variable en plurar porque se utiliza en la vista cuando es llamada por el método ordersByUser() de arriba.*/
+
+        $orderedArticles = OrderedArticle::all();
+
+        $articles = Article::all();
+
+        if($ordersByUser != null){
+            if($ordersByUser->user_id == Auth::user()->id){ /*Así nos aseguramos de que sólo el usuario que está logueado puede buscar sus propios pedidos a través del order number.*/
+                $ordersByUser = Order::where('custom_id', 'like', '%'.$search.'%')->paginate(1); /*Volvemos a aplicar el where pero con el paginate para que funcione el método links() en la vista*/
+                return view('user.your_orders', compact('total', 'ordersByUser', 'articles', 'orderedArticles'));
+            }
+            else{
+                \Session::put('error', 'There is no results with "'.$search.'"');
+                return back();
+            }
+        }
+        else{
+            \Session::put('error', 'There is no results with "'.$search.'"');
+            return back();
+        }
     }
 }

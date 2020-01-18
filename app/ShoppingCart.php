@@ -9,20 +9,6 @@ class ShoppingCart extends Model
 	//Mass assignment (estos atributos, son lo que podrán ser modificados a través de las funciones del modelo Eloquent de Laravel (create, delete, etc))
 	protected $fillable = ['status'];
 
-	public function approve(){
-		$this->updateCustomIDAndStatus();
-	}
-
-	public function generateCustomID(){
-		return md5("$this->id  $this->updated_at"); /*md5 convierte el input que se le pasa a una cadena hash, para añadir seguridad ante posibles ataques de ingeniería inversa, añadimos a nuestro input ID el tiempo actual del sistema sumándole el updated_at()*/
-	}
-
-	public function updateCustomIDAndStatus(){
-		$this->custom_id = $this->generateCustomID();
-		$this->status = 'approved';
-		$this->save();
-	}
-
 	public function inShoppingCarts(){
 		return $this->hasMany('App\InShoppingCart');
 	}
@@ -73,15 +59,5 @@ class ShoppingCart extends Model
 		return ShoppingCart::create([
 			'status' => 'incompleted'
 		]);
-		//Creamos el shopping_cart con estado inicial 'incompleted', sería el equivalente a estas 4 líneas de código:
-		/*
-		$shopping_cart = new ShoppingCart;
-
-		$shopping_cart->status = 'incompleted';
-
-		$shopping_cart->save();
-
-		return $shopping_cart;
-		*/
 	}
 }

@@ -20,7 +20,6 @@ class MainController extends Controller
     public function home(){
 
     	if(Auth::check()){ /*Si el usuario ha iniciado sesión,*/
-
             if(Auth::user()->role == 'User'){   /*Y es de rol usuario registrado, le mostraremos recomendaciones en base a sus compras mediante el filtrado basado en contenido y en base a sus gustos similares a otros usuarios mediante el filtrado colaborativo.*/
                 
                 $articlesByContentBasedFiltering = Article::filteredByUserPurchases();
@@ -29,13 +28,10 @@ class MainController extends Controller
                 $bestRated = Article::bestRated();
                 $bestSellers = Article::bestSellers();
 
-                if(count($articlesByContentBasedFiltering) > 0 || $articlesByCollaborativeFiltering > 0){    /*Las recomendaciones basadas en compras las haremos siempre y cuando el usurio haya hecho al menos una, al igual que las del filtrado colaborativo, se harán siempre que el usuario haya valorado algún artículo.*/
-                    return view('recommended_article.home', compact(['bestRated', 'bestSellers', 'articlesByContentBasedFiltering', 'articlesByCollaborativeFiltering']));
-                }
-                else{   /*Si el usuario acaba de registrase y aún no ha comprado ni valorado ningún artículo, se le mostrará la vista home normal:*/
-                    $articles = Article::orderBy('id','desc')->paginate(8);
-                    return view('main.home', compact('articles'));
-                }
+                $ratings = Rating::all();   /*Para contar el número de votos de cada artículo en la vista*/
+
+                /*Las recomendaciones basadas en compras las haremos siempre y cuando el usuario haya hecho al menos una, al igual que las del filtrado colaborativo, se harán siempre que el usuario haya valorado algún artículo.Si el usuario acaba de registrase y aún no ha comprado ni valorado ningún artículo, se le mostrará la vista home sin recomendaciones de ningún tipo, únicamente los top sales y to ratings.*/
+                return view('recommended_article.home', compact(['ratings', 'bestRated', 'bestSellers', 'articlesByContentBasedFiltering', 'articlesByCollaborativeFiltering']));
             }
             else{   /*Usuario administrador*/
                 $totalIncomes = Order::totalIncomes();
@@ -54,7 +50,6 @@ class MainController extends Controller
     }
 
     public function update(Request $request){
-
         $weigths = RecommendationsSystemWeigth::first();
 
         $weigths->update($request->all());
@@ -80,7 +75,6 @@ class MainController extends Controller
         $gender = $request->get('gender');
         $price = $request->get('price');
         $release_date = $request->get('release_date');
-
         $search = $request->get('name');
 
         /*A continuación hacemos uso de los métodos Scope definidos en la clase Article.php para optimizar las búsquedas en BD:*/
@@ -100,7 +94,7 @@ class MainController extends Controller
 
         switch ($crud_path) {
             case 'users/crud_search':
-                $users = User::where('id', 'like', '%'.$search.'%')->orWhere('first_name', 'like', '%'.$search.'%')->orWhere('last_name', 'like', '%'.$search.'%')->orWhere('email', 'like','%'.$search.'%')->orWhere('email', 'like','%'.$search.'%')->orWhere('created_at', 'like','%'.$search.'%')->paginate(4);
+                $users = User::where('id', 'like', '%'.$search.'%')->orWhere('first_name', 'like', '%'.$search.'%')->orWhere('last_name', 'like', '%'.$search.'%')->orWhere('email', 'like','%'.$search.'%')->orWhere('email', 'like','%'.$search.'%')->orWhere('created_at', 'like','%'.$search.'%')->paginate(20);
                 if($users->count())
                     return view('user.index', compact('users'));
                 else{
@@ -109,7 +103,7 @@ class MainController extends Controller
                 }
                 break;
             case 'articles/crud_search':
-                $articles = Article::where('id', 'like', '%'.$search.'%')->orWhere('name', 'like', '%'.$search.'%')->orWhere('price', 'like', '%'.$search.'%')->orWhere('gender', 'like','%'.$search.'%')->orWhere('platform', 'like','%'.$search.'%')->orWhere('release_date', 'like','%'.$search.'%')->paginate(4);
+                $articles = Article::where('id', 'like', '%'.$search.'%')->orWhere('name', 'like', '%'.$search.'%')->orWhere('price', 'like', '%'.$search.'%')->orWhere('gender', 'like','%'.$search.'%')->orWhere('platform', 'like','%'.$search.'%')->orWhere('release_date', 'like','%'.$search.'%')->paginate(20);
                 if($articles->count())
                     return view('article.index', compact('articles'));
                 else{
@@ -118,7 +112,8 @@ class MainController extends Controller
                 }
                 break;
             case 'orders/crud_search':
-                $orders = Order::where('id', 'like', '%'.$search.'%')->orWhere('user_id', 'like', '%'.$search.'%')->orWhere('recipient_name', 'like', '%'.$search.'%')->orWhere('total', 'like','%'.$search.'%')->orWhere('email', 'like','%'.$search.'%')->orWhere('status', 'like','%'.$search.'%')->orWhere('line1', 'like','%'.$search.'%')->orWhere('city', 'like','%'.$search.'%')->orWhere('country_code', 'like','%'.$search.'%')->orWhere('payment_method', 'like','%'.$search.'%')->orWhere('created_at', 'like','%'.$search.'%')->paginate(4);
+                $orders = Order::where('id', 'like', '%'.$search.'%')->orWhere('user_id', 'like', '%'.$search.'%')->orWhere('recipient_name', 'like', '%'.$search.'%')->orWhere('total', 'like','%'.$search.'%')->orWhere('email', 'like','%'.$search.'%')->orWhere('status', 'like','%'.$search.'%')->orWhere('line1', 'like','%'.$search.'%')->orWhere('city', 'like','%'.$search.'%')->orWhere('country_code', 'like','%'.$search.'%')->orWhere('payment_method', 'like','%'.$search.'%')->orWhere('custom_id', 'like','%'.$search.'%')->orWhere('created_at', 'like','%'.$search.'%')->paginate(20);
+
                 if($orders->count())
                     return view('order.index', compact('orders'));
                 else{
@@ -127,7 +122,7 @@ class MainController extends Controller
                 }
                 break;
             case 'ratings/crud_search':
-                $ratings = Rating::where('id', 'like', '%'.$search.'%')->orWhere('score', 'like', '%'.$search.'%')->orWhere('user_id', 'like', '%'.$search.'%')->orWhere('article_id', 'like','%'.$search.'%')->orWhere('created_at', 'like','%'.$search.'%')->paginate(4);
+                $ratings = Rating::where('id', 'like', '%'.$search.'%')->orWhere('score', 'like', '%'.$search.'%')->orWhere('user_id', 'like', '%'.$search.'%')->orWhere('article_id', 'like','%'.$search.'%')->orWhere('created_at', 'like','%'.$search.'%')->paginate(20);
                 if($ratings->count())
                     return view('rating.index', compact('ratings'));
                 else{

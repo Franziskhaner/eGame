@@ -9,8 +9,12 @@
         <?php Session::forget('error');?>
     @endif
     <div class="container">
-	    @include('recommended_article.purchased_based_recommendations', compact('articlesByContentBasedFiltering'))
-		@include('recommended_article.collaborative_filtering_based_recommendations', compact('articlesByCollaborativeFiltering'))
+    	@if(count($articlesByContentBasedFiltering) > 1)
+	    	@include('recommended_article.purchased_based_recommendations', compact('articlesByContentBasedFiltering'))
+	    @endif
+	    @if(count($articlesByCollaborativeFiltering) > 1)
+			@include('recommended_article.collaborative_filtering_based_recommendations', compact('articlesByCollaborativeFiltering'))
+		@endif
 		@if(Auth::user()->role != 'Admin')
 			<div class="panel">
 				<div class="panel-heading">
@@ -48,7 +52,8 @@
 									                @endif
 									                @php $rating--; @endphp
 									            @endwhile
-									        </div>
+									            <h5 class="card-title">(Votes: {{ $ratings->where('article_id', $bestRated[$i]['id'])->count() }})</h5>
+									        </div>  
 										</p>
 				                        {!! Form::open(['url' => '/in_shopping_carts', 'method' => 'POST', 'class' => 'inline-block']) !!}
 											<input type="hidden" name="article_id" value="{{$bestRated[$i]['id']}}">
@@ -80,7 +85,7 @@
 					                    </a>
 					                    <div class="card-body">
 					                        <h5 class="card-title">{{ $bestSeller['name'] }}</h5>
-					                        <h5 class="card-title">Purchases: {{ $bestSeller['purchasesNum'] }}</h5>
+					                        <h5 class="card-title">(Purchases: {{ $bestSeller['purchasesNum'] }})</h5>
 					                        <p class="card-text text-muted">({{ $bestSeller['gender'] }} - {{ $bestSeller['price'] }} €)</p>
 					                        <p>
 												@php $rating = $bestSeller['assessment']; @endphp

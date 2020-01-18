@@ -30,7 +30,7 @@
                                 <option value="{{ $article->name }}">{{$article->name}}</option>
                             @endforeach
                         </datalist>
-                        <input type="submit" value="Search" class="btn btn-primary" style="">
+                        <input name="searchButton" type="submit" value="Search" class="btn btn-primary" style="">
                     </form>
                 </div>
             </div>
@@ -46,7 +46,6 @@
                     <th>Players number</th>
                     <th>Gender</th>
                     <th>Platform</th>
-                    <th>Description</th>
                     <th>Assesment</th>
                     <th>Actions</th>
                 </thead>
@@ -61,7 +60,6 @@
                             <td>{{$article->players_num}}</td>
                             <td>{{$article->gender}}</td>
                             <td>{{$article->platform}}</td>
-                            <td>{{$article->description}}</td>
                             <td>{{$article->assessment}}</td>
                             <td>
                                 @if($article->extension)
@@ -72,7 +70,7 @@
                                 </a>
                                 <form action="{{action('ArticleController@destroy', $article->id)}}" method="post">
                                     {{csrf_field()}}
-                                    <input name="_method" type="hidden" value="DELETE">
+                                    <input name="delete" type="hidden" value="DELETE">
                                     <button class="btn btn-danger btn-xs" type="submit" onclick="return confirm('Are you sure to delete?')">
                                         <span class="glyphicon glyphicon-trash"></span>
                                     </button>

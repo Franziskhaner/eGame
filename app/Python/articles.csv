@@ -1,30 +1,32 @@
-id,name,gender
-1,God of War,Action
-2,Final Fantasy XV,RPG
-85,Spider-Man,Open World
-7,Crash Team Racing Nitro-Fueled,Racing
-6,Resident Evil II,Horror
-86,Fortnite,Shooter
-87,Destiny 2,Action
-88,Jump Force,Fighting
-89,Mortal Kombat 11,Fighting
-90,Assassin's Creed Odyssey,Action
-91,Grand Theft Auto V,Open World
-92,Battlefield 1,Shooter
-93,Tekken 7,Fighting
-94,Dragon Ball Z: Kakarot,Fighting
-99,Death Stranding,Action
-100,Dragon Ball Z: Kakarot,Fighting
-101,Detective Pikachu,Adventure
-102,Pokémon Sword,RPG
-103,The Legend of Zelda: Breath of the Wild,Open World
-104,Captain Toad: Treasure Tracker,Puzzle
-105,Super Mario Party,Minigames
-106,Assassin's Creed Odyssey,Action
-107,Just Cause 4,Open World
-108,Just Cause 4,Action
-109,Days Gone,Open World
-110,Need for Speed,Racing
-111,Sekiro - Shadows Die Twice,Action
-112,Sekiro - Shadows Die Twice,Action
-113,Sekiro - Shadows Die Twice,Action
+id,name
+1,God of War
+2,Final Fantasy XV
+85,Spider-Man
+7,Crash Team Racing Nitro-Fueled
+6,Resident Evil II
+86,Fortnite
+87,Destiny 2
+88,Jump Force
+89,Mortal Kombat 11
+90,Assassin's Creed Odyssey
+91,Grand Theft Auto V
+92,Battlefield 1
+93,Tekken 7
+180,Dragon Ball Z: Kakarot
+99,Death Stranding
+100,Dragon Ball Z: Kakarot
+101,Detective Pikachu
+102,Pokémon Sword
+103,The Legend of Zelda: Breath of the Wild
+104,Captain Toad: Treasure Tracker
+105,Super Mario Party
+106,Assassin's Creed Odyssey
+107,Just Cause 4
+108,Just Cause 4
+109,Days Gone
+110,Need for Speed
+111,Sekiro - Shadows Die Twice
+112,Sekiro - Shadows Die Twice
+113,Sekiro - Shadows Die Twice
+142,World of Warcraft
+143,SPyro: Reignited Trilogy

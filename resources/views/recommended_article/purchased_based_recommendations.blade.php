@@ -1,4 +1,3 @@
-@if(count($articlesByContentBasedFiltering))
 <div class="panel panel-default">
 	<div class="panel-heading">
 		<h2>Recommendations based on your purchases...</h2>
@@ -51,4 +50,3 @@
 	    </div>
 	</div>
 </div>
-@endif

@@ -181,7 +181,6 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         willvincent\Rateable\RateableServiceProvider::class,    /*Para Laravel-rateable (plugin de valoración con estrellas jQuery)*/
-
     ],
 
     /*

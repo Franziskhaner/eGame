@@ -65,7 +65,7 @@
                                     <option value="{{ $article->name }}">{{$article->name}}</option>
                                 @endforeach
                             </datalist>
-                            <button type="submit"><i class="fa fa-search"></i></button>
+                            <button name="SearchButton" type="submit"><i class="fa fa-search"></i></button>
                         </form>
                     </div>
                     <!--Botón de búsqueda avanzada -->
@@ -242,7 +242,6 @@
         }
     </script>
     <script>
-        /* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
         function advancedSearchFunction(){
             var dropdownContent = document.getElementById("advancedSearch")
 

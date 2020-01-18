@@ -18,8 +18,8 @@ class Similarity
 
     public static function euclidean(array $array1, array $array2, bool $returnDistance = false): float
     {
-        $a   = $array1;
-        $b   = $array2;
+        $a = $array1;
+        $b = $array2;
         $set = [];
 
         foreach ($a as $index => $value) {
@@ -31,18 +31,16 @@ class Similarity
         if ($returnDistance) {
             return $distance;
         }
-        // doesn't work well with distances larger than 1
-        // return 1 / (1 + $distance);
-        // so we'll use angular similarity instead
+        
         return 1 - $distance;
     }
 
     public static function jaccard(string $string1, string $string2, string $separator = ','): float
     {
-        $a            = explode($separator, $string1);
-        $b            = explode($separator, $string2);
+        $a = explode($separator, $string1);
+        $b = explode($separator, $string2);
         $intersection = array_unique(array_intersect($a, $b));
-        $union        = array_unique(array_merge($a, $b));
+        $union = array_unique(array_merge($a, $b));
 
         return count($intersection) / count($union);
     }
@@ -50,14 +48,14 @@ class Similarity
     public static function minMaxNorm(array $values, $min = null, $max = null): array   /*Transformamos el conjunto de valores dado ($values) en un conjunto de valores dentro del rango 0 a 1 (Normalización min-max)*/
     {
         $norm = [];
-        $min  = $min ?? min($values);
-        $max  = $max ?? max($values);
+        $min = $min ?? min($values);
+        $max = $max ?? max($values);
 
         foreach ($values as $value) {
-            $numerator   = $value - $min;
+            $numerator = $value - $min;
             $denominator = $max - $min;
-            $minMaxNorm  = $numerator / $denominator;
-            $norm[]      = $minMaxNorm;
+            $minMaxNorm = $numerator / $denominator;
+            $norm[] = $minMaxNorm;
         }
         return $norm;
     }
