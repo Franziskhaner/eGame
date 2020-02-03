@@ -107,10 +107,9 @@ class PaymentController extends Controller
 
                     $shopping_cart = $request->shopping_cart;
 
-                    \Session::remove('shopping_cart_id');
+                    //$order = Order::where('user_id', Auth::user()->id)->get()->last();
+                    $order = Order::orderBy('id', 'desc')->first();
 
-                    $order = Order::where('user_id', Auth::user()->id)->get()->last();
-                    
                     $order->approve();  /*El método aprove() se encargará de generar un customID único para el carrito de forma que no sea secuencial y además pondrá el estado a 'approved'*/
                     $shopping_cart->update(['status' => 'approved']);
 
@@ -128,6 +127,8 @@ class PaymentController extends Controller
                     
                     if($order->recipient_name == null)
                         $order->update(['recipient_name' => Auth::user()->first_name.' '.Auth::user()->last_name]);
+
+                    \Session::remove('shopping_cart_id');
 
                     return view('shopping_cart.completed', compact('shopping_cart', 'order'));
                 } else {

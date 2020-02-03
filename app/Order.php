@@ -81,7 +81,8 @@ class Order extends Model
 		/*Rellenamos el resto de campos del pedido creado en la vista delivery_options:*/
 		$orderData["email"]   = $payer->payer_info->email;
         $orderData["user_id"] = Auth::user()->id;   /*Este es el usuario que ha realizado el pedido*/
-        $order = Order::where('user_id', Auth::user()->id)->get()->last();  /*Último pedido generado por el usuario actual.*/
+        //$order = Order::where('user_id', Auth::user()->id)->get()->last();  /*Último pedido generado por el usuario actual.*/
+        $order = Order::orderBy('id', 'desc')->first();  /*Último pedido generado por el usuario actual.*/
         
         $order->update([
             'recipient_name' => $orderData['recipient_name'],

@@ -69,6 +69,7 @@
 									@foreach($orderedArticles->where('order_id', $order->id) as $orderedArticle)
 										{{ $counter }})
 										{{ $articles->where('id', $orderedArticle->article_id)->first()->name }} / 
+										{{ $articles->where('id', $orderedArticle->article_id)->first()->gender }} / 
 										{{ $articles->where('id', $orderedArticle->article_id)->first()->price }} € /
 										@if($orderedArticle->quantity == 1)
 											1 unit<br>

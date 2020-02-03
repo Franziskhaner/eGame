@@ -27,7 +27,7 @@
                         <input list="users" name="crud_search" placeholder="Search an user..." style="padding-top: 5px; padding-bottom: 7px; width: 60%;">
                         <datalist id="users">
                             @foreach($users as $user)
-                                <option value="{{ $user->first_name }}">{{$user->first_name}}</option>
+                                <option value="{{ $user->first_name }}">{{$user->last_name}}</option>
                             @endforeach
                         </datalist>
                         <input type="submit" value="Search" class="btn btn-primary">

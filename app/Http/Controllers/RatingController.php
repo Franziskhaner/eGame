@@ -22,9 +22,7 @@ class RatingController extends Controller
      */
     public function index()
     {
-        $ratings = Rating::orderBy('id', 'DESC')->paginate(10);
-
-        //$articlesRating = Rating::articlesRating(); //NO está terminado
+        $ratings = Rating::orderBy('id', 'desc')->paginate(10);
 
         return view('rating.index', compact('ratings'));
     }

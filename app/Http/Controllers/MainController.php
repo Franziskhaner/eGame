@@ -44,7 +44,7 @@ class MainController extends Controller
             }
         }
         else{   /*Usuario invitado*/
-            $articles = Article::orderBy('id','desc')->paginate(8);
+            $articles = Article::orderBy('id','desc')->paginate(16);
         	return view('main.home', compact('articles'));
         }
     }

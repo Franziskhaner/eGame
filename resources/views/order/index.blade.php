@@ -27,7 +27,7 @@
                         <input list="orders" name="crud_search" placeholder="Search an order..." style="padding-top: 5px; padding-bottom: 7px; width: 60%;">
                         <datalist id="orders">
                             @foreach($orders as $order)
-                                <option value="{{ $order->id }}"></option>
+                                <option value="{{ $order->recipient_name }}"></option>
                             @endforeach
                         </datalist>
                         <input type="submit" value="Search" class="btn btn-primary">
@@ -41,7 +41,7 @@
 					<tr>
 						<th>ID</th>
 						<th>Shopping Date</th>
-						<th>User ID(Customer)</th>
+						<th>User ID (Customer)</th>
 						<th>Delivery Addressee</th>
 						<th>Delivery Address</th>
 						<th>City</th>

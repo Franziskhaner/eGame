@@ -51,8 +51,7 @@
                                 <a href="{{action('ArticleController@showByPlatform', 'NINTENDO SWITCH')}}">NINTENDO SWITCH</a>
                                 <a href="{{action('ArticleController@showByPlatform', 'NINTENDO 3DS')}}">NINTENDO 3DS</a>
                                 <a href="{{action('ArticleController@showByPlatform', 'WII U')}}">WII U</a>
-                                <a href="{{action('ArticleController@showByPlatform', 'PLAYSTATION VITA')}}">PLAYSTATION VITA</a>
-                                <a href="{{action('ArticleController@showByPlatform', 'RETRO')}}">RETRO</a>
+                                <a href="{{action('ArticleController@showByPlatform', 'PS VITA')}}">PLAYSTATION VITA</a>
                             </div>
                         </div>
                     </ul>

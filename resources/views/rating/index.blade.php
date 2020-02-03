@@ -25,11 +25,6 @@
                 <div class="col-md-5">
                     <form action="{{action('MainController@crudSearch', 'ratings')}}" method="get"> 
                         <input list="ratings" name="crud_search" placeholder="Search a rating..." style="padding-top: 5px; padding-bottom: 7px; width: 60%;">
-                        <datalist id="ratings">
-                            @foreach($ratings as $rating)
-                                <option value="{{ $rating->id }}"></option>
-                            @endforeach
-                        </datalist>
                         <input type="submit" value="Search" class="btn btn-primary">
                     </form>
                 </div>  

@@ -18,3 +18,9 @@ Homestead.yaml
 Homestead.json
 /.vagrant
 .phpunit.result.cache
+app/Python/Python38-32
+*.csv
+*.csv
+app/Python/ratings.csv
+app/Python/articles.csv
+PayPal.log
